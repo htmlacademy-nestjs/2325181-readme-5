@@ -1,7 +1,7 @@
 # Личный проект «Readme»
 
 * Студент: [Ринат Зарипов](https://up.htmlacademy.ru/nodejs-2/5/user/2325181).
-* Наставник: [Владислав Поклонский](https://htmlacademy.ru/profile/id2210683)`.
+* Наставник: [Владислав Поклонский](https://htmlacademy.ru/profile/id2210683).
 
 ---
 

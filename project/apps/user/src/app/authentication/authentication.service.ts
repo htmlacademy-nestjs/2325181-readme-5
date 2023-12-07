@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG } from './authentication.constant';
 import { BlogUserEntity } from '../blog-user/blog-user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
+import { UserRdo } from './rdo/user.rdo';
 
 @Injectable()
 export class AuthenticationService {
@@ -11,7 +12,7 @@ export class AuthenticationService {
     private readonly blogUserRepository: BlogUserRepository
   ) {}
 
-  public async registerNewUser(dto: CreateUserDto): Promise<BlogUserEntity | null> {
+  public async registerNewUser(dto: CreateUserDto): Promise<BlogUserEntity> {
     const {email, firstname, lastname, password} = dto;
 
     const blogUser = {
@@ -33,7 +34,7 @@ export class AuthenticationService {
     return this.blogUserRepository.save(userEntity);
   }
 
-  public async verifyUser(dto: LoginUserDto): Promise<Record<string, unknown> | null> {
+  public async verifyUser(dto: LoginUserDto): Promise<BlogUserEntity> {
     const {email, password} = dto;
     const existUser = await this.blogUserRepository.findByEmail(email);
 
@@ -46,10 +47,10 @@ export class AuthenticationService {
       throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
     }
 
-    return blogUserEntity.toPOJO()
+    return blogUserEntity
   }
 
-  public async getUserEntity(id: string): Promise<BlogUserEntity | null> {
+  public async getUserEntity(id: string): Promise<BlogUserEntity> {
     return this.blogUserRepository.findById(id);
   }
 }

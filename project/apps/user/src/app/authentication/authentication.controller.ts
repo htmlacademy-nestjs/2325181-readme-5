@@ -19,7 +19,7 @@ export class AuthenticationController {
     description: 'The new user has been created.'
   })
   @Post('signin')
-  public async create(@Body() dto: CreateUserDto): Promise<UserRdo | null> {
+  public async create(@Body() dto: CreateUserDto): Promise<UserRdo> {
     const newUser = await this.authService.registerNewUser(dto);
     return fillDTO(UserRdo, newUser.toPOJO());
   }
@@ -34,8 +34,8 @@ export class AuthenticationController {
     description: 'Password of login is wrong.'
   })
   @Post('login')
-  public async login(@Body() dto: LoginUserDto): Promise<LoggedUserRdo | null> {
-    const verifiedUser = await this.authService.verifyUser(dto);
+  public async login(@Body() dto: LoginUserDto): Promise<LoggedUserRdo> {
+    const verifiedUser = (await this.authService.verifyUser(dto)).toPOJO();
     return fillDTO(LoggedUserRdo, verifiedUser);
   }
 
@@ -45,7 +45,7 @@ export class AuthenticationController {
     description: 'User found'
   })
   @Get(':id')
-  public async show(@Param('id') userId: string): Promise<UserRdo | null> {
+  public async show(@Param('id') userId: string): Promise<UserRdo> {
     const existUser = await this.authService.getUserEntity(userId);
     return fillDTO(UserRdo, existUser.toPOJO());
   }

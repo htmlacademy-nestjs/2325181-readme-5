@@ -1,0 +1,28 @@
+# Register new user
+POST http://localhost:7000/api/auth/signin HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "new2@user.com",
+  "firstname": "Alex",
+  "lastname": "Bochkin",
+  "password": "123456"
+}
+
+###
+
+# Get user by Id
+GET http://localhost:7000/api/auth/1cb7b4c0-5dc6-41df-bc95-f5192d1d2250 HTTP/1.1
+
+###
+
+# Login user
+POST http://localhost:7000/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "new1@user.com",
+  "password": "123456"
+}
+
+###

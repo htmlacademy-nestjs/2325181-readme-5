@@ -6,8 +6,8 @@ import { CommentValidationMessage, CommentValidationParams } from '../comment.co
 
 export class CreateCommentDto {
   @ApiProperty({
-    description:'',
-    example:''
+    description: 'Comment text',
+    example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis egestas tortor sit amet iaculis.'
   })
   @IsString({message: CommentValidationMessage.Text.InvalidFormat})
   @Length(
@@ -16,10 +16,10 @@ export class CreateCommentDto {
     {message: CommentValidationMessage.Text.InvalidLength}
   )
   public text: string;
-  @ApiProperty({
-    description:'',
-    example:''
-  })
 
+  @ApiProperty({
+    description:'Referred post unique ID',
+    example: '1234-5678-9012-3456'
+  })
   public postId: string
 }

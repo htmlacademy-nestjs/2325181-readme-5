@@ -1,3 +1,4 @@
 export interface LinkPost{
-  linkURL?: string
+  linkURL?: string,
+  linkDescription?: string
 }

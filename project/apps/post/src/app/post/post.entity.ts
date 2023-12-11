@@ -15,7 +15,9 @@ export class PostEntity implements Post {
   public announce?: string;
   public videoURL?: string;
   public title?: string;
-  public text?: string
+  public text?: string;
+  public linkDescription?: string;
+  public citeText?: string;
 
   constructor (post: Post) {
 
@@ -37,7 +39,9 @@ export class PostEntity implements Post {
       announce: this.announce,
       videoURL: this.videoURL,
       title: this.title,
-      text: this.text
+      text: this.text,
+      linkDescription: this.linkDescription,
+      citeText: this.citeText
     };
   }
 
@@ -56,6 +60,8 @@ export class PostEntity implements Post {
     this.videoURL = data.videoURL;
     this.title = data.title;
     this.text = data.text;
+    this.linkDescription = data.linkDescription;
+    this.citeText = data.citeText;
   }
 
 }

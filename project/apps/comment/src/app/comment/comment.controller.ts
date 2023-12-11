@@ -29,7 +29,7 @@ export class CommentController {
   })
   @Delete(':commentId')
   public async delete(@Param('commentId') commentId: string): Promise<void> {
-    this.commentService.deleteComment(commentId);
+    await this.commentService.deleteComment(commentId);
   }
 
   @ApiResponse({

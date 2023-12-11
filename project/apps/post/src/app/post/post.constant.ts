@@ -1,6 +1,6 @@
 export const PostValidationParams = {
   Photo: {
-    RegexURL: RegExp(/(.png$|.jpg$|.jpeg$)/i);
+    RegexURL: RegExp(/(.png$|.jpg$|.jpeg$)/i)
   },
   Tags: {
     MaximumCount: 8
@@ -21,12 +21,6 @@ export const PostValidationParams = {
     Length: {
       Minimum: 50,
       Maximum: 255
-    }
-  },
-  Text: {
-    Length: {
-      Minimum: 100,
-      Maximum: 1024
     }
   },
   Text: {
@@ -97,3 +91,6 @@ export enum PostType {
   Cite,
   Text
 };
+
+
+export const POST_NOT_FOUND = 'The post has not been found';

@@ -9,6 +9,4 @@ import { PostController } from './post.controller';
   controllers: [ PostController],
   exports: [PostRepository, PostService]
 })
-export class PostModule {
-
-}
+export class PostModule {}

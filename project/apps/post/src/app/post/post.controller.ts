@@ -1,11 +1,13 @@
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
-import { Controller, Post, Body, Get, Param, HttpStatus, Delete, Patch } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Post, Body, Get, Param, HttpStatus, Delete, Patch, Controller } from '@nestjs/common';
 import { fillDTO} from '@project/libs/shared/helpers';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PostRdo } from './rdo/post.rdo';
 import { UpdatePostDto } from './dto/update-post.dto';
 
+@ApiTags('posts')
+@Controller('posts')
 export class PostController {
   constructor(
     private readonly postService: PostService

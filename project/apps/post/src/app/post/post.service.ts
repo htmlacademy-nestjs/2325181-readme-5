@@ -85,6 +85,4 @@ export class PostService {
   public async indexPosts(): Promise<PostEntity[] | []> {
     return this.postRepository.findMany();
   }
-
-  
 }

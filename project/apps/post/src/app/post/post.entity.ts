@@ -1,4 +1,5 @@
 import { Post } from '@project/libs/shared/app/types';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 export class PostEntity implements Post {
   public id?: string;
@@ -7,8 +8,6 @@ export class PostEntity implements Post {
   public isRepost: boolean;
   public tags: string[];
   public authorId: string;
-  public likesCount: number;
-  public commentsCount: number;
   public photo?: string;
   public creator?: string;
   public linkURL?: string;
@@ -18,9 +17,11 @@ export class PostEntity implements Post {
   public text?: string;
   public linkDescription?: string;
   public citeText?: string;
+  public originAuthorId?: string;
+  public originPostId?: string;
 
   constructor (post: Post) {
-
+    this.populate(post);
   }
 
   public toPOJO () {
@@ -31,8 +32,6 @@ export class PostEntity implements Post {
       isRepost: this.isRepost,
       tag: this.tags,
       authorId: this.authorId,
-      likesCount: this.likesCount,
-      commentsCount: this.commentsCount,
       photo: this.photo,
       creator: this.creator,
       linkURL: this.linkURL,
@@ -41,7 +40,9 @@ export class PostEntity implements Post {
       title: this.title,
       text: this.text,
       linkDescription: this.linkDescription,
-      citeText: this.citeText
+      citeText: this.citeText,
+      originAuthorId: this.originAuthorId,
+      originPostId: this.originPostId,
     };
   }
 
@@ -51,8 +52,6 @@ export class PostEntity implements Post {
     this.isRepost = data.isRepost;
     this.tags = data.tags;
     this.authorId = data.authorId;
-    this.likesCount = data.likesCount;
-    this.commentsCount = data.commentsCount;
     this.photo = data.photo;
     this.creator = data.creator;
     this.linkURL = data.linkURL;
@@ -62,6 +61,13 @@ export class PostEntity implements Post {
     this.text = data.text;
     this.linkDescription = data.linkDescription;
     this.citeText = data.citeText;
+    this.originAuthorId = data.originAuthorId;
+    this.originPostId = data.originPostId;
   }
 
+  public update(data: UpdatePostDto): void {
+    for (let key in data) {
+      this[key] = data[key];
+    }
+  }
 }

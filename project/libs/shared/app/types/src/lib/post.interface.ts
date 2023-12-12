@@ -7,6 +7,4 @@ export interface Post extends VideoPost, PhotoPost, TextPost, CitePost, LinkPost
   isRepost: boolean,
   tags: string[],
   authorId: string,
-  likesCount: number,
-  commentsCount: number,
 }

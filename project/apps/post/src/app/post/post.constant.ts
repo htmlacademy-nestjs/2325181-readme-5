@@ -80,6 +80,9 @@ export const PostValidationMessage = {
   },
   VideoURL: {
     InvalidFormat: 'The video URL should be a valid URL link'
+  },
+  isRepost: {
+    InvalidFormat: 'The isRepost status should be a boolean value'
   }
 }
 

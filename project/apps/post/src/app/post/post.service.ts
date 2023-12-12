@@ -40,11 +40,10 @@ export class PostService {
       title: title || '',
       isPublished: false,
       isRepost: false,
-      likesCount: 0,
-      commentsCount: 0,
-      authorId: ''
+      authorId: '',
+      originPostId: '',
+      originAuthorId: ''
     }
-
     const newPost =  await new PostEntity(postDraft);
 
     return this.postRepository.save(newPost);
@@ -66,10 +65,8 @@ export class PostService {
     if (!existPost) {
       throw new NotFoundException(POST_NOT_FOUND);
     }
-
-    const updatedPost = await new PostEntity({...existPost, ...dto});
-
-    return this.postRepository.update(postId, updatedPost);
+    existPost.update(dto)
+    return await this.postRepository.findById(postId);
   }
 
   public async deletePostEntity(postId: string): Promise<void> {
@@ -84,5 +81,20 @@ export class PostService {
 
   public async indexPosts(): Promise<PostEntity[] | []> {
     return this.postRepository.findMany();
+  }
+
+  public async repostPost(postId: string): Promise<PostEntity> {
+    const {id: originPostId, authorId: originAuthorId, ...originPost} = await this.postRepository.findById(postId);
+
+    const repostedPost = new PostEntity({
+      ...originPost,
+      authorId: '',
+      isRepost: true,
+      originPostId,
+      originAuthorId
+    });
+
+    return this.postRepository.save(repostedPost);
+
   }
 }

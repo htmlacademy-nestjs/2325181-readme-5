@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMaxSize, IsArray, IsEnum, IsOptional, IsString, IsUrl, Length, Matches, MaxLength} from 'class-validator';
+import { ArrayMaxSize, IsArray, IsBoolean, IsEnum, IsOptional, IsString, IsUrl, Length, Matches, MaxLength} from 'class-validator';
 import { PostType, PostValidationMessage, PostValidationParams } from '../post.constant';
 
 export class CreatePostDto {
@@ -121,5 +121,6 @@ export class CreatePostDto {
     {message: PostValidationMessage.Title.InvalidLength}
   )
   public title?: string;
+
 
 }

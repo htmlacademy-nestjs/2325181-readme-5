@@ -17,7 +17,7 @@ export class CommentController {
     status: HttpStatus.CREATED,
     description: 'The new comment has been created.'
   })
-  @Post()
+  @Post('/')
   public async create(@Body() dto: CreateCommentDto): Promise<CommentRdo> {
     const newComment = await this.commentService.createNewComment(dto);
     return fillDTO(CommentRdo, newComment.toPOJO())

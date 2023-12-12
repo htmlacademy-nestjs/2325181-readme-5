@@ -19,6 +19,41 @@ export class PostRdo {
 
   @Expose()
   @ApiProperty({
+    description: 'Publishing status',
+    example: 'true'
+  })
+  public isPublished: boolean;
+
+  @Expose()
+  @ApiProperty({
+    description: 'Repost status',
+    example: 'false'
+  })
+  public isRepost: boolean;
+
+  @Expose()
+  @ApiProperty({
+    description: 'Unique author ID',
+    example: '1234-5678-9012-3456'
+  })
+  public authorId: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'Origin author unique ID',
+    example: '1234-5678-9012-3456'
+  })
+  public originAuthorId?: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'Origin Post unique ID',
+    example: '1234-5678-9012-3456'
+  })
+  public originPostId?: string;
+
+  @Expose()
+  @ApiProperty({
     description: 'Post tags, comma separated',
     example: 'travel, Paris, cat'
   })

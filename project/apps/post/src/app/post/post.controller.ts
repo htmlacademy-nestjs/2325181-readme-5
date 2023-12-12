@@ -5,6 +5,7 @@ import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PostRdo } from './rdo/post.rdo';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { PostEntity } from './post.entity';
 
 @ApiTags('posts')
 @Controller('posts')
@@ -17,7 +18,7 @@ export class PostController {
     status: HttpStatus.CREATED,
     description: 'The new post has been created.'
   })
-  @Post()
+  @Post('/')
   public async create(@Body() dto: CreatePostDto): Promise<PostRdo> {
     const newPost = await this.postService.createNewPost(dto);
     return fillDTO((PostRdo), newPost.toPOJO());
@@ -39,7 +40,7 @@ export class PostController {
   })
   @Patch(':postId')
   public async update(@Param('postId') postId: string, @Body() dto: UpdatePostDto): Promise<PostRdo> {
-    const updatedPost = await this.postService.updatePostEntity(postId, dto);
+    const updatedPost: PostEntity = await this.postService.updatePostEntity(postId, dto);
     return fillDTO(PostRdo, updatedPost.toPOJO());
   }
 
@@ -50,5 +51,16 @@ export class PostController {
   @Delete(':postId')
   public async delete(@Param('postId') postId: string): Promise<void> {
     await this.postService.deletePostEntity(postId);
+  }
+
+
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'The reposted post has been created.'
+  })
+  @Post('repost/:postId')
+  public async repost(@Param('postId') postId: string): Promise<PostRdo> {
+    const repostedPost = await this.postService.repostPost(postId);
+    return fillDTO(PostRdo, repostedPost.toPOJO());
   }
 }

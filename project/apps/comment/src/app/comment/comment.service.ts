@@ -34,7 +34,7 @@ export class CommentService {
   }
 
   public async listCommentByPostId(postId: string): Promise<CommentEntity[] | []> {
-    const commentsList = this.commentRepository.findManyByPostId(postId);
+    const commentsList = await this.commentRepository.findManyByPostId(postId);
     return commentsList;
   }
 

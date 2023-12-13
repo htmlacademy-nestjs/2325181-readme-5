@@ -13,11 +13,9 @@ export class UserService {
 
   public async editLikesList (postId: string, userId: string): Promise<void> {
     const existUser = await this.userRepository.findById(userId);
-
     if (!existUser) {
       throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
-
     const updatedLikesList = modifyLikesList<string>(postId, existUser.likesList);
     const updatedUser = new UserEntity({...existUser, likesList: updatedLikesList})
     this.userRepository.update(postId, updatedUser);

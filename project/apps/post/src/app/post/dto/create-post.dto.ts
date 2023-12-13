@@ -3,12 +3,11 @@ import { ArrayMaxSize, IsArray, IsBoolean, IsEnum, IsOptional, IsString, IsUrl, 
 import { PostType, PostValidationMessage, PostValidationParams } from '../post.constant';
 
 export class CreatePostDto {
-
   @ApiProperty({
     description: 'Post type: video, text, photo, cite, link',
     example: 'video'
   })
-  @IsEnum(PostType, {message: PostValidationMessage.Type.InvalidFormat})
+  @IsEnum(Object.values(PostType), {message: PostValidationMessage.Type.InvalidFormat})
   public type: string;
 
   @ApiProperty({
@@ -121,6 +120,4 @@ export class CreatePostDto {
     {message: PostValidationMessage.Title.InvalidLength}
   )
   public title?: string;
-
-
 }

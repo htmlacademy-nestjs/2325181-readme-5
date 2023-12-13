@@ -53,7 +53,6 @@ export class PostController {
     await this.postService.deletePostEntity(postId);
   }
 
-
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'The reposted post has been created.'

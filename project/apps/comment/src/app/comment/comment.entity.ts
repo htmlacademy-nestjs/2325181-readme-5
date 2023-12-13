@@ -6,7 +6,6 @@ export class CommentEntity implements Comment, Entity<string> {
   public postId: string;
   public text: string;
 
-
   constructor(comment: Comment) {
     this.populate(comment);
   }
@@ -23,6 +22,4 @@ export class CommentEntity implements Comment, Entity<string> {
     this.text = data.text;
     this.postId = data.postId;
   }
-
-
 }

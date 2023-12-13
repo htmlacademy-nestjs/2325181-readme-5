@@ -9,6 +9,4 @@ import { CommentService } from './comment.service';
   controllers: [CommentController],
   exports: [CommentRepository, CommentService]
 })
-export class CommentModule {
-
-}
+export class CommentModule {}

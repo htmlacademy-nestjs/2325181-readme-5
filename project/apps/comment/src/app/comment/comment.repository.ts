@@ -4,7 +4,7 @@ import { CommentEntity } from './comment.entity';
 
 @Injectable()
 export class CommentRepository extends BaseMemoryRepository<CommentEntity> {
-  public async findManyByPostId(postId: string): Promise<CommentEntity[] | []> {
+  public async findManyByPostId(postId: string): Promise<CommentEntity[]> {
     const entities = Array.from(this.baseMemoryEntities.values());
     const comments = entities.filter((entity) => entity.postId === postId);
     return Promise.resolve(comments);

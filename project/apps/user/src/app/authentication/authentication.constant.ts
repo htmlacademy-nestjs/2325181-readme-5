@@ -21,7 +21,7 @@ export const UserValidationParams = {
       Maximal: 12
     }
   }
-}
+} as const;
 
 export const UserValidationMessage = {
   Email: {
@@ -39,4 +39,4 @@ export const UserValidationMessage = {
     InvalidLength: 'User e-mail should have a string format',
     InvalidPassword: 'User password should have a minimal length of 6 letters, maximal length of 12 letters'
   }
-}
+} as const;

@@ -2,7 +2,6 @@ import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class PostRdo {
-
   @Expose()
   @ApiProperty({
     description: 'Post unique ID',

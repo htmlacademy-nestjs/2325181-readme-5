@@ -25,7 +25,6 @@ export class PostService {
       videoURL,
       title
     } = dto;
-
     const postDraft = {
       type,
       tags,
@@ -45,23 +44,19 @@ export class PostService {
       originAuthorId: ''
     }
     const newPost =  await new PostEntity(postDraft);
-
     return this.postRepository.save(newPost);
   }
 
   public async getPostEntity(postId: string): Promise<PostEntity> {
     const existPost = await this.postRepository.findById(postId);
-
     if (!existPost) {
       throw new NotFoundException(POST_NOT_FOUND);
     }
-
     return await this.postRepository.findById(postId);
   }
 
   public async updatePostEntity(postId: string, dto: UpdatePostDto): Promise<PostEntity> {
     const existPost = await this.postRepository.findById(postId);
-
     if (!existPost) {
       throw new NotFoundException(POST_NOT_FOUND);
     }
@@ -71,21 +66,18 @@ export class PostService {
 
   public async deletePostEntity(postId: string): Promise<void> {
     const existPost = await this.postRepository.findById(postId);
-
     if (!existPost) {
       throw new NotFoundException(POST_NOT_FOUND);
     }
-
     this.postRepository.deleteById(postId);
   }
 
-  public async indexPosts(): Promise<PostEntity[] | []> {
+  public async indexPosts(): Promise<PostEntity[]> {
     return this.postRepository.findMany();
   }
 
   public async repostPost(postId: string): Promise<PostEntity> {
     const {id: originPostId, authorId: originAuthorId, ...originPost} = await this.postRepository.findById(postId);
-
     const repostedPost = new PostEntity({
       ...originPost,
       authorId: '',
@@ -93,8 +85,6 @@ export class PostService {
       originPostId,
       originAuthorId
     });
-
     return this.postRepository.save(repostedPost);
-
   }
 }

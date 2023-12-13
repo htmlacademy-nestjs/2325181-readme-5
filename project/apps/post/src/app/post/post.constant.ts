@@ -38,7 +38,7 @@ export const PostValidationParams = {
   LinkDescription: {
     MaximumLength: 300
   },
-}
+} as const;
 
 export const PostValidationMessage = {
   Creator: {
@@ -84,16 +84,16 @@ export const PostValidationMessage = {
   isRepost: {
     InvalidFormat: 'The isRepost status should be a boolean value'
   }
-}
+} as const;
 
 
-export enum PostType {
-  Video,
-  Photo,
-  Link,
-  Cite,
-  Text
-};
+export const PostType = {
+  Video: 'video',
+  Photo: 'photo',
+  Link: 'link',
+  Cite: 'cite',
+  Text: 'text'
+} as const;
 
 
 export const POST_NOT_FOUND = 'The post has not been found';

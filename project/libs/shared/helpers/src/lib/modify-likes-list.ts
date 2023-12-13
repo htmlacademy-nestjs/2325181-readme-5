@@ -1,7 +1,7 @@
-export function modifyLikesList<T>(postId: T,likesList: T[]): T[] {
-  const isPostInLikesList = likesList.includes(postId);
-  isPostInLikesList ?
-  likesList = likesList.filter((like) => like !== postId) :
-  likesList.push(postId);
-  return likesList;
+export function modifyLikesList<T>(postId: T,likes: T[]): T[] {
+  const isPostInLikes = likes.includes(postId);
+  isPostInLikes ?
+  likes = likes.filter((like) => like !== postId) :
+  likes.push(postId);
+  return likes;
 }

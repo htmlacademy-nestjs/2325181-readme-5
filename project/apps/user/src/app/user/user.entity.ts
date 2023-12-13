@@ -1,14 +1,15 @@
 import { AuthUser } from '@project/libs/shared/app/types';
 import { Entity } from '@project/libs/shared/core';
 import { genSalt, hash, compare } from 'bcrypt';
-import { SALT_ROUNDS } from './blog-user.constant';
+import { SALT_ROUNDS } from './user.constant';
 
-export class BlogUserEntity implements AuthUser, Entity<string> {
+export class UserEntity implements AuthUser, Entity<string> {
   public id?: string;
   public email: string;
   public firstname: string;
   public lastname: string;
   public passwordHash: string;
+  public likesList: string[];
 
   constructor(user: AuthUser) {
     this.populate(user);
@@ -21,6 +22,7 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
       firstname: this.firstname,
       lastname: this.lastname,
       passwordHash: this.passwordHash,
+      likesList: this.likesList
     };
   }
 
@@ -28,9 +30,10 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
     this.email = data.email;
     this.firstname = data.firstname;
     this.lastname = data.lastname;
+    this.likesList = data.likesList;
   }
 
-  public async setPassword(password: string): Promise<BlogUserEntity> {
+  public async setPassword(password: string): Promise<UserEntity> {
     const salt = await genSalt(SALT_ROUNDS);
     this.passwordHash = await hash(password, salt);
     return this;

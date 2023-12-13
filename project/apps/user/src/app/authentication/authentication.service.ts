@@ -1,56 +1,48 @@
 import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { BlogUserRepository } from '../blog-user/blog-user.repository';
+import { UserRepository } from '../user/user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG } from './authentication.constant';
-import { BlogUserEntity } from '../blog-user/blog-user.entity';
+import { UserEntity } from '../user/user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
-import { UserRdo } from './rdo/user.rdo';
 
 @Injectable()
 export class AuthenticationService {
   constructor(
-    private readonly blogUserRepository: BlogUserRepository
+    private readonly userRepository: UserRepository
   ) {}
 
-  public async registerNewUser(dto: CreateUserDto): Promise<BlogUserEntity> {
+  public async registerNewUser(dto: CreateUserDto): Promise<UserEntity> {
     const {email, firstname, lastname, password} = dto;
-
-    const blogUser = {
+    const user = {
       email,
       firstname,
       lastname,
       passwordHash: '',
-      avatar: ''
+      avatar: '',
+      likesList: []
     }
-
-    const existUser = await this.blogUserRepository.findByEmail(email);
-
+    const existUser = await this.userRepository.findByEmail(email);
     if(existUser) {
       throw new ConflictException(AUTH_USER_EXISTS);
     }
-
-    const userEntity = await new BlogUserEntity(blogUser).setPassword(password);
-
-    return this.blogUserRepository.save(userEntity);
+    const userEntity = await new UserEntity(user).setPassword(password);
+    return this.userRepository.save(userEntity);
   }
 
-  public async verifyUser(dto: LoginUserDto): Promise<BlogUserEntity> {
+  public async verifyUser(dto: LoginUserDto): Promise<UserEntity> {
     const {email, password} = dto;
-    const existUser = await this.blogUserRepository.findByEmail(email);
-
+    const existUser = await this.userRepository.findByEmail(email);
     if (!existUser) {
       throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
-
-    const blogUserEntity = new BlogUserEntity(existUser);
-    if (!(await blogUserEntity.comparePassword(password))) {
+    const userEntity = new UserEntity(existUser);
+    if (!(await userEntity.comparePassword(password))) {
       throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
     }
-
-    return blogUserEntity
+    return userEntity;
   }
 
-  public async getUserEntity(id: string): Promise<BlogUserEntity> {
-    return this.blogUserRepository.findById(id);
+  public async getUserEntity(id: string): Promise<UserEntity> {
+    return this.userRepository.findById(id);
   }
 }

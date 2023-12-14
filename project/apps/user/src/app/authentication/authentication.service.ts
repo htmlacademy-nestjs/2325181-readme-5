@@ -8,7 +8,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 @Injectable()
 export class AuthenticationService {
   constructor(
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UserRepository,
   ) {}
 
   public async registerNewUser(dto: CreateUserDto): Promise<UserEntity> {

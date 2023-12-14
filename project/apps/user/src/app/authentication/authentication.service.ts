@@ -35,14 +35,17 @@ export class AuthenticationService {
     if (!existUser) {
       throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
-    const userEntity = new UserEntity(existUser);
-    if (!(await userEntity.comparePassword(password))) {
+    if (!(await existUser.comparePassword(password))) {
       throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
     }
-    return userEntity;
+    return existUser;
   }
 
   public async getUserEntity(id: string): Promise<UserEntity> {
-    return this.userRepository.findById(id);
+    const existUser = await this.userRepository.findById(id);
+    if (!existUser) {
+      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+    }
+    return existUser;
   }
 }

@@ -13,3 +13,6 @@ coverage
 
 # Environment variables
 *.env
+
+# DB data
+/db

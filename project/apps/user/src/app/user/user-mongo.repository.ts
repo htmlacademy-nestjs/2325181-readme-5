@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { AuthUser } from '@project/libs/shared/app/types';
+import { AuthUser, User } from '@project/libs/shared/app/types';
 import { CRUDRepository } from '@project/shared/util/types';
 import { UserEntity } from './user.entity';
 import { UserModel } from './user.model';
@@ -18,7 +18,7 @@ export class UserMongoRepository implements CRUDRepository<UserEntity, string, A
   }
 
   public async destroy(id: string): Promise<void> {
-    this.userModel.deleteOne({id});
+    this.userModel.deleteOne({_id: id});
   }
 
   public async findById(id: string): Promise<AuthUser> {

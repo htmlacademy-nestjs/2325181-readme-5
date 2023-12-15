@@ -26,5 +26,5 @@ export function fillDTO<T, V extends Record<string, unknown>>(
 }
 
 export function getMongoConnectionString({username, password, host, port, databaseName, authDatabase}): string {
-  return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authsource=${authDatabase}`;
+  return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=${authDatabase}`;
 }

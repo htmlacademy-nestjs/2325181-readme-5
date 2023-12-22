@@ -1,7 +1,8 @@
 import { Post } from '@project/libs/shared/app/types';
-import { UpdatePostDto } from './dto/update-post.dto';
+import { UpdatePostDto } from '../dto/update-post.dto';
+import { Entity } from '@project/libs/shared/core';
 
-export class PostEntity implements Post {
+export class PostEntity implements Post, Entity<string> {
   public id?: string;
   public type: string;
   public isPublished: boolean;

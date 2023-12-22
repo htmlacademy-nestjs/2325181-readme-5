@@ -1,7 +1,5 @@
 import { ClassTransformOptions, plainToInstance } from 'class-transformer';
 
-
-
 export function fillDTO<T, V extends Record<string, unknown>>(
   DtoClass: new() => T,
   plainObject: V,
@@ -25,4 +23,8 @@ export function fillDTO<T, V extends Record<string, unknown>>(
       ... options
     }
   );
+}
+
+export function getMongoConnectionString({username, password, host, port, databaseName, authDatabase}): string {
+  return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=${authDatabase}`;
 }

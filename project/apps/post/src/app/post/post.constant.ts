@@ -86,14 +86,4 @@ export const PostValidationMessage = {
   }
 } as const;
 
-
-export const PostType = {
-  Video: 'video',
-  Photo: 'photo',
-  Link: 'link',
-  Cite: 'cite',
-  Text: 'text'
-} as const;
-
-
 export const POST_NOT_FOUND = 'The post has not been found';

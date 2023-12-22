@@ -21,7 +21,7 @@ export class AuthenticationController {
   @Post('signin')
   public async create(@Body() dto: CreateUserDto): Promise<UserRdo> {
     const newUser = await this.authService.registerNewUser(dto);
-    return fillDTO(UserRdo, newUser.toPOJO());
+    return fillDTO(UserRdo, newUser);
   }
 
   @ApiResponse({

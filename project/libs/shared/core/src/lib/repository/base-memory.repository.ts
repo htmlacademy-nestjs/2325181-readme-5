@@ -2,7 +2,8 @@ import { randomUUID } from 'node:crypto';
 import { Entity, EntityIdType } from './entity.interface';
 import { Repository } from './repository.interface';
 
-export abstract class BaseMemoryRepository<T extends Entity<EntityIdType>> implements Repository<T> {
+export abstract class
+BaseMemoryRepository<T extends Entity<EntityIdType>> implements Repository<T> {
   private entities: Map<T['id'], T> = new Map();
 
   get baseMemoryEntities () {

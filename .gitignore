@@ -9,3 +9,10 @@
 .DS_Store
 coverage
 *.log
+
+
+# Environment variables
+*.env
+
+# DB data
+/db

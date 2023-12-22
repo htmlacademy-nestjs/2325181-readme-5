@@ -21,8 +21,8 @@ enum PostType {
 model Post {
   id              String    @id @default(uuid())
   type            PostType
-  isPublished     Boolean   @default(false) @map("is_repost")
-  isRepost        Boolean   @default(false) @map("is_published")
+  isPublished     Boolean   @default(false) @map("is_published")
+  isRepost        Boolean   @default(false) @map("is_repost")
   tags            String[]
   authorId        String    @map("user_id")
   contentId       String    @map("content_id")
@@ -31,14 +31,14 @@ model Post {
   publishedAt     DateTime? @updatedAt @map("published_at")
   createdAt       DateTime  @default(now()) @map("created_at")
   creator         String?   @default("")
-  citeText        String?   @default("")
-  linkURL         String?   @default("")
-  linkDescription String?   @default("")
+  citeText        String?   @default("") @map("cite_text")
+  linkURL         String?   @default("") @map("link_URL")
+  linkDescription String?   @default("") @map("link_description")
   photo           String?   @default("")
   text            String?   @default("")
   title           String?   @default("")
   announce        String?   @default("")
-  videoURL        String?   @default("")
+  videoURL        String?   @default("") @map("video_URL")
 
   @@map("posts")
 }

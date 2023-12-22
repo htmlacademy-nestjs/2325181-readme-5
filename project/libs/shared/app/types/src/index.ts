@@ -10,4 +10,6 @@ export * from './lib/link-post.interface';
 export * from './lib/repost-post.interface';
 export * from './lib/post-with-text.interface';
 export * from './lib/post-with-title.interface';
-
+export * from './lib/post-type.type';
+export * from './lib/post-content.type';
+export * from './lib/base-post.interface';

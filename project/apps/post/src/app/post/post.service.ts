@@ -1,53 +1,46 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PostRepository } from './post.repository';
+import { PostRepository } from './repository/post.repository';
 import { CreatePostDto } from './dto/create-post.dto';
-import { PostEntity } from './post.entity';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { POST_NOT_FOUND } from './post.constant';
+import { BasePostEntity } from './entity/base-post.entity';
+import { PostContent, PostTypeValues } from '@project/libs/shared/app/types';
+import { PostCiteRepository, PostPhotoRepository, PostLinkRepository, PostTextRepository, PostVideoRepository } from './repository/index';
+import { PostEntityFactory } from './post-entity.factory';
+
 
 @Injectable()
 export class PostService {
   constructor(
     private readonly postRepository: PostRepository,
+    private readonly postCiteRepository: PostCiteRepository,
+    private readonly postPhotoRepository: PostPhotoRepository,
+    private readonly postVideoRepository: PostVideoRepository,
+    private readonly postTextRepository: PostTextRepository,
+    private readonly postLinkRepository: PostLinkRepository,
   ) {}
 
-  public async createNewPost(dto: CreatePostDto): Promise<PostEntity> {
-    const {
+  public async createNewPost(dto: CreatePostDto, type: PostTypeValues): Promise<BasePostEntity> {
+    const {tags, ...postContent} = dto;
+    const [postContentDraft, postContentRepository] = PostEntityFactory(type, postContent);
+    const contentId = (await this[postContentRepository].save(postContentDraft)).id;
+    const basePostDraft = {
       type,
       tags,
-      photo,
-      creator,
-      citeText,
-      linkDescription,
-      linkURL,
-      announce,
-      text,
-      videoURL,
-      title
-    } = dto;
-    const postDraft = {
-      type,
-      tags,
-      photo: photo || '',
-      creator: creator || '',
-      citeText: citeText || '',
-      linkDescription: linkDescription || '',
-      linkURL: linkURL || '',
-      announce: announce || '',
-      text: text || '',
-      videoURL: videoURL || '',
-      title: title || '',
+      contentId,
       isPublished: false,
       isRepost: false,
       authorId: '',
       originPostId: '',
       originAuthorId: ''
     }
-    const newPost =  await new PostEntity(postDraft);
+
+    const newPost =  await new BasePostEntity(basePostDraft);
     return this.postRepository.save(newPost);
+
   }
 
-  public async getPostEntity(postId: string): Promise<PostEntity> {
+  public async getPostEntity(postId: string): Promise<BasePostEntity> {
     const existPost = await this.postRepository.findById(postId);
     if (!existPost) {
       throw new NotFoundException(POST_NOT_FOUND);
@@ -55,7 +48,7 @@ export class PostService {
     return await this.postRepository.findById(postId);
   }
 
-  public async updatePostEntity(postId: string, dto: UpdatePostDto): Promise<PostEntity> {
+  public async updatePostEntity(postId: string, dto: UpdatePostDto): Promise<BasePostEntity> {
     const existPost = await this.postRepository.findById(postId);
     if (!existPost) {
       throw new NotFoundException(POST_NOT_FOUND);
@@ -72,13 +65,13 @@ export class PostService {
     this.postRepository.deleteById(postId);
   }
 
-  public async indexPosts(): Promise<PostEntity[]> {
+  public async indexPosts(): Promise<BasePostEntity[]> {
     return this.postRepository.findMany();
   }
 
-  public async repostPost(postId: string): Promise<PostEntity> {
+  public async repostPost(postId: string): Promise<BasePostEntity> {
     const {id: originPostId, authorId: originAuthorId, ...originPost} = await this.postRepository.findById(postId);
-    const repostedPost = new PostEntity({
+    const repostedPost = new BasePostEntity({
       ...originPost,
       authorId: '',
       isRepost: true,

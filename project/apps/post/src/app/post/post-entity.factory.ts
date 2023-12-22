@@ -1,6 +1,6 @@
 import { CitePost, LinkPost, PhotoPost, PostContent, PostType, PostTypeValues, TextPost, VideoPost } from '@project/libs/shared/app/types';
 import { PostCiteEntity, PostLinkEntity, PostPhotoEntity, PostTextEntity, PostVideoEntity } from './entity/index';
-import { PostCiteRepository, PostLinkRepository, PostPhotoRepository, PostTextRepository, PostVideoRepository } from './repository';
+
 
 export function PostEntityFactory (type: PostTypeValues, postContent: PostContent):[PostCiteEntity | PostLinkEntity | PostPhotoEntity | PostTextEntity | PostVideoEntity, string] {
   switch(type) {

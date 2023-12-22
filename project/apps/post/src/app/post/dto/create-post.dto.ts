@@ -1,15 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMaxSize, IsArray, IsBoolean, IsEnum, IsOptional, IsString, IsUrl, Length, Matches, MaxLength} from 'class-validator';
-import { PostType, PostValidationMessage, PostValidationParams } from '../post.constant';
+import { ArrayMaxSize, IsArray, IsOptional, IsString, IsUrl, Length, Matches, MaxLength} from 'class-validator';
+import { PostValidationMessage, PostValidationParams } from '../post.constant';
 
 export class CreatePostDto {
-  @ApiProperty({
-    description: 'Post type: video, text, photo, cite, link',
-    example: 'video'
-  })
-  @IsEnum(Object.values(PostType), {message: PostValidationMessage.Type.InvalidFormat})
-  public type: string;
-
   @ApiProperty({
     description: 'Post tags, comma separated',
     example: 'travel, Paris, cat'

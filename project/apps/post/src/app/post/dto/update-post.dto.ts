@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { PostType} from '@project/libs/shared/app/types';
 import { ArrayMaxSize, IsArray, IsEnum, IsOptional, IsString, IsUrl, Length, Matches, MaxLength, IsBoolean} from 'class-validator';
-import { PostType, PostValidationMessage, PostValidationParams } from '../post.constant';
+import { PostValidationMessage, PostValidationParams } from '../post.constant';
 
 export class UpdatePostDto {
   @ApiProperty({

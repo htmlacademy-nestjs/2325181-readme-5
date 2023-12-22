@@ -1,21 +1,21 @@
 {
-  "name": "shared-blog-models",
+  "name": "shared-post-models",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/shared/blog/models/src",
+  "sourceRoot": "libs/shared/post/models/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/shared/blog/models/**/*.ts"]
+        "lintFilePatterns": ["libs/shared/post/models/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/shared/blog/models/jest.config.ts"
+        "jestConfig": "libs/shared/post/models/jest.config.ts"
       }
     }
   },

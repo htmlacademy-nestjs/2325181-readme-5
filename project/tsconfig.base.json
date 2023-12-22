@@ -22,6 +22,7 @@
       "@project/libs/shared/core": ["libs/shared/core/src/index.ts"],
       "@project/libs/shared/helpers": ["libs/shared/helpers/src/index.ts"],
       "@project/shared/blog/models": ["libs/shared/blog/models/src/index.ts"],
+      "@project/shared/post/models": ["libs/shared/post/models/src/index.ts"],
       "@project/shared/util/types": ["libs/shared/util/types/src/index.ts"]
     }
   },

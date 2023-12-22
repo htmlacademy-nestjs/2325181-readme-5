@@ -9,3 +9,36 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum PostType {
+  video
+  text
+  quote
+  photo
+  link
+}
+
+model Post {
+  id              String    @id @default(uuid())
+  type            PostType
+  isPublished     Boolean   @default(false) @map("is_repost")
+  isRepost        Boolean   @default(false) @map("is_published")
+  tags            String[]
+  authorId        String    @map("user_id")
+  contentId       String    @map("content_id")
+  originPostId    String    @default("") @map("origin_post_id")
+  originAuthorId  String    @default("") @map("origin_author_id")
+  publishedAt     DateTime? @updatedAt @map("published_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  creator         String?   @default("")
+  citeText        String?   @default("")
+  linkURL         String?   @default("")
+  linkDescription String?   @default("")
+  photo           String?   @default("")
+  text            String?   @default("")
+  title           String?   @default("")
+  announce        String?   @default("")
+  videoURL        String?   @default("")
+
+  @@map("posts")
+}

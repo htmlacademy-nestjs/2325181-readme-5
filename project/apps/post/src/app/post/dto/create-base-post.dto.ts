@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMaxSize, IsArray, IsEnum, IsOptional, IsString, IsUrl, Length, Matches, MaxLength} from 'class-validator';
+import { ArrayMaxSize, IsArray, IsEnum, IsString } from 'class-validator';
 import { PostValidationMessage, PostValidationParams } from '../post.constant';
 import { PostType, PostTypeValues } from '@project/libs/shared/app/types';
 

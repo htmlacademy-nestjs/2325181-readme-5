@@ -9,7 +9,7 @@ export class CreateLinkPostDto extends CreateBasePostDto {
     example: '/blog.com/file/post1.html'
   })
   @IsUrl({},{message: PostValidationMessage.LinkURL.InvalidFormat})
-  public linkURL?: string;
+  public linkURL: string;
 
   @ApiProperty({
     description: 'In case of link type, the link description',
@@ -20,5 +20,5 @@ export class CreateLinkPostDto extends CreateBasePostDto {
     PostValidationParams.LinkDescription.MaximumLength,
     {message: PostValidationMessage.LinkDescription.InvalidLength}
   )
-  public linkDescription?: string
+  public linkDescription: string
 }

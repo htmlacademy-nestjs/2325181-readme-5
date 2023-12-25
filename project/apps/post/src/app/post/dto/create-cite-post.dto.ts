@@ -14,7 +14,7 @@ export class CreateCitePostDto extends CreateBasePostDto {
     PostValidationParams.Creator.Length.Maximum,
     {message: PostValidationMessage.Creator.InvalidLength}
   )
-  public creator?: string;
+  public creator: string;
 
   @ApiProperty({
     description: 'In case of cite type, the cite text',
@@ -26,6 +26,6 @@ export class CreateCitePostDto extends CreateBasePostDto {
     PostValidationParams.CiteText.Length.Maximum,
     {message: PostValidationMessage.Creator.InvalidLength}
   )
-  public citeText?: string
+  public citeText: string
 
 }

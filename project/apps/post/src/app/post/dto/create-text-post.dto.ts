@@ -14,7 +14,7 @@ export class CreateTextPostDto extends CreateBasePostDto{
     PostValidationParams.Announce.Length.Maximum,
     {message: PostValidationMessage.Announce.InvalidLength}
   )
-  public announce?: string;
+  public announce: string;
 
   @ApiProperty({
     description: 'In case of text type, the post text',
@@ -26,7 +26,7 @@ export class CreateTextPostDto extends CreateBasePostDto{
     PostValidationParams.Text.Length.Maximum,
     {message: PostValidationMessage.Text.InvalidLength}
   )
-  public text?: string
+  public text: string
 
   @ApiProperty({
     description: 'In case of text or video type, the post title',
@@ -38,5 +38,5 @@ export class CreateTextPostDto extends CreateBasePostDto{
     PostValidationParams.Title.Length.Maximum,
     {message: PostValidationMessage.Title.InvalidLength}
   )
-  public title?: string;
+  public title: string;
 }

@@ -9,7 +9,7 @@ export class CreateVideoPostDto extends CreateBasePostDto {
     example: '/video/video1.mp4'
   })
   @IsUrl({},{message: PostValidationMessage.VideoURL.InvalidFormat})
-  public videoURL?: string;
+  public videoURL: string;
 
   @ApiProperty({
     description: 'In case of text or video type, the post title',
@@ -21,5 +21,5 @@ export class CreateVideoPostDto extends CreateBasePostDto {
     PostValidationParams.Title.Length.Maximum,
     {message: PostValidationMessage.Title.InvalidLength}
   )
-  public title?: string;
+  public title: string;
 }

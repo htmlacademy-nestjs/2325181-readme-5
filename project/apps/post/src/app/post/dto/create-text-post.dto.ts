@@ -1,17 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMaxSize, IsArray, IsString, Length} from 'class-validator';
+import { IsString, Length} from 'class-validator';
 import { PostValidationMessage, PostValidationParams } from '../post.constant';
+import { CreateBasePostDto } from './create-base-post.dto';
 
-export class CreateTextPostDto {
-  @ApiProperty({
-    description: 'Post tags, comma separated',
-    example: 'travel, Paris, cat'
-  })
-  @IsArray({message: PostValidationMessage.Tags.InvalidFormat})
-  @IsString({each: true, message: PostValidationMessage.Tags.InvalidFormat})
-  @ArrayMaxSize(PostValidationParams.Tags.MaximumCount, {message: PostValidationMessage.Tags.MaxSize})
-  public tags: string[];
-
+export class CreateTextPostDto extends CreateBasePostDto{
   @ApiProperty({
     description: 'In case of text type, the announce text',
     example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis egestas tortor sit amet iaculis.'

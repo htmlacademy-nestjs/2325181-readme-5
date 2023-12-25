@@ -1,19 +1,19 @@
 import { PhotoPost } from '@project/libs/shared/app/types';
 import { UpdatePostDto } from '../dto/update-post.dto';
-import { Entity } from '@project/libs/shared/core';
+import { BasePostEntity } from './base-post.entity';
 
-export class PostPhotoEntity implements PhotoPost, Entity<string> {
+export class PostPhotoEntity extends BasePostEntity implements PhotoPost {
   public id?: string;
   public photo?: string;
 
   constructor (post: PhotoPost) {
+    super(post);
     this.populate(post);
   }
 
   public toPOJO () {
     return {
-      id: this.id,
-      photo: this.photo,
+      ...this
     };
   }
 

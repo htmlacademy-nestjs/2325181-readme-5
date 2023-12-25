@@ -2,10 +2,10 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Post, Body, Get, Param, HttpStatus, Delete, Patch, Controller } from '@nestjs/common';
 import { fillDTO} from '@project/libs/shared/helpers';
 import { PostService } from './post.service';
-import { CreateVideoPostDto, CreateCitePostDto, CreateLinkPostDto, CreatePhotoPostDto, CreateTextPostDto } from './dto';
+import { CreateContentPostDtoType } from './dto';
 import { PostRdo } from './rdo/post.rdo';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { PostType } from '@project/libs/shared/app/types';
+
 
 @ApiTags('posts')
 @Controller('posts')
@@ -16,51 +16,11 @@ export class PostController {
 
   @ApiResponse({
     status: HttpStatus.CREATED,
-    description: 'The new video post has been created.'
+    description: 'The new post has been created.'
   })
-  @Post(PostType.Video)
-  public async createVideoPost(@Body() dto: CreateVideoPostDto): Promise<PostRdo> {
-    const newPost = await this.postService.createNewPost(dto, PostType.Video);
-    return fillDTO((PostRdo), newPost.toPOJO());
-  }
-
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'The new text post has been created.'
-  })
-  @Post(PostType.Text)
-  public async createTextPost(@Body() dto: CreateTextPostDto): Promise<PostRdo> {
-    const newPost = await this.postService.createNewPost(dto, PostType.Text);
-    return fillDTO((PostRdo), newPost.toPOJO());
-  }
-
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'The new cite post has been created.'
-  })
-  @Post(PostType.Cite)
-  public async createCitePost(@Body() dto: CreateCitePostDto): Promise<PostRdo> {
-    const newPost = await this.postService.createNewPost(dto, PostType.Cite);
-    return fillDTO((PostRdo), newPost.toPOJO());
-  }
-
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'The new photo post has been created.'
-  })
-  @Post(PostType.Photo)
-  public async createPhotoPost(@Body() dto: CreatePhotoPostDto): Promise<PostRdo> {
-    const newPost = await this.postService.createNewPost(dto, PostType.Photo);
-    return fillDTO((PostRdo), newPost.toPOJO());
-  }
-
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'The new photo post has been created.'
-  })
-  @Post(PostType.Link)
-  public async createLinkPost(@Body() dto: CreateLinkPostDto): Promise<PostRdo> {
-    const newPost = await this.postService.createNewPost(dto, PostType.Link);
+  @Post('/')
+  public async createVideoPost(@Body() dto: CreateContentPostDtoType): Promise<PostRdo> {
+    const newPost = await this.postService.createNewPost(dto);
     return fillDTO((PostRdo), newPost.toPOJO());
   }
 

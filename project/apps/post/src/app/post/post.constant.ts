@@ -66,7 +66,7 @@ export const PostValidationMessage = {
     InvalidLength: 'Link description should have a maximum length of 300 letters'
   },
   Type: {
-    InvalidFormat: 'Post type should have one of the following values: Video, Photo, Cite, Link, Text'
+    InvalidFormat: 'Post type should have one of the following values: video, photo, cite, link, text'
   },
   Tags: {
     InvalidFormat: 'Post tags should be the array of string values',

@@ -1,8 +1,8 @@
 import { BaseMemoryRepository } from '@project/libs/shared/core';
-import { BasePostEntity } from '../entity/base-post.entity';
+import { PostContentEntity } from '../entity/post-content.entity';
 
-export class PostRepository extends BaseMemoryRepository<BasePostEntity> {
-  public async findMany(): Promise<BasePostEntity[]> {
+export class PostRepository extends BaseMemoryRepository<PostContentEntity> {
+  public async findMany(): Promise<PostContentEntity[]> {
     const entities = Array.from(this.baseMemoryEntities.values());
     return Promise.resolve(entities)
   }

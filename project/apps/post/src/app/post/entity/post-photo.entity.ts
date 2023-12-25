@@ -13,7 +13,8 @@ export class PostPhotoEntity extends BasePostEntity implements PhotoPost {
 
   public toPOJO () {
     return {
-      ...this
+      ...super.toPOJO(),
+      photo: this.photo,
     };
   }
 

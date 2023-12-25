@@ -16,7 +16,10 @@ export class PostTextEntity extends BasePostEntity implements TextPost {
 
   public toPOJO () {
     return {
-      ...this
+      ...super.toPOJO(),
+      announce: this.announce,
+      title: this.title,
+      text: this.text
     }
   }
 

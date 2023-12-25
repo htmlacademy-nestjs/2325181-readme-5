@@ -11,13 +11,26 @@ export class BasePostEntity implements BasePost {
   public originPostId: string;
   public originAuthorId: string;
 
-  constructor (post: BasePost) {
-    this.populate(post);
+  constructor (data: BasePost) {
+    this.type = data.type;
+    this.isPublished = data.isPublished;
+    this.isRepost = data.isRepost;
+    this.tags = data.tags;
+    this.authorId = data.authorId;
+    this.originAuthorId = data.originAuthorId;
+    this.originPostId = data.originPostId;
   }
 
   public toPOJO () {
     return {
-      ...this
+      id: this.id,
+      type: this.type,
+      isPublished: this.isPublished,
+      isRepost: this.isRepost,
+      tags: this.tags,
+      authorId: this.authorId,
+      originPostId: this.originPostId,
+      originAuthorId: this.originAuthorId,
     };
   }
 

@@ -4,27 +4,28 @@ POST http://localhost:6000/api/posts HTTP/1.1
 Content-Type: application/json
 
 {
-  "type": "cite",
+  "type": "photo",
   "tags": ["ShakesPeare", "cite", "author"],
-  "citeText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis egestas tortor sit amet iaculis.",
-  "creator": "William Shakespeare"
+  "videoURL": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis egestas tortor sit amet iaculis.",
+  "text": "fdljfdlfkjdfld",
+  "photo": "photo"
 }
 
 ###
 
 #Show post details
 
-GET http://localhost:6000/api/posts/566160ae-ffa7-4792-a763-51c7e5be5176 HTTP/1.1
+GET http://localhost:6000/api/posts/751e27e3-22ba-4a09-afba-945ada7057d2 HTTP/1.1
 
 ###
 
 #Update post data
 
-PATCH http://localhost:6000/api/posts/566160ae-ffa7-4792-a763-51c7e5be5176 HTTP/1.1
+PATCH http://localhost:6000/api/posts/751e27e3-22ba-4a09-afba-945ada7057d2 HTTP/1.1
 Content-Type: application/json
 
 {
-  "creator": "Jane Ostin"
+  "photo": "Jane Ostin"
 }
 
 ###
@@ -37,6 +38,6 @@ DELETE http://localhost:6000/api/posts/dfae4f94-8d19-4572-a105-f62740c44bd1 HTTP
 
 #Repost post
 
-POST http://localhost:6000/api/posts/repost/70a178c9-e6ef-4b7b-9f6f-c0f4c611d538 HTTP/1.1
+POST http://localhost:6000/api/posts/repost/1f8eb4c9-e011-4a45-ae67-30d17c87898f HTTP/1.1
 
 ###

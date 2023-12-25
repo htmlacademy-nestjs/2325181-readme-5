@@ -14,10 +14,9 @@ export class PostService {
   ) {}
 
   public async createNewPost(dto: CreateContentPostDtoType): Promise<PostContentEntity> {
-    const {type, tags, ...content} = dto;
-    const newPostDraft = new PostEntityAdapter[type]({
+    const {type, ...content} = dto;
+    const newPostDraft = await new PostEntityAdapter[type]({
       type,
-      tags,
       ...content,
       isPublished: false,
       isRepost: false,
@@ -25,7 +24,6 @@ export class PostService {
       originPostId: '',
       originAuthorId: ''
     });
-
     return this.postRepository.save(newPostDraft);
 
   }

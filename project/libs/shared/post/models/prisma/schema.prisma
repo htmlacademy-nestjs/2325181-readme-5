@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../../../../../node_modules/@prisma/client"
+  output = "../../../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -26,7 +26,6 @@ model Post {
   isRepost        Boolean   @default(false) @map("is_repost")
   tags            String[]
   authorId        String    @map("author_id")
-  contentId       String    @map("content_id")
   originPostId    String    @default("") @map("origin_post_id")
   originAuthorId  String    @default("") @map("origin_author_id")
   publishedAt     DateTime? @updatedAt @map("published_at")
@@ -46,10 +45,10 @@ model Post {
 }
 
 model Comment {
-  id     String @id @default(uuid())
+  id     String  @id @default(uuid())
   text   String
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  postId String @map("post_id")
+  post   Post    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId String  @map("post_id")
 
   @@index([postId])
   @@map("comments")

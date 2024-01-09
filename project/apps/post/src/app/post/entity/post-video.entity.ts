@@ -1,18 +1,19 @@
 import { VideoPost } from '@project/libs/shared/app/types';
 import { UpdatePostDto } from '../dto/update-post.dto';
-import { Entity } from '@project/libs/shared/core';
+import { BasePostEntity } from './base-post.entity';
 
-export class PostVideoEntity implements VideoPost, Entity<string> {
+export class PostVideoEntity extends BasePostEntity implements VideoPost {
   public id?: string;
   public videoURL?: string;
 
   constructor (post: VideoPost) {
+    super(post);
     this.populate(post);
   }
 
   public toPOJO () {
     return {
-      id: this.id,
+      ...super.toPOJO(),
       videoURL: this.videoURL
     };
   }

@@ -1,8 +1,8 @@
 import { TextPost } from '@project/libs/shared/app/types';
 import { UpdatePostDto } from '../dto/update-post.dto';
-import { Entity } from '@project/libs/shared/core';
+import { BasePostEntity } from './base-post.entity';
 
-export class PostTextEntity implements TextPost, Entity<string> {
+export class PostTextEntity extends BasePostEntity implements TextPost {
   public id?: string;
   public announce?: string;
   public title?: string;
@@ -10,12 +10,13 @@ export class PostTextEntity implements TextPost, Entity<string> {
 
 
   constructor (post: TextPost) {
+    super(post);
     this.populate(post);
   }
 
   public toPOJO () {
     return {
-      id: this.id,
+      ...super.toPOJO(),
       announce: this.announce,
       title: this.title,
       text: this.text

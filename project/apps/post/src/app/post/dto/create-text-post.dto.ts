@@ -1,17 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMaxSize, IsArray, IsString, Length} from 'class-validator';
+import { IsString, Length} from 'class-validator';
 import { PostValidationMessage, PostValidationParams } from '../post.constant';
+import { CreateBasePostDto } from './create-base-post.dto';
 
-export class CreateTextPostDto {
-  @ApiProperty({
-    description: 'Post tags, comma separated',
-    example: 'travel, Paris, cat'
-  })
-  @IsArray({message: PostValidationMessage.Tags.InvalidFormat})
-  @IsString({each: true, message: PostValidationMessage.Tags.InvalidFormat})
-  @ArrayMaxSize(PostValidationParams.Tags.MaximumCount, {message: PostValidationMessage.Tags.MaxSize})
-  public tags: string[];
-
+export class CreateTextPostDto extends CreateBasePostDto{
   @ApiProperty({
     description: 'In case of text type, the announce text',
     example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis egestas tortor sit amet iaculis.'
@@ -22,7 +14,7 @@ export class CreateTextPostDto {
     PostValidationParams.Announce.Length.Maximum,
     {message: PostValidationMessage.Announce.InvalidLength}
   )
-  public announce?: string;
+  public announce: string;
 
   @ApiProperty({
     description: 'In case of text type, the post text',
@@ -34,7 +26,7 @@ export class CreateTextPostDto {
     PostValidationParams.Text.Length.Maximum,
     {message: PostValidationMessage.Text.InvalidLength}
   )
-  public text?: string
+  public text: string
 
   @ApiProperty({
     description: 'In case of text or video type, the post title',
@@ -46,5 +38,5 @@ export class CreateTextPostDto {
     PostValidationParams.Title.Length.Maximum,
     {message: PostValidationMessage.Title.InvalidLength}
   )
-  public title?: string;
+  public title: string;
 }

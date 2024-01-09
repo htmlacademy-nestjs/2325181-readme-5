@@ -1,21 +1,22 @@
 import { LinkPost } from '@project/libs/shared/app/types';
 import { UpdatePostDto } from '../dto/update-post.dto';
-import { Entity } from '@project/libs/shared/core';
+import { BasePostEntity } from './base-post.entity';
 
-export class PostLinkEntity implements LinkPost, Entity<string> {
+export class PostLinkEntity extends BasePostEntity implements LinkPost {
   public id?: string;
   public linkURL?: string;
   public linkDescription?: string;
 
   constructor (post: LinkPost) {
+    super(post);
     this.populate(post);
   }
 
   public toPOJO () {
     return {
-      id: this.id,
-      linkURL: this.linkURL,
+      ...super.toPOJO(),
       linkDescription: this.linkDescription,
+      linkURL: this.linkURL
     };
   }
 

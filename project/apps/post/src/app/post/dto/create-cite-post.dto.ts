@@ -1,17 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMaxSize, IsArray, IsString, Length } from 'class-validator';
+import { IsString, Length } from 'class-validator';
 import { PostValidationMessage, PostValidationParams } from '../post.constant';
+import { CreateBasePostDto } from './create-base-post.dto';
 
-export class CreateCitePostDto {
-  @ApiProperty({
-    description: 'Post tags, comma separated',
-    example: 'travel, Paris, cat'
-  })
-  @IsArray({message: PostValidationMessage.Tags.InvalidFormat})
-  @IsString({each: true, message: PostValidationMessage.Tags.InvalidFormat})
-  @ArrayMaxSize(PostValidationParams.Tags.MaximumCount, {message: PostValidationMessage.Tags.MaxSize})
-  public tags: string[];
-
+export class CreateCitePostDto extends CreateBasePostDto {
   @ApiProperty({
     description: 'In case of cite type, the cite creator',
     example: 'William Shakespeare'
@@ -22,7 +14,7 @@ export class CreateCitePostDto {
     PostValidationParams.Creator.Length.Maximum,
     {message: PostValidationMessage.Creator.InvalidLength}
   )
-  public creator?: string;
+  public creator: string;
 
   @ApiProperty({
     description: 'In case of cite type, the cite text',
@@ -34,6 +26,6 @@ export class CreateCitePostDto {
     PostValidationParams.CiteText.Length.Maximum,
     {message: PostValidationMessage.Creator.InvalidLength}
   )
-  public citeText?: string
+  public citeText: string
 
 }

@@ -20,4 +20,8 @@ export class UserService {
     const updatedUser = new UserEntity({...existUser, likesList: updatedLikesList})
     this.userRepository.update(postId, updatedUser);
   }
+
+  public async countLikes (postId: string): Promise<number> {
+    return (await this.userRepository.index()).filter((user) => user.likesList.includes(postId)).length;
+  }
 }

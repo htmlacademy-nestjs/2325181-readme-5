@@ -1,23 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMaxSize, IsArray, IsString, IsUrl, MaxLength} from 'class-validator';
+import { IsString, IsUrl, MaxLength} from 'class-validator';
 import { PostValidationMessage, PostValidationParams } from '../post.constant';
+import { CreateBasePostDto } from './create-base-post.dto';
 
-export class CreateLinkPostDto {
-  @ApiProperty({
-    description: 'Post tags, comma separated',
-    example: 'travel, Paris, cat'
-  })
-  @IsArray({message: PostValidationMessage.Tags.InvalidFormat})
-  @IsString({each: true, message: PostValidationMessage.Tags.InvalidFormat})
-  @ArrayMaxSize(PostValidationParams.Tags.MaximumCount, {message: PostValidationMessage.Tags.MaxSize})
-  public tags: string[];
-
+export class CreateLinkPostDto extends CreateBasePostDto {
   @ApiProperty({
     description: 'In case of link type, the link URL',
     example: '/blog.com/file/post1.html'
   })
   @IsUrl({},{message: PostValidationMessage.LinkURL.InvalidFormat})
-  public linkURL?: string;
+  public linkURL: string;
 
   @ApiProperty({
     description: 'In case of link type, the link description',
@@ -28,5 +20,5 @@ export class CreateLinkPostDto {
     PostValidationParams.LinkDescription.MaximumLength,
     {message: PostValidationMessage.LinkDescription.InvalidLength}
   )
-  public linkDescription?: string
+  public linkDescription: string
 }

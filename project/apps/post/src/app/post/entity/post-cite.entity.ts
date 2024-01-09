@@ -1,21 +1,22 @@
 import { CitePost } from '@project/libs/shared/app/types';
 import { UpdatePostDto } from '../dto/update-post.dto';
-import { Entity } from '@project/libs/shared/core';
+import { BasePostEntity } from './base-post.entity';
 
-export class PostCiteEntity implements CitePost, Entity<string> {
+export class PostCiteEntity extends BasePostEntity implements CitePost {
   public id?: string;
   public creator?: string;
   public citeText?: string;
 
   constructor (post: CitePost) {
+    super(post);
     this.populate(post);
   }
 
   public toPOJO () {
     return {
-      id: this.id,
+      ...super.toPOJO(),
       creator: this.creator,
-      citeText: this.citeText,
+      citeText: this.citeText
     };
   }
 

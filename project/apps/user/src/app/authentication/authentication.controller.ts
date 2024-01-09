@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, HttpStatus, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { AuthenticationService } from './authentication.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -21,7 +21,7 @@ export class AuthenticationController {
   @Post('signin')
   public async create(@Body() dto: CreateUserDto): Promise<UserRdo> {
     const newUser = await this.authService.registerNewUser(dto);
-    return fillDTO(UserRdo, newUser);
+    return fillDTO(UserRdo, newUser.toPOJO());
   }
 
   @ApiResponse({
@@ -35,8 +35,8 @@ export class AuthenticationController {
   })
   @Post('login')
   public async login(@Body() dto: LoginUserDto): Promise<LoggedUserRdo> {
-    const verifiedUser = (await this.authService.verifyUser(dto)).toPOJO();
-    return fillDTO(LoggedUserRdo, verifiedUser);
+    const verifiedUser = (await this.authService.verifyUser(dto));
+    return fillDTO(LoggedUserRdo, verifiedUser.toPOJO());
   }
 
   @ApiResponse({

@@ -37,7 +37,7 @@ export class CommentController {
     description: 'The comments list has been provided.'
   })
   @Get(':postId')
-  public async index(@Param('postId') postId: string): Promise<CommentRdo[]> {
+  public async index(@Param('postId') postId: string): Promise<CommentRdo> {
     const commentList = await this.commentService.listCommentByPostId(postId);
     return fillDTO(CommentRdo, commentList.map((comment: CommentEntity) => comment.toPOJO()))
   }

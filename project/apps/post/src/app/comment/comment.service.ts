@@ -16,8 +16,8 @@ export class CommentService {
       text,
       postId
     }
-    const newComment = await new CommentEntity(commentDraft);
-    return this.commentRepository.save(newComment);
+    const newComment = new CommentEntity(commentDraft);
+    return await this.commentRepository.save(newComment);
   }
 
   public async deleteComment(commentId: string): Promise<void> {
@@ -29,11 +29,10 @@ export class CommentService {
   }
 
   public async listCommentByPostId(postId: string): Promise<CommentEntity[]> {
-    const commentsList = await this.commentRepository.findManyByPostId(postId);
-    return commentsList;
+    return await this.commentRepository.findManyByPostId(postId);
   }
 
   public async deleteCommentsByPostId(postId: string): Promise<void> {
-    return this.commentRepository.deleteManyByPostId(postId);
+    this.commentRepository.deleteManyByPostId(postId);
   }
 }

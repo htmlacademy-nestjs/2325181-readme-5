@@ -1,7 +1,6 @@
 import { PostTypeValues } from './post-type.type';
-import { Entity, EntityIdType} from '@project/libs/shared/core'
 
-export interface BasePost extends Entity<EntityIdType> {
+export interface BasePost {
   id?: string;
   type: PostTypeValues;
   tags: string[];

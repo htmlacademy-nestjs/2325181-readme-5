@@ -3,7 +3,7 @@ import { Entity } from '@project/libs/shared/core';
 import { genSalt, hash, compare } from 'bcrypt';
 import { SALT_ROUNDS } from './user.constant';
 
-export class UserEntity implements AuthUser, Entity<string> {
+export class UserEntity implements AuthUser, Entity<string, AuthUser> {
   public id?: string;
   public email: string;
   public firstname: string;
@@ -15,7 +15,7 @@ export class UserEntity implements AuthUser, Entity<string> {
     this.populate(user);
   }
 
-  public toPOJO () {
+  public toPOJO (): AuthUser {
     return {
       id: this.id,
       email: this.email,

@@ -1,7 +1,8 @@
 import { BasePost, PostTypeValues } from '@project/libs/shared/app/types';
 import { UpdatePostDto } from '../dto/update-post.dto';
+import { Entity } from '@project/libs/shared/core';
 
-export class BasePostEntity implements BasePost {
+export class BasePostEntity implements BasePost, Entity<string, BasePost> {
   public id?: string;
   public type: PostTypeValues;
   public isPublished: boolean;
@@ -21,7 +22,7 @@ export class BasePostEntity implements BasePost {
     this.originPostId = data.originPostId;
   }
 
-  public toPOJO () {
+  public toPOJO (): BasePost {
     return {
       id: this.id,
       type: this.type,
@@ -48,5 +49,9 @@ export class BasePostEntity implements BasePost {
     for (let key in data) {
       this[key] = data[key];
     }
+  }
+
+  static fromObject(data: BasePost): BasePostEntity {
+    return new BasePostEntity(data);
   }
 }

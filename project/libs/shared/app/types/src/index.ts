@@ -11,3 +11,6 @@ export * from './lib/post/post-with-title.interface';
 export * from './lib/post/post-type.type';
 export * from './lib/post/post-content.type';
 export * from './lib/post/base-post.interface';
+export * from './lib/request-with-token.interface';
+export * from './lib/token-payload.interface';
+

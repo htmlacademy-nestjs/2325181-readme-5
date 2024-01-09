@@ -14,7 +14,7 @@ datasource db {
 enum PostType {
   video
   text
-  quote
+  cite
   photo
   link
 }

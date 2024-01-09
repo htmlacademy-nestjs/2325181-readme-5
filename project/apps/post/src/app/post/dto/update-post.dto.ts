@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { PostType} from '@project/libs/shared/app/types';
+import { PostType, PostTypeValues} from '@project/libs/shared/app/types';
 import { ArrayMaxSize, IsArray, IsEnum, IsOptional, IsString, IsUrl, Length, Matches, MaxLength, IsBoolean} from 'class-validator';
 import { PostValidationMessage, PostValidationParams } from '../post.constant';
 
@@ -10,7 +10,7 @@ export class UpdatePostDto {
   })
   @IsOptional()
   @IsEnum(Object.values(PostType), {message: PostValidationMessage.Type.InvalidFormat})
-  public type?: string;
+  public type?: PostTypeValues;
 
   @ApiProperty({
     description: 'Post tags, comma separated',

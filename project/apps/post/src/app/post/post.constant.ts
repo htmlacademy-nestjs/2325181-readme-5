@@ -3,7 +3,12 @@ export const PostValidationParams = {
     RegexURL: RegExp(/(.png$|.jpg$|.jpeg$)/i)
   },
   Tags: {
-    MaximumCount: 8
+    MaximumCount: 8,
+    Length: {
+      Minimum: 3,
+      Maximum: 10
+    },
+    RegExp: RegExp(/^\D\S*$/i)
   },
   Creator: {
     Length: {
@@ -41,6 +46,9 @@ export const PostValidationParams = {
 } as const;
 
 export const PostValidationMessage = {
+  AuthorId: {
+    InvalidFormat: 'Author id should have a string format',
+  },
   Creator: {
     InvalidFormat: 'Cite creator should have a string format',
     InvalidLength: 'Cite creator should have a minimum length of 3 letters, maximum length of 50 letters'
@@ -69,7 +77,8 @@ export const PostValidationMessage = {
     InvalidFormat: 'Post type should have one of the following values: video, photo, cite, link, text'
   },
   Tags: {
-    InvalidFormat: 'Post tags should be the array of string values',
+    InvalidFormat: 'Post tags should be the array of string values. Each tag should start with letter, no whitespaces allowed',
+    InvalidLength: 'Each tag should take at least 3 and maximum 10 signs',
     MaxSize: 'There should be not more than 8 tags in the list'
   },
   Photo: {

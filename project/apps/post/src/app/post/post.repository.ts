@@ -1,10 +1,12 @@
 import { PostContentEntity } from './entity/post-content.entity';
-import { PostContent,} from '@project/libs/shared/app/types';
+import { PostContent} from '@project/libs/shared/app/types';
 import { POST_LIST_REUQEST_COUNT, POST_SEARCH_BY_TITLE_LIMIT } from './post.constant';
 import { BasePostgresRepository } from '@project/libs/shared/core';
 import { PrismaClientService } from '@project/libs/shared/post/models';
 import { PostEntityFactory } from './post-entity.factory';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable} from '@nestjs/common';
+import { postFilterToPrismaFilter } from './filter/post.filter';
+import { FilterQuery } from './query/filter.query';
 
 @Injectable()
 export class PostRepository extends BasePostgresRepository<PostContentEntity, PostContent> {
@@ -43,29 +45,37 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
     })
   }
 
-  public async findMany(): Promise<PostContent[]> {
-    return this.client.post.findMany({
+  public async findMany(filter?: FilterQuery): Promise<PostContentEntity[]> {
+    const where = {isPublished: true, ...filter ?? postFilterToPrismaFilter(filter)};
+    const postList = await this.client.post.findMany({
+      where,
+
       take: POST_LIST_REUQEST_COUNT
     });
+    return postList.map((post) => this.createEntityFromDocument(post));
   }
 
-  public async searchByTitle(postTitle: string): Promise<PostContent[]> {
-    return this.client.post.findMany({
+  public async searchByTitle(postTitle: string): Promise<PostContentEntity[]> {
+    const postList = await this.client.post.findMany({
       where: {
+        isPublished: true,
         title: {
           contains: postTitle
         }
       },
       take: POST_SEARCH_BY_TITLE_LIMIT
     })
+
+    return postList.map((post) => this.createEntityFromDocument(post));
   }
 
-  public async indexDrafts(authorId: string): Promise<PostContent[]>  {
-    return this.client.post.findMany({
+  public async indexDrafts(authorId: string): Promise<PostContentEntity[]>  {
+    const postList = await this.client.post.findMany({
       where: {
         isPublished: false,
         authorId
       }
     })
+    return postList.map((post) => this.createEntityFromDocument(post));
   }
 }

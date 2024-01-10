@@ -4,7 +4,9 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { POST_NOT_FOUND } from './post.constant';
 import { PostEntityAdapter} from './post-entity.factory';
 import { CreateContentPostDtoType } from './dto';
-import { PostContent} from '@project/libs/shared/app/types'
+import { PostContentEntity } from './entity/post-content.entity';
+import { FilterQuery } from './query/filter.query';
+
 
 
 @Injectable()
@@ -13,10 +15,12 @@ export class PostService {
     private readonly postRepository: PostRepository,
   ) {}
 
-  public async createNewPost(dto: CreateContentPostDtoType): Promise<PostContent> {
-    const {type, ...content} = dto;
+  public async createNewPost(dto: CreateContentPostDtoType): Promise<PostContentEntity> {
+    const {type, tags, ...content} = dto;
+    const tagsLowerUnique = Array.from(new Set(tags.map((tag) => tag.toLowerCase())));
     const newPostDraft = new PostEntityAdapter[type]({
       type,
+      tags: tagsLowerUnique,
       ...content,
       isPublished: false,
       isRepost: false,
@@ -28,7 +32,7 @@ export class PostService {
 
   }
 
-  public async getPostEntity(postId: string): Promise<PostContent> {
+  public async getPostEntity(postId: string): Promise<PostContentEntity> {
     const existPost = await this.postRepository.findById(postId);
     if (!existPost) {
       throw new NotFoundException(POST_NOT_FOUND);
@@ -36,7 +40,7 @@ export class PostService {
     return existPost;
   }
 
-  public async updatePostEntity(postId: string, dto: UpdatePostDto): Promise<PostContent> {
+  public async updatePostEntity(postId: string, dto: UpdatePostDto): Promise<PostContentEntity> {
     const existPost = await this.postRepository.findById(postId);
     if (!existPost) {
       throw new NotFoundException(POST_NOT_FOUND);
@@ -57,11 +61,11 @@ export class PostService {
     this.postRepository.deleteById(postId);
   }
 
-  public async indexPosts(): Promise<PostContent[]> {
-    return this.postRepository.findMany();
+  public async indexPosts(filter?: FilterQuery): Promise<PostContentEntity[]> {
+     return this.postRepository.findMany(filter);
   }
 
-  public async repostPost(postId: string): Promise<PostContent> {
+  public async repostPost(postId: string): Promise<PostContentEntity> {
     const {id: originPostId, authorId: originAuthorId, ...originPost} = await this.postRepository.findById(postId);
     const repostedPost = new PostEntityAdapter[originPost.type]({
       ...originPost,
@@ -73,11 +77,11 @@ export class PostService {
     return this.postRepository.save(repostedPost);
   }
 
-  public async searchPostsByTitle(postTitle: string): Promise<PostContent[]> {
+  public async searchPostsByTitle(postTitle: string): Promise<PostContentEntity[]> {
     return this.postRepository.searchByTitle(postTitle);
   }
 
-  public async indexUserDrafts (userId: string): Promise<PostContent[]> {
+  public async indexUserDrafts (userId: string): Promise<PostContentEntity[]> {
     return this.postRepository.indexDrafts(userId);
   }
 }

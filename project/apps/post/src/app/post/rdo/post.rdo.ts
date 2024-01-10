@@ -1,5 +1,6 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { PostType, PostTypeValues } from '@project/libs/shared/app/types';
 
 export class PostRdo {
   @Expose()
@@ -17,6 +18,7 @@ export class PostRdo {
   public type: string;
 
   @Expose()
+  @Type(() => Boolean)
   @ApiProperty({
     description: 'Publishing status',
     example: 'true'
@@ -24,6 +26,7 @@ export class PostRdo {
   public isPublished: boolean;
 
   @Expose()
+  @Type(() => Boolean)
   @ApiProperty({
     description: 'Repost status',
     example: 'false'

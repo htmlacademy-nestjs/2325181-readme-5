@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, Length } from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID, Length } from 'class-validator';
 import { CommentValidationMessage, CommentValidationParams } from '../comment.constant';
 
 { ApiProperty}
@@ -9,6 +9,7 @@ export class CreateCommentDto {
     description: 'Comment text',
     example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis egestas tortor sit amet iaculis.'
   })
+  @IsNotEmpty()
   @IsString({message: CommentValidationMessage.Text.InvalidFormat})
   @Length(
     CommentValidationParams.Text.Length.Minimal,
@@ -21,5 +22,7 @@ export class CreateCommentDto {
     description:'Referred post unique ID',
     example: '1234-5678-9012-3456'
   })
+  @IsNotEmpty()
+  @IsUUID('all', {message: CommentValidationMessage.PostId.InvalidFormat})
   public postId: string
 }

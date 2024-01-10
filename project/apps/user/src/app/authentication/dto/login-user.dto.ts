@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, Length } from 'class-validator';
+import { IsEmail, IsString, Length } from 'class-validator';
 import { UserValidationMessage, UserValidationParams } from '../authentication.constant';
 
 export class LoginUserDto {
@@ -20,5 +20,6 @@ export class LoginUserDto {
     UserValidationParams.Password.Length.Maximal,
     {message: UserValidationMessage.Password.InvalidLength}
   )
+  @IsString({message: UserValidationMessage.Password.InvalidPassword})
   public password: string;
 }

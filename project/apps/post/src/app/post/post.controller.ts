@@ -1,5 +1,5 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Post, Body, Get, Param, HttpStatus, Delete, Patch, Controller, ParseUUIDPipe, Query, Req } from '@nestjs/common';
+import { Post, Body, Get, Param, HttpStatus, Delete, Patch, Controller, Query, Req } from '@nestjs/common';
 import { fillDTO} from '@project/libs/shared/helpers';
 import { PostService } from './post.service';
 import { CreateContentPostDtoType } from './dto';
@@ -24,7 +24,7 @@ export class PostController {
   @Post('/')
   public async create(@Body() dto: CreateContentPostDtoType): Promise<PostRdo> {
     const newPost = await this.postService.createNewPost(dto);
-    return fillDTO((PostRdo), newPost);
+    return fillDTO(PostRdo, newPost);
   }
 
   @ApiResponse({
@@ -34,7 +34,7 @@ export class PostController {
   @Get(':postId')
   public async show(@Param('postId') postId: string): Promise<PostRdo> {
     const existPost = await this.postService.getPostEntity(postId);
-    return fillDTO((PostRdo), existPost);
+    return fillDTO(PostRdo, existPost);
   }
 
   @ApiResponse({

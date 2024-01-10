@@ -89,3 +89,5 @@ export const PostValidationMessage = {
 export const POST_NOT_FOUND = 'The post has not been found';
 
 export const POST_SEARCH_BY_TITLE_LIMIT = 20;
+
+export const POST_LIST_REUQEST_COUNT = 25;

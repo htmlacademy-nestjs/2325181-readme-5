@@ -26,7 +26,7 @@ export class CommentRepository extends BasePostgresRepository<CommentEntity, Com
         id
       },
     });
-    if (!document) {
+    if (!existComment) {
       throw new NotFoundException(`Comment with id ${id} not found.`);
     }
     return this.createEntityFromDocument(existComment);

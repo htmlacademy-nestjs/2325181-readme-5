@@ -1,10 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PostRepository } from './repository/post.repository';
+import { PostRepository } from './post.repository';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { POST_NOT_FOUND } from './post.constant';
 import { PostEntityAdapter} from './post-entity.factory';
 import { CreateContentPostDtoType } from './dto';
-import { PostContentEntity } from './entity/post-content.entity';
 import { PostContent} from '@project/libs/shared/app/types'
 
 
@@ -16,7 +15,7 @@ export class PostService {
 
   public async createNewPost(dto: CreateContentPostDtoType): Promise<PostContent> {
     const {type, ...content} = dto;
-    const newPostDraft = await new PostEntityAdapter[type]({
+    const newPostDraft = new PostEntityAdapter[type]({
       type,
       ...content,
       isPublished: false,
@@ -25,7 +24,7 @@ export class PostService {
       originPostId: '',
       originAuthorId: ''
     });
-    return this.postRepository.create(newPostDraft);
+    return await this.postRepository.save(newPostDraft);
 
   }
 
@@ -34,7 +33,7 @@ export class PostService {
     if (!existPost) {
       throw new NotFoundException(POST_NOT_FOUND);
     }
-    return await this.postRepository.findById(postId);
+    return existPost;
   }
 
   public async updatePostEntity(postId: string, dto: UpdatePostDto): Promise<PostContent> {
@@ -42,8 +41,12 @@ export class PostService {
     if (!existPost) {
       throw new NotFoundException(POST_NOT_FOUND);
     }
-    await this.postRepository.updateById(postId, dto);
-    return await this.postRepository.findById(postId);
+    const updateEntity = new PostEntityAdapter[existPost.type]({
+      ...existPost,
+      ...dto,
+       id: postId
+      });
+    return await this.postRepository.updateById(updateEntity);
   }
 
   public async deletePostEntity(postId: string): Promise<void> {
@@ -67,7 +70,7 @@ export class PostService {
       originPostId,
       originAuthorId
     });
-    return this.postRepository.create(repostedPost);
+    return this.postRepository.save(repostedPost);
   }
 
   public async searchPostsByTitle(postTitle: string): Promise<PostContent[]> {

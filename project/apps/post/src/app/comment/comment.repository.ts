@@ -3,6 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CommentEntity } from './comment.entity';
 import { Comment} from '@project/libs/shared/app/types'
 import { PrismaClientService } from '@project/libs/shared/post/models';
+import { COMMENT_LIST_REUQEST_COUNT } from './comment.constant';
 
 @Injectable()
 export class CommentRepository extends BasePostgresRepository<CommentEntity, Comment> {
@@ -44,7 +45,8 @@ export class CommentRepository extends BasePostgresRepository<CommentEntity, Com
     const foundComments = await this.client.comment.findMany({
       where: {
         postId,
-      }
+      },
+      take: COMMENT_LIST_REUQEST_COUNT
     });
     return foundComments.map((comment) => this.createEntityFromDocument(comment));
   }

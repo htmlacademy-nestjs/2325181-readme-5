@@ -15,3 +15,5 @@ export const CommentValidationMessage = {
 } as const;
 
 export const COMMENT_NOT_FOUND = 'The comment doesn\'t exist';
+
+export const COMMENT_LIST_REUQEST_COUNT = 50;

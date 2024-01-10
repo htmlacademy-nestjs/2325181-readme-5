@@ -22,7 +22,7 @@ export class BasePostEntity implements BasePost, Entity<string, BasePost> {
     this.originPostId = data.originPostId;
   }
 
-  public toPOJO (): BasePost {
+  public toPOJO () {
     return {
       id: this.id,
       type: this.type,

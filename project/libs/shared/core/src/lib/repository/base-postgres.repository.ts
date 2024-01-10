@@ -1,7 +1,6 @@
-import { DefaultPojoType, Entity, EntityIdType } from './entity.interface';
+import { DefaultPojoType, Entity, EntityIdType } from '@project/libs/shared/core';
 import { Repository } from './repository.interface';
 import { PrismaClientService } from '@project/libs/shared/post/models'
-import { PostTypeValues} from '@project/libs/shared/app/types'
 
 export class BasePostgresRepository<
   EntityType extends Entity<EntityIdType, DocumentType>,

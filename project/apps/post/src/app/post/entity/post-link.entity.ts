@@ -13,7 +13,7 @@ export class PostLinkEntity extends BasePostEntity implements LinkPost, Entity<s
     this.populate(post);
   }
 
-  public toPOJO (): LinkPost {
+  public toPOJO () {
     return {
       ...super.toPOJO(),
       linkDescription: this.linkDescription,

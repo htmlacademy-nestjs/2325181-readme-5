@@ -4,9 +4,10 @@ import { Injectable } from '@nestjs/common';
 import { BaseMongoRepository } from '@project/libs/shared/core';
 import { UserModel } from './user.model';
 import { UserEntity } from './user.entity';
+import { AuthUser } from '@project/libs/shared/app/types';
 
 @Injectable()
-export class UserRepository extends BaseMongoRepository<UserEntity, UserModel> {
+export class UserRepository extends BaseMongoRepository<UserEntity, AuthUser> {
   constructor(
     @InjectModel(UserModel.name) userModel: Model<UserModel>
   ) {

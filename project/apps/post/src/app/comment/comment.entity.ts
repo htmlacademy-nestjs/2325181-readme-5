@@ -11,7 +11,7 @@ export class CommentEntity implements Comment, Entity<string, Comment> {
     this.populate(comment);
   }
 
-  public toPOJO ():Comment {
+  public toPOJO () {
     return {
       id: this.id,
       text: this.text,

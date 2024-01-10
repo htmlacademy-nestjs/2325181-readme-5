@@ -13,7 +13,7 @@ export class PostCiteEntity extends BasePostEntity implements CitePost, Entity<s
     this.populate(post);
   }
 
-  public toPOJO (): CitePost {
+  public toPOJO () {
     return {
       ...super.toPOJO(),
       creator: this.creator,

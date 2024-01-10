@@ -15,14 +15,14 @@ export class UserEntity implements AuthUser, Entity<string, AuthUser> {
     this.populate(user);
   }
 
-  public toPOJO (): AuthUser {
+  public toPOJO () {
     return {
       id: this.id,
       email: this.email,
       firstname: this.firstname,
       lastname: this.lastname,
       passwordHash: this.passwordHash,
-      likesList: this.likesList
+      likesList: this.likesList,
     };
   }
 

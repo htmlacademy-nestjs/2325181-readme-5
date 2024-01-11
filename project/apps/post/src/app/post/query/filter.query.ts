@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsEnum, Length, Matches, IsMongoId } from 'class-validator';
-import { PostValidationMessage, PostValidationParams } from '../post.constant';
-import { PostTypeValues, PostType, PostFilter } from '@project/libs/shared/app/types';
+import { Transform } from 'class-transformer';
+import { IsOptional, Length, Matches, IsMongoId, IsIn } from 'class-validator';
+import { PostValidationMessage, PostValidationParams, DEFAULT_PAGE_NUMBER, DEFAULT_SORT_BY_FIELD } from '../post.constant';
+import { PostTypeValues, PostType, PostFilter, SortByQuery } from '@project/libs/shared/app/types';
 
 export class FilterQuery implements PostFilter {
   @ApiProperty({
@@ -17,7 +18,7 @@ export class FilterQuery implements PostFilter {
     example: 'video'
   })
   @IsOptional()
-  @IsEnum(Object.values(PostType), {message: PostValidationMessage.Type.InvalidFormat})
+  @IsIn(Object.values(PostType), {message: PostValidationMessage.Type.InvalidFormat})
   public type?: PostTypeValues;
 
   @ApiProperty({
@@ -32,5 +33,20 @@ export class FilterQuery implements PostFilter {
   )
   @Matches(PostValidationParams.Tags.RegExp, {message: PostValidationMessage.Tags.InvalidFormat})
   public tag?: string;
+
+  @ApiProperty({
+    description: 'Page number',
+    example: '2',
+  })
+  @IsOptional()
+  @Transform(({value}) => +value || DEFAULT_PAGE_NUMBER)
+  public page?: number = DEFAULT_PAGE_NUMBER;
+
+  @ApiProperty({
+    description: 'SortBy field',
+    example: 'comments'
+  })
+  @IsOptional()
+  public sortBy?: SortByQuery = DEFAULT_SORT_BY_FIELD;
 }
 

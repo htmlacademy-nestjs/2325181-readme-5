@@ -7,6 +7,7 @@ import { CreateContentPostDtoType } from './dto';
 import { PostContentEntity } from './entity/post-content.entity';
 import { FilterQuery } from './query/filter.query';
 import { transformTags } from '@project/libs/shared/helpers';
+import { PaginationResult } from '@project/libs/shared/app/types';
 
 
 
@@ -63,7 +64,7 @@ export class PostService {
     this.postRepository.deleteById(postId);
   }
 
-  public async indexPosts(filter?: FilterQuery): Promise<PostContentEntity[]> {
+  public async indexPosts(filter?: FilterQuery): Promise<PaginationResult<PostContentEntity>> {
      return this.postRepository.findMany(filter);
   }
 

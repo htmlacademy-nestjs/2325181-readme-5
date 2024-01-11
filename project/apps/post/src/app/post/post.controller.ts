@@ -7,8 +7,9 @@ import { PostRdo } from './rdo/post.rdo';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { SearchQuery } from './query/search.query';
 import { PostContent } from '@project/libs/shared/app/types';
-import { RequestWithToken } from '@project/libs/shared/app/types';
+import { RequestWithToken, PaginationResult } from '@project/libs/shared/app/types';
 import { FilterQuery } from './query/filter.query';
+import { PostWithPaginationRdo } from './rdo/post-with-pagination.rdo';
 
 
 @ApiTags('posts')
@@ -72,9 +73,13 @@ export class PostController {
     description: 'The following posts have been found.'
   })
   @Get('/')
-  public async index(@Query() filter: FilterQuery): Promise<PostRdo> {
-    const postList = await this.postService.indexPosts(filter);
-    return fillDTO<PostRdo, PostContent[]>(PostRdo, postList.map((post) => post.toPOJO()));
+  public async index(@Query() filter: FilterQuery): Promise<PostWithPaginationRdo> {
+    const postsWithPagination = await this.postService.indexPosts(filter);
+    const result = {
+      ...postsWithPagination,
+      entities: postsWithPagination.entities.map((post) => post.toPOJO())
+    }
+    return fillDTO<PostWithPaginationRdo, PaginationResult<PostContent>>(PostWithPaginationRdo, result);
   }
 
   @ApiResponse({

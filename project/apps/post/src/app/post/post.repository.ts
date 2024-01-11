@@ -1,12 +1,13 @@
 import { PostContentEntity } from './entity/post-content.entity';
 import { PostContent} from '@project/libs/shared/app/types';
+import { Prisma } from '@prisma/client';
 import { POST_LIST_REUQEST_COUNT, POST_SEARCH_BY_TITLE_LIMIT } from './post.constant';
 import { BasePostgresRepository } from '@project/libs/shared/core';
 import { PrismaClientService } from '@project/libs/shared/post/models';
 import { PostEntityFactory } from './post-entity.factory';
 import { Injectable} from '@nestjs/common';
-import { postFilterToPrismaFilter } from './filter/post.filter';
 import { FilterQuery } from './query/filter.query';
+import { PaginationResult } from '@project/libs/shared/app/types';
 
 @Injectable()
 export class PostRepository extends BasePostgresRepository<PostContentEntity, PostContent> {
@@ -63,17 +64,36 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
     })
   }
 
-  public async findMany(filter?: FilterQuery): Promise<PostContentEntity[]> {
-    const where = {isPublished: true, ...filter ?? postFilterToPrismaFilter(filter)};
-    const postList = await this.client.post.findMany({
-      where,
+  public async findMany({authorId, type, tag, page, sortBy}: FilterQuery): Promise<PaginationResult<PostContentEntity>> {
+    const hasTag = tag ? {has: tag} : undefined;
+    const where = {
+      isPublished: true,
+      authorId,
+      type,
+      tags: hasTag
+    };
+    const skip = (page - 1) * POST_LIST_REUQEST_COUNT;
+    const orderBy: Prisma.PostOrderByWithRelationInput = {[sortBy]: 'desc'};
+    const [postList, totalPosts] = await Promise.all([
+      this.client.post.findMany({
+        where,
+        take: POST_LIST_REUQEST_COUNT,
+        skip,
+        include: {
+          comments: true
+        },
+        orderBy
+      }),
+      this.getPostCount(where),
+    ]);
 
-      take: POST_LIST_REUQEST_COUNT,
-      include: {
-        comments: true
-      }
-    });
-    return postList.map((post) => this.createEntityFromDocument(post));
+    return {
+      entities: postList.map((post) => this.createEntityFromDocument(post)),
+      currentPage: page,
+      totalPages: Math.ceil(totalPosts / POST_LIST_REUQEST_COUNT),
+      itemsPerPage: POST_LIST_REUQEST_COUNT,
+      totalItems: totalPosts
+    }
   }
 
   public async searchByTitle(postTitle: string): Promise<PostContentEntity[]> {
@@ -104,5 +124,9 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
       }
     })
     return postList.map((post) => this.createEntityFromDocument(post));
+  }
+
+  private async getPostCount (where: Prisma.PostWhereInput): Promise<number> {
+    return this.client.post.count({where});
   }
 }

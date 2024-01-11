@@ -1,6 +1,5 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { PostType, PostTypeValues } from '@project/libs/shared/app/types';
 
 export class PostRdo {
   @Expose()
@@ -124,6 +123,14 @@ export class PostRdo {
     example: ''
   })
   public title: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'Comments number',
+    example: 3
+  })
+  @Transform(({value}) => value.length)
+  public comments: Comment[];
 }
 
 

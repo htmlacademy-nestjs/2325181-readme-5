@@ -17,8 +17,17 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
   }
 
   public async save(postEntity:PostContentEntity): Promise<PostContentEntity> {
+    const postPojo = postEntity.toPOJO();
     const postDraft = await this.client.post.create({
-      data: {...postEntity.toPOJO()}
+      data: {
+        ...postPojo,
+        comments: {
+          connect: []
+        }
+      },
+      include: {
+        comments: true
+      }
     });
     postEntity.id = postDraft.id;
     return postEntity;
@@ -26,15 +35,24 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
 
   public async findById(id: string): Promise<PostContentEntity> {
     const existPost = await this.client.post.findFirst({
-      where: {id}
+      where: {id},
+      include: {
+        comments: true,
+      }
     });
     return this.createEntityFromDocument(existPost);
   }
 
   public async updateById(postEntity: PostContentEntity): Promise<PostContentEntity> {
+    const {comments, ...postPojo} = postEntity.toPOJO();
     const updatedPost = await this.client.post.update({
       where: {id: postEntity.id},
-      data: {...postEntity.toPOJO()}
+      include: {
+        comments: true
+      },
+      data: {
+        ...postPojo,
+      },
     });
     return this.createEntityFromDocument(updatedPost);
   }
@@ -50,7 +68,10 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
     const postList = await this.client.post.findMany({
       where,
 
-      take: POST_LIST_REUQEST_COUNT
+      take: POST_LIST_REUQEST_COUNT,
+      include: {
+        comments: true
+      }
     });
     return postList.map((post) => this.createEntityFromDocument(post));
   }
@@ -63,6 +84,9 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
           contains: postTitle
         }
       },
+      include: {
+        comments: true
+      },
       take: POST_SEARCH_BY_TITLE_LIMIT
     })
 
@@ -74,6 +98,9 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
       where: {
         isPublished: false,
         authorId
+      },
+      include: {
+        comments: true
       }
     })
     return postList.map((post) => this.createEntityFromDocument(post));

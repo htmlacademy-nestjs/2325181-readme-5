@@ -6,6 +6,7 @@ import { PostEntityAdapter} from './post-entity.factory';
 import { CreateContentPostDtoType } from './dto';
 import { PostContentEntity } from './entity/post-content.entity';
 import { FilterQuery } from './query/filter.query';
+import { transformTags } from '@project/libs/shared/helpers';
 
 
 
@@ -17,7 +18,7 @@ export class PostService {
 
   public async createNewPost(dto: CreateContentPostDtoType): Promise<PostContentEntity> {
     const {type, tags, ...content} = dto;
-    const tagsLowerUnique = Array.from(new Set(tags.map((tag) => tag.toLowerCase())));
+    const tagsLowerUnique = transformTags(tags);
     const newPostDraft = new PostEntityAdapter[type]({
       type,
       tags: tagsLowerUnique,
@@ -26,7 +27,8 @@ export class PostService {
       isRepost: false,
       authorId: '',
       originPostId: '',
-      originAuthorId: ''
+      originAuthorId: '',
+      comments: [],
     });
     return await this.postRepository.save(newPostDraft);
 

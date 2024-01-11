@@ -39,7 +39,7 @@ model Post {
   title           String?   @default("")
   announce        String?   @default("")
   videoURL        String?   @default("") @map("video_URL")
-  Comment         Comment[]
+  comments         Comment[]
 
   @@map("posts")
 }

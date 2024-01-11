@@ -7,7 +7,10 @@ export function postFilterToPrismaFilter(filter: PostFilter): Prisma.PostWhereIn
   };
   let prismaFilter: Prisma.PostWhereInput = {};
   for(let key in filter) {
-    prismaFilter[key] = filter[key];
+    if (key !== 'tag') {
+      prismaFilter[key] = filter[key];
+    }
+    prismaFilter.tags = {has: filter.tag}
   }
   return prismaFilter;
 }

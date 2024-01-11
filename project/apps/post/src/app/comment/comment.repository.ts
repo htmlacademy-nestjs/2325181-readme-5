@@ -51,12 +51,4 @@ export class CommentRepository extends BasePostgresRepository<CommentEntity, Com
     return foundComments.map((comment) => this.createEntityFromDocument(comment));
   }
 
-  public async deleteManyByPostId(postId: string): Promise<void> {
-    await this.client.comment.deleteMany({
-      where: {
-        postId,
-      }
-    });
-  }
-
 }

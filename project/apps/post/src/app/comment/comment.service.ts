@@ -31,8 +31,4 @@ export class CommentService {
   public async listCommentByPostId(postId: string): Promise<CommentEntity[]> {
     return await this.commentRepository.findManyByPostId(postId);
   }
-
-  public async deleteCommentsByPostId(postId: string): Promise<void> {
-    this.commentRepository.deleteManyByPostId(postId);
-  }
 }

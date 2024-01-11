@@ -14,4 +14,5 @@ export * from './lib/post/base-post.interface';
 export * from './lib/request-with-token.interface';
 export * from './lib/token-payload.interface';
 export * from './lib/post/post-filter.interface';
-
+export * from './lib/sort-order.type';
+export * from './lib/pagination.interface';

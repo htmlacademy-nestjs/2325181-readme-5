@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMaxSize, IsArray, IsEnum, IsNotEmpty, IsOptional, IsString, Length, Matches } from 'class-validator';
+import { ArrayMaxSize, IsArray, IsIn, IsNotEmpty, IsOptional, IsString, Length, Matches } from 'class-validator';
 import { PostValidationMessage, PostValidationParams } from '../post.constant';
 import { PostType, PostTypeValues } from '@project/libs/shared/app/types';
 
@@ -25,6 +25,6 @@ export class CreateBasePostDto {
     example: 'video'
   })
   @IsNotEmpty()
-  @IsEnum(Object.values(PostType), {message: PostValidationMessage.Type.InvalidFormat})
+  @IsIn(Object.values(PostType), {message: PostValidationMessage.Type.InvalidFormat})
   public type: PostTypeValues;
 }

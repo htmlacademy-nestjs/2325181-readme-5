@@ -30,7 +30,7 @@ export class BasePostEntity implements BasePost, Entity<string, BasePost> {
     this.comments = data.comments ?? [];
   }
 
-  public toPOJO () {
+  public toPOJO (): BasePost {
     return {
       id: this.id,
       type: this.type,

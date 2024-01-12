@@ -6,6 +6,7 @@ import { fillDTO } from '@project/libs/shared/helpers';
 import { UserRdo } from './rdo/user.rdo';
 import { LoginUserDto } from './dto/login-user.dto';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
+import { MongoIdValidationPipe } from '@project/libs/shared/core';
 
 @ApiTags('authentication')
 @Controller('auth')
@@ -45,7 +46,7 @@ export class AuthenticationController {
     description: 'User found'
   })
   @Get(':id')
-  public async show(@Param('id') userId: string): Promise<UserRdo> {
+  public async show(@Param('id', MongoIdValidationPipe) userId: string): Promise<UserRdo> {
     const existUser = await this.authService.getUserEntity(userId);
     return fillDTO(UserRdo, existUser.toPOJO());
   }

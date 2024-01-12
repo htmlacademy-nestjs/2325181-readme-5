@@ -17,6 +17,32 @@ export class UploadConfig {
   @IsString({message: UploadValidationMessage.DirectoryValue})
   public uploadDirectory: string;
 
+  @IsNotEmpty({message: UploadValidationMessage.DBNameRequired})
+  @IsString({message: UploadValidationMessage.DBNameInvalidFormat})
+  public dbName: string;
+
+  @IsNotEmpty({message: UploadValidationMessage.DBHostRequired})
+  @IsString({message: UploadValidationMessage.DBHostInvalidFormat})
+  public dbHost: string;
+
+  @IsOptional()
+  @IsNumber({}, {message: UploadValidationMessage.DBPortInvalidFormat})
+  @Min(MIN_PORT, {message: UploadValidationMessage.DBPortInvalidFormat})
+  @Max(MAX_PORT, {message: UploadValidationMessage.DBPortInvalidFormat})
+  public dbPort: number;
+
+  @IsNotEmpty({message: UploadValidationMessage.DBUserRequired})
+  @IsString({message: UploadValidationMessage.DBUserInvalidFormat})
+  public dbUser: string;
+
+  @IsNotEmpty({message: UploadValidationMessage.DBPasswordRequired})
+  @IsString({message: UploadValidationMessage.DBPasswordInvalidFormat})
+  public dbPassword: string;
+
+  @IsNotEmpty({message: UploadValidationMessage.DBBaseAuthRequired})
+  @IsString({message: UploadValidationMessage.DBBaseAuthInvalidFormat})
+  public dbAuthBase: string;
+
   public async validate(): Promise<void> {
     await validateOrReject(this);
   }

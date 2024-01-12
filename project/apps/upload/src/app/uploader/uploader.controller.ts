@@ -16,6 +16,6 @@ export class UploadController {
 
   @Get('/:id')
   public async show(@Param(':id') id: string) {
-    return this.uploaderService.getFile(id);
+    return 'Not implemented'
   }
 }

@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { UploaderModule } from './uploader/uploader.module';
-import { UploadConfigModule } from '@project/libs/shared/config/upload';
+import { UploadConfigModule, getUploadMongooseOptions } from '@project/libs/shared/config/upload';
 
 
 @Module({
   imports: [
     UploaderModule,
-    UploadConfigModule
+    UploadConfigModule,
+    MongooseModule.forRootAsync(getUploadMongooseOptions()),
   ],
   controllers: [],
   providers: [],

@@ -16,10 +16,20 @@
     "baseUrl": ".",
     "paths": {
       "@project/libs/shared/app/types": ["libs/shared/app/types/src/index.ts"],
-      "@project/libs/shared/config/user": ["libs/shared/config/user/src/index.ts"],
+      "@project/libs/shared/config/file-vault": [
+        "libs/shared/config/file-vault/src/index.ts"
+      ],
+      "@project/libs/shared/config/upload": [
+        "libs/shared/config/upload/src/index.ts"
+      ],
+      "@project/libs/shared/config/user": [
+        "libs/shared/config/user/src/index.ts"
+      ],
       "@project/libs/shared/core": ["libs/shared/core/src/index.ts"],
       "@project/libs/shared/helpers": ["libs/shared/helpers/src/index.ts"],
-      "@project/libs/shared/post/models": ["libs/shared/post/models/src/index.ts"],
+      "@project/libs/shared/post/models": [
+        "libs/shared/post/models/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -16,9 +16,6 @@
     "baseUrl": ".",
     "paths": {
       "@project/libs/shared/app/types": ["libs/shared/app/types/src/index.ts"],
-      "@project/libs/shared/config/file-vault": [
-        "libs/shared/config/file-vault/src/index.ts"
-      ],
       "@project/libs/shared/config/upload": [
         "libs/shared/config/upload/src/index.ts"
       ],

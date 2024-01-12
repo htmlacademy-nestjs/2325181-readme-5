@@ -3,9 +3,10 @@ import { CommentRepository } from './comment.repository';
 import { CommentController } from './comment.controller';
 import { CommentService } from './comment.service';
 import { PrismaClientModule } from '@project/libs/shared/post/models';
+import { PostModule } from '../post/post.module';
 
 @Module({
-  imports: [PrismaClientModule],
+  imports: [PrismaClientModule, PostModule],
   providers: [CommentRepository, CommentService],
   controllers: [CommentController],
   exports: [CommentRepository, CommentService]

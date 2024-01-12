@@ -16,3 +16,4 @@ export * from './lib/token-payload.interface';
 export * from './lib/post/post-filter.interface';
 export * from './lib/sort-by-query.type';
 export * from './lib/pagination-result.interface';
+export * from './lib/token.interface';

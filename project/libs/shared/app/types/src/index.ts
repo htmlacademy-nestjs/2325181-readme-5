@@ -17,3 +17,5 @@ export * from './lib/post/post-filter.interface';
 export * from './lib/sort-by-query.type';
 export * from './lib/pagination-result.interface';
 export * from './lib/token.interface';
+export * from './lib/file.interface';
+export * from './lib/stored-file.interface';

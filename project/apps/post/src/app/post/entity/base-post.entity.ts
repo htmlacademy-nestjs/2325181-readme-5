@@ -47,6 +47,7 @@ export class BasePostEntity implements BasePost, Entity<string, BasePost> {
   }
 
   public populate(data: BasePost): void {
+    this.id = data.id;
     this.type = data.type;
     this.isPublished = data.isPublished;
     this.isRepost = data.isRepost;

@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { UploadConfig } from '@project/libs/shared/config/upload';
 import { join } from 'path';
@@ -8,37 +8,74 @@ import { ensureDir } from 'fs-extra';
 import dayjs from 'dayjs';
 import { randomUUID } from 'node:crypto';
 import { extension } from 'mime-types';
+import { UploaderRepository } from './uploader.repository';
+import { StoredFile } from '@project/libs/shared/app/types';
+import { FileEntity } from './file.entity';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class UploaderService {
   private readonly logger = new Logger(UploaderService.name);
+  private readonly DATE_FORMAT = 'YYYY MM';
 
   constructor (
     @Inject(UploadConfig.KEY)
-    private readonly config: ConfigType<typeof UploadConfig>
+    private readonly config: ConfigType<typeof UploadConfig>,
+    private readonly uploaderRepository: UploaderRepository,
   ) {}
 
   private getUploadDirectoryPath(): string {
-    const [year, month] = dayjs().format('YYYY MM').split(' ');
-    return join(this.config.uploadDirectory, year, month);
+    return this.config.uploadDirectory;
   }
 
   private getDestinationFilePath(filename: string): string {
-    return join(this.getUploadDirectoryPath(), filename);
+    return join(this.getUploadDirectoryPath(), this.getSubUploadDirectoryPath(), filename);
   }
 
-  public async saveFile(file: Express.Multer.File): Promise<string> {
+  private getSubUploadDirectoryPath(): string {
+    const [year, month] = dayjs().format(this.DATE_FORMAT).split(' ');
+    return join(year, month);
+  }
+
+  public async writeFile(file: Express.Multer.File): Promise<StoredFile> {
     try {
       const uploadDirectoryPath = this.getUploadDirectoryPath();
-      const filename = randomUUID();
+      const subDirectory = this.getSubUploadDirectoryPath();
       const fileExtension = extension(file.mimetype);
-      const destinationFile = this.getDestinationFilePath(`${filename}.${fileExtension}`);
-      await ensureDir(uploadDirectoryPath);
-      await writeFile(destinationFile, file.buffer);
-      return destinationFile;
+      const filename = `${randomUUID()}.${fileExtension}`;
+      const path = this.getDestinationFilePath(filename);
+      await ensureDir(join(uploadDirectoryPath, subDirectory));
+      await writeFile(path, file.buffer);
+      return {
+        fileExtension: fileExtension || '',
+        filename,
+        path,
+        subDirectory
+      };
     } catch (error) {
       this.logger.error(`Error while saving file: ${error.message}`);
       throw new Error(`Can't save file`);
     }
+  }
+
+  public async saveFile(file: Express.Multer.File): Promise<FileEntity> {
+    const storedFile = await this.writeFile(file);
+    const fileEntity = FileEntity.fromObject({
+      hashName: storedFile.filename,
+      mimetype: file.mimetype,
+      originalName: file.originalname,
+      path: storedFile.path,
+      size: file.size,
+      subdirectory: storedFile.subDirectory
+    })
+    return this.uploaderRepository.save(fileEntity);
+  }
+
+  public async getFile(fileId: string): Promise<FileEntity> {
+    const existFile = await this.uploaderRepository.findById(fileId);
+    if(!existFile) {
+      throw new NotFoundException(`File with ${fileId} not found.`);
+    }
+    return existFile;
   }
 }

@@ -19,3 +19,4 @@ export * from './lib/pagination-result.interface';
 export * from './lib/token.interface';
 export * from './lib/file.interface';
 export * from './lib/stored-file.interface';
+export * from './lib/rabbit-routing.type';

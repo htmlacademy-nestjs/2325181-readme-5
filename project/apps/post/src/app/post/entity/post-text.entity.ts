@@ -1,8 +1,9 @@
 import { TextPost } from '@project/libs/shared/app/types';
 import { UpdatePostDto } from '../dto/update-post.dto';
 import { BasePostEntity } from './base-post.entity';
+import { Entity } from '@project/libs/shared/core';
 
-export class PostTextEntity extends BasePostEntity implements TextPost {
+export class PostTextEntity extends BasePostEntity implements TextPost, Entity<string, TextPost> {
   public id?: string;
   public announce?: string;
   public title?: string;
@@ -33,5 +34,9 @@ export class PostTextEntity extends BasePostEntity implements TextPost {
     for (let key in data) {
       this[key] = data[key];
     }
+  }
+
+  static fromObject(data: TextPost): PostTextEntity {
+    return new PostTextEntity(data);
   }
 }

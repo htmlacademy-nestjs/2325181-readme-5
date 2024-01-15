@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
 import { UserValidationMessage, UserValidationParams } from '../authentication.constant';
 
 export class CreateUserDto {
@@ -26,6 +26,7 @@ export class CreateUserDto {
     description: 'User last name',
     example: 'Bochkin'
   })
+  @IsNotEmpty()
   @IsString({message: UserValidationMessage.Lastname.InvalidFormat})
   @Length(
     UserValidationParams.Lastname.Length.Minimal,
@@ -38,6 +39,7 @@ export class CreateUserDto {
     description: 'User password',
     example: '123456'
   })
+  @IsNotEmpty()
   @Length(
     UserValidationParams.Password.Length.Minimal,
     UserValidationParams.Password.Length.Maximal,

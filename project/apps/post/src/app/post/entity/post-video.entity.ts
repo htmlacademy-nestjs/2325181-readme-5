@@ -1,8 +1,9 @@
 import { VideoPost } from '@project/libs/shared/app/types';
 import { UpdatePostDto } from '../dto/update-post.dto';
 import { BasePostEntity } from './base-post.entity';
+import { Entity } from '@project/libs/shared/core';
 
-export class PostVideoEntity extends BasePostEntity implements VideoPost {
+export class PostVideoEntity extends BasePostEntity implements VideoPost, Entity<string, VideoPost> {
   public id?: string;
   public videoURL?: string;
 
@@ -26,5 +27,9 @@ export class PostVideoEntity extends BasePostEntity implements VideoPost {
     for (let key in data) {
       this[key] = data[key];
     }
+  }
+
+  static fromObject(data: VideoPost): PostVideoEntity {
+    return new PostVideoEntity(data);
   }
 }

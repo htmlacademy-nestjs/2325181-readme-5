@@ -1,7 +1,7 @@
+import { Comment } from '../comment.interface';
 import { PostTypeValues } from './post-type.type';
-import { Entity, EntityIdType} from '@project/libs/shared/core'
 
-export interface BasePost extends Entity<EntityIdType> {
+export interface BasePost {
   id?: string;
   type: PostTypeValues;
   tags: string[];
@@ -12,4 +12,5 @@ export interface BasePost extends Entity<EntityIdType> {
   originAuthorId: string;
   createdAt?: Date;
   publishedAt?: Date;
+  comments: Comment[];
 }

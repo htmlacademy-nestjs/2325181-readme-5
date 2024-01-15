@@ -28,3 +28,7 @@ export function fillDTO<T, V>(
 export function getMongoConnectionString({username, password, host, port, databaseName, authDatabase}): string {
   return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=${authDatabase}`;
 }
+
+export function transformTags(tags: string[]): string[] {
+  return Array.from(new Set(tags.map((tag) => tag.toLowerCase())));
+}

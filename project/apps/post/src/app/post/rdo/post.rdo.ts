@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class PostRdo {
@@ -17,6 +17,7 @@ export class PostRdo {
   public type: string;
 
   @Expose()
+  @Type(() => Boolean)
   @ApiProperty({
     description: 'Publishing status',
     example: 'true'
@@ -24,6 +25,7 @@ export class PostRdo {
   public isPublished: boolean;
 
   @Expose()
+  @Type(() => Boolean)
   @ApiProperty({
     description: 'Repost status',
     example: 'false'
@@ -121,6 +123,14 @@ export class PostRdo {
     example: ''
   })
   public title: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'Comments number',
+    example: 3
+  })
+  @Transform(({value}) => value.length)
+  public comments: Comment[];
 }
 
 

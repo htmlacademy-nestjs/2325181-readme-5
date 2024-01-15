@@ -6,6 +6,8 @@ import { fillDTO } from '@project/libs/shared/helpers';
 import { UserRdo } from './rdo/user.rdo';
 import { LoginUserDto } from './dto/login-user.dto';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
+import { MongoIdValidationPipe } from '@project/libs/shared/core';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('authentication')
 @Controller('auth')
@@ -36,7 +38,8 @@ export class AuthenticationController {
   @Post('login')
   public async login(@Body() dto: LoginUserDto): Promise<LoggedUserRdo> {
     const verifiedUser = (await this.authService.verifyUser(dto));
-    return fillDTO(LoggedUserRdo, verifiedUser.toPOJO());
+    const userToken = await this.authService.createUserToken(verifiedUser);
+    return fillDTO(LoggedUserRdo, {...verifiedUser.toPOJO(), ...userToken});
   }
 
   @ApiResponse({
@@ -44,8 +47,9 @@ export class AuthenticationController {
     status: HttpStatus.OK,
     description: 'User found'
   })
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  public async show(@Param('id') userId: string): Promise<UserRdo> {
+  public async show(@Param('id', MongoIdValidationPipe) userId: string): Promise<UserRdo> {
     const existUser = await this.authService.getUserEntity(userId);
     return fillDTO(UserRdo, existUser.toPOJO());
   }

@@ -3,7 +3,7 @@ import { Entity } from '@project/libs/shared/core';
 import { genSalt, hash, compare } from 'bcrypt';
 import { SALT_ROUNDS } from './user.constant';
 
-export class UserEntity implements AuthUser, Entity<string> {
+export class UserEntity implements AuthUser, Entity<string, AuthUser> {
   public id?: string;
   public email: string;
   public firstname: string;
@@ -22,7 +22,7 @@ export class UserEntity implements AuthUser, Entity<string> {
       firstname: this.firstname,
       lastname: this.lastname,
       passwordHash: this.passwordHash,
-      likesList: this.likesList
+      likesList: this.likesList,
     };
   }
 

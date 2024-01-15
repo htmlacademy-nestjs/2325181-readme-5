@@ -1,8 +1,9 @@
 import { PhotoPost } from '@project/libs/shared/app/types';
 import { UpdatePostDto } from '../dto/update-post.dto';
 import { BasePostEntity } from './base-post.entity';
+import { Entity } from '@project/libs/shared/core';
 
-export class PostPhotoEntity extends BasePostEntity implements PhotoPost {
+export class PostPhotoEntity extends BasePostEntity implements PhotoPost, Entity<string, PhotoPost> {
   public id?: string;
   public photo?: string;
 
@@ -26,5 +27,9 @@ export class PostPhotoEntity extends BasePostEntity implements PhotoPost {
     for (let key in data) {
       this[key] = data[key];
     }
+  }
+
+  static fromObject(data: PhotoPost): PostPhotoEntity {
+    return new PostPhotoEntity(data);
   }
 }

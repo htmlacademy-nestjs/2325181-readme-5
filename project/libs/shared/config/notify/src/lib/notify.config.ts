@@ -1,4 +1,4 @@
-import { DEFAULT_NOTIFY_PORT, DEFAULT_RABBIT_PORT, Environment, DEFAULT_MONGO_PORT } from './notify-config.constant';
+import { DEFAULT_NOTIFY_PORT, DEFAULT_RABBIT_PORT, DEFAULT_SMTP_PORT, Environment, DEFAULT_MONGO_PORT } from './notify-config.constant';
 import { NotifyConfig } from './notify.env';
 import { plainToClass } from 'class-transformer';
 import { ConfigType, registerAs } from '@nestjs/config';
@@ -20,11 +20,16 @@ async function getNotifyConfig(): Promise<NotifyConfig> {
     rabbitUser: process.env.RABBIT_USER,
     rabbitQueue: process.env.RABBIT_QUEUE,
     rabbitExchange: process.env.RABBIT_EXCHANGE,
+    mailHost: process.env.MAIL_SMTP_HOST,
+    mailPort: parseInt(process.env.MAIL_SMTP_PORT || `${DEFAULT_SMTP_PORT}`, 10),
+    mailUser: process.env.MAIL_USER_NAME,
+    mailPassword: process.env.MAIL_USER_PASSWORD,
+    mailFrom: process.env.MAIL_FROM,
   })
   await notifyConfig.validate();
   return notifyConfig;
 }
 
 export default registerAs('notify', async(): Promise<ConfigType<typeof getNotifyConfig>> => {
-  return getNotifyConfig()
+  return getNotifyConfig();
 });

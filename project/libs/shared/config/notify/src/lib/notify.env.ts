@@ -8,9 +8,9 @@ export class NotifyConfig {
   public environment: string;
 
   @IsOptional()
-  @IsNumber({}, {message: NotifyValidationMessage.PortNumber})
-  @Min(MIN_PORT, {message: NotifyValidationMessage.PortNumber})
-  @Max(MAX_PORT, {message: NotifyValidationMessage.PortNumber})
+  @IsNumber({}, {message: NotifyValidationMessage.DBPortInvalidFormat})
+  @Min(MIN_PORT, {message: NotifyValidationMessage.DBPortInvalidFormat})
+  @Max(MAX_PORT, {message: NotifyValidationMessage.DBPortInvalidFormat})
   public port: number;
 
   @IsNotEmpty({message: NotifyValidationMessage.DirectoryRequired})
@@ -23,7 +23,7 @@ export class NotifyConfig {
 
   @IsNotEmpty({message: NotifyValidationMessage.DBHostRequired})
   @IsString({message: NotifyValidationMessage.DBHostInvalidFormat})
-  
+
   public dbHost: string;
 
   @IsOptional()
@@ -52,6 +52,9 @@ export class NotifyConfig {
   @IsString({message: NotifyValidationMessage.RabbitPasswordInvalidFormat})
   public rabbitPassword: string;
 
+  @IsOptional()
+  @Min(MIN_PORT, {message: NotifyValidationMessage.DBPortInvalidFormat})
+  @Max(MAX_PORT, {message: NotifyValidationMessage.PortNumber})
   @IsNumber({},{message: NotifyValidationMessage.RabbitPortNumber})
   public rabbitPort: number;
 
@@ -66,6 +69,28 @@ export class NotifyConfig {
   @IsNotEmpty({message: NotifyValidationMessage.RabbitExchangeRequired})
   @IsString({message: NotifyValidationMessage.RabbitExchangeInvalidFormat})
   public rabbitExchange: string;
+
+  @IsNotEmpty({message: NotifyValidationMessage.MailHostRequired})
+  @IsString({message: NotifyValidationMessage.MailHostInvalidFormat})
+  public mailHost: string;
+
+  @IsNotEmpty({message: NotifyValidationMessage.MailPasswordRequired})
+  @IsString({message: NotifyValidationMessage.MailPasswordInvalidFormat})
+  public mailPassword: string;
+
+  @IsOptional()
+  @Min(MIN_PORT, {message: NotifyValidationMessage.MailPortNumber})
+  @Max(MAX_PORT, {message: NotifyValidationMessage.MailPortNumber})
+  @IsNumber({},{message: NotifyValidationMessage.MailPortNumber})
+  public mailPort: number;
+
+  @IsNotEmpty({message: NotifyValidationMessage.MailUserRequired})
+  @IsString({message: NotifyValidationMessage.MailUserInvalidFormat})
+  public mailUser: string;
+
+  @IsNotEmpty({message: NotifyValidationMessage.MailFromRequired})
+  @IsString({message: NotifyValidationMessage.MailFromInvalidFormat})
+  public mailFrom: string;
 
   public async validate(): Promise<void> {
     await validateOrReject(this);

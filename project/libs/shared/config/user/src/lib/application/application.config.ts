@@ -7,7 +7,7 @@ type Environment = typeof ENVIRONMENTS[number];
 function getConfig(): ApplicationConfig {
   return {
     environment: process.env.NODE_ENV as Environment,
-    port: parseInt(process.env.PORT || `${DEFAULT_PORT}`,  10),
+    port: parseInt(process.env.PORT || `${DEFAULT_PORT}`, 10),
   }
 }
 

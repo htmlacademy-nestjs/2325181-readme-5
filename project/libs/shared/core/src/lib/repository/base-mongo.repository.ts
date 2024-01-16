@@ -3,6 +3,8 @@ import { Model} from 'mongoose';
 import { Entity, EntityIdType, DefaultPojoType } from '@project/libs/shared/core';
 import { Repository } from './repository.interface';
 
+const ENTITY_NOT_FOUND = 'Entity not found';
+
 export abstract class BaseMongoRepository<
   EntityType extends Entity<EntityIdType>,
   DocumentType = DefaultPojoType
@@ -37,7 +39,7 @@ export abstract class BaseMongoRepository<
       .findByIdAndUpdate(id, entity.toPOJO(), {new: true, runValidators: true})
       .exec();
     if(!updatedDocument) {
-      throw new NotFoundException(`Entity with id ${id} not found`);
+      throw new NotFoundException(ENTITY_NOT_FOUND);
     }
     return entity;
   }
@@ -45,7 +47,7 @@ export abstract class BaseMongoRepository<
   public async deleteById(id: EntityType['id']): Promise<void> {
     const deletedDocument = await this.model.findByIdAndDelete(id).exec();
     if (!deletedDocument) {
-      throw new NotFoundException(`Entity with id ${id} not found.`);
+      throw new NotFoundException(ENTITY_NOT_FOUND);
     }
   }
 }

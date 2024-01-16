@@ -8,12 +8,14 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { MongoIdValidationPipe } from '@project/libs/shared/core';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { NotifyUserService } from '../notify/notify-user.service';
 
 @ApiTags('authentication')
 @Controller('auth')
 export class AuthenticationController {
   constructor(
-    private readonly authService: AuthenticationService
+    private readonly authService: AuthenticationService,
+    private readonly notifyUserService: NotifyUserService
   ) {}
 
   @ApiResponse({
@@ -23,6 +25,8 @@ export class AuthenticationController {
   @Post('signin')
   public async create(@Body() dto: CreateUserDto): Promise<UserRdo> {
     const newUser = await this.authService.registerNewUser(dto);
+    const { email, firstname, lastname } = newUser;
+    await this.notifyUserService.registerSubscriber({ email, firstname, lastname });
     return fillDTO(UserRdo, newUser.toPOJO());
   }
 

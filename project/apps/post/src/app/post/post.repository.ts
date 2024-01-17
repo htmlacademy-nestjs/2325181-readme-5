@@ -59,9 +59,9 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
   }
 
   public async deleteById(id: string): Promise<void> {
-    this.client.post.delete({
+    await this.client.post.delete({
       where: {id}
-    })
+    });
   }
 
   public async findMany({authorId, type, tag, page, sortBy}: FilterQuery): Promise<PaginationResult<PostContentEntity>> {

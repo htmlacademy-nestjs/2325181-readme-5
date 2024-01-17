@@ -51,7 +51,6 @@ export class PostService {
     const updateEntity = new PostEntityAdapter[existPost.type]({
       ...existPost,
       ...dto,
-       id: postId
       });
     return await this.postRepository.updateById(updateEntity);
   }

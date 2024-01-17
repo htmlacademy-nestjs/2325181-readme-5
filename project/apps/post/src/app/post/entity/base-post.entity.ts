@@ -18,6 +18,7 @@ export class BasePostEntity implements BasePost, Entity<string, BasePost> {
 
 
   constructor (data: BasePost) {
+    this.id = data.id;
     this.type = data.type;
     this.isPublished = data.isPublished;
     this.isRepost = data.isRepost;

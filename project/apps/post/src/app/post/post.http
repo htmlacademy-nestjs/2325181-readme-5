@@ -15,24 +15,24 @@ Content-Type: application/json
 
 #Show post details
 
-GET http://localhost:6000/api/posts/751e27e3-22ba-4a09-afba-945ada7057d2 HTTP/1.1
+GET http://localhost:6000/api/posts/044cec4f-bc7c-4f76-b45b-010f76270401 HTTP/1.1
 
 ###
 
 #Update post data
 
-PATCH http://localhost:6000/api/posts/751e27e3-22ba-4a09-afba-945ada7057d2 HTTP/1.1
+PATCH http://localhost:6000/api/posts/044cec4f-bc7c-4f76-b45b-010f76270401 HTTP/1.1
 Content-Type: application/json
 
 {
-  "photo": "Jane Ostin"
+  "photo": "Jane_Osti.png"
 }
 
 ###
 
 #Delete post
 
-DELETE http://localhost:6000/api/posts/dfae4f94-8d19-4572-a105-f62740c44bd1 HTTP/1.1
+DELETE http://localhost:6000/api/posts/044cec4f-bc7c-4f76-b45b-010f76270401 HTTP/1.1
 
 ###
 

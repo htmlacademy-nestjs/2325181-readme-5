@@ -1,23 +1,23 @@
-import { ConfigService } from '@nestjs/config';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MailerAsyncOptions } from '@nestjs-modules/mailer/dist/interfaces/mailer-async-options.interface';
+import { ConfigService } from '@nestjs/config';
 import * as path from 'node:path';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 export function getMailerAsyncOptions(optionSpace: string): MailerAsyncOptions {
   return {
-    useFactory: async (configservice: ConfigService) => {
+    useFactory: async (configService: ConfigService) => {
       return {
         transport: {
-          host: configservice.get<string>(`${optionSpace}Host`),
-          port: configservice.get<number>(`${optionSpace}Port`),
+          host: configService.get<string>(`${optionSpace}.host`),
+          port: configService.get<number>(`${optionSpace}.port`),
           secure: false,
           auth: {
-            user: configservice.get<string>(`${optionSpace}User`),
-            pass: configservice.get<string>(`${optionSpace}Password`),
+            user: configService.get<string>(`${optionSpace}.user`),
+            pass: configService.get<string>(`${optionSpace}.password`)
           }
         },
         defaults: {
-          from: configservice.get<string>('mailFrom')
+          from: configService.get<string>('mail.from'),
         },
         template: {
           dir: path.resolve(__dirname, 'assets'),

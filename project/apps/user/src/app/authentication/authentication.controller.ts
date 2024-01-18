@@ -57,4 +57,6 @@ export class AuthenticationController {
     const existUser = await this.authService.getUserEntity(userId);
     return fillDTO(UserRdo, existUser.toPOJO());
   }
+
+
 }

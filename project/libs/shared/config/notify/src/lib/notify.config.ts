@@ -1,4 +1,4 @@
-import { DEFAULT_NOTIFY_PORT, DEFAULT_RABBIT_PORT, DEFAULT_SMTP_PORT, Environment, DEFAULT_MONGO_PORT, ENVIRONMENTS } from './notify-config.constant';
+import { DEFAULT_NOTIFY_PORT, UPLOAD_DIRECTORY_PATH_LOCAL, DEFAULT_RABBIT_PORT, DEFAULT_SMTP_PORT, Environment, DEFAULT_MONGO_PORT, ENVIRONMENTS } from './notify-config.constant';
 import * as Joi from 'joi'
 import { registerAs } from '@nestjs/config';
 
@@ -56,7 +56,7 @@ const validationSchema = Joi.object({
     password: Joi.string().required(),
     port: Joi.number().port().default(DEFAULT_SMTP_PORT),
     user: Joi.string().required(),
-    queue: Joi.string().required(),
+    from: Joi.string().required(),
   })
 });
 
@@ -70,17 +70,17 @@ function validateConfig(config: NotifyConfig): void {
 
 function getConfig(): NotifyConfig {
   const config: NotifyConfig = {
-    environment: process.env.NODE_ENV as Environment,
-    port: parseInt(process.env.PORT || `${DEFAULT_NOTIFY_PORT}`, 10),
-    uploadDirectory: process.env.UPLOAD_DIRECTORY_PATH,
     db: {
-      host: process.env.MONGO_HOST,
-      port: parseInt(process.env.MONGO_PORT ?? DEFAULT_MONGO_PORT.toString(), 10),
       name: process.env.MONGO_DB,
       user: process.env.MONGO_USER,
       password: process.env.MONGO_PASSWORD,
+      host: process.env.MONGO_HOST,
+      port: parseInt(process.env.MONGO_PORT ?? DEFAULT_MONGO_PORT.toString(), 10),
       authBase: process.env.MONGO_AUTH_BASE,
     },
+    environment: process.env.NODE_ENV as Environment,
+    port: parseInt(process.env.PORT || `${DEFAULT_NOTIFY_PORT}`, 10),
+    uploadDirectory: process.env.UPLOAD_DIRECTORY_PATH ?? UPLOAD_DIRECTORY_PATH_LOCAL,
     rabbit: {
       host: process.env.RABBIT_HOST,
       password: process.env.RABBIT_PASSWORD,
@@ -97,7 +97,6 @@ function getConfig(): NotifyConfig {
       from: process.env.MAIL_FROM,
     }
   };
-
   validateConfig(config);
   return config;
 }

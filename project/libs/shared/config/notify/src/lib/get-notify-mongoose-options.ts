@@ -5,7 +5,7 @@ import { getMongoConnectionString } from '@project/libs/shared/helpers';
 export function getNotifyMongooseOptions(): MongooseModuleAsyncOptions {
   return {
     useFactory: async (config: ConfigService) => {
-      return{
+      return {
         uri: getMongoConnectionString({
           username: config.get<string>('application.db.user'),
           password: config.get<string>('application.db.password'),

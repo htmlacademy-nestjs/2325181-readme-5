@@ -7,4 +7,6 @@ export const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
 
 export type Environment = typeof ENVIRONMENTS[number];
 
-export const NOTIFY_ENV_FILE_PATH = 'apps/notify/notify.env';
+export const NOTIFY_ENV_FILE_PATH = 'apps/notify/.notify.env';
+
+export const UPLOAD_DIRECTORY_PATH_LOCAL = 'project/uploads';

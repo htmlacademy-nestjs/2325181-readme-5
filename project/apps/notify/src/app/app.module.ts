@@ -6,9 +6,9 @@ import { getNotifyMongooseOptions, NotifyConfigModule } from '@project/libs/shar
 
 @Module({
   imports: [
-    MongooseModule.forRootAsync(getNotifyMongooseOptions()),
     NotifyConfigModule,
-    SubscriberModule
+    SubscriberModule,
+    MongooseModule.forRootAsync(getNotifyMongooseOptions()),
   ],
   controllers: [],
   providers: [],

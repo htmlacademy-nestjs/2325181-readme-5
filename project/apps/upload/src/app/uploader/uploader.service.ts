@@ -11,7 +11,7 @@ import { extension } from 'mime-types';
 import { UploaderRepository } from './uploader.repository';
 import { StoredFile } from '@project/libs/shared/app/types';
 import { FileEntity } from './file.entity';
-import { NotFoundError } from 'rxjs';
+import { FILE_NOT_FOUND, CANT_SAVE_FILE } from './uploader.constant';
 
 @Injectable()
 export class UploaderService {
@@ -54,7 +54,7 @@ export class UploaderService {
       };
     } catch (error) {
       this.logger.error(`Error while saving file: ${error.message}`);
-      throw new Error(`Can't save file`);
+      throw new Error(CANT_SAVE_FILE);
     }
   }
 
@@ -74,7 +74,7 @@ export class UploaderService {
   public async getFile(fileId: string): Promise<FileEntity> {
     const existFile = await this.uploaderRepository.findById(fileId);
     if(!existFile) {
-      throw new NotFoundException(`File with ${fileId} not found.`);
+      throw new NotFoundException(FILE_NOT_FOUND);
     }
     return existFile;
   }

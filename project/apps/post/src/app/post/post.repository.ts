@@ -24,10 +24,14 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
         ...postPojo,
         comments: {
           connect: []
+        },
+        likes: {
+          connect: []
         }
       },
       include: {
-        comments: true
+        comments: true,
+        likes: true
       }
     });
     postEntity.id = postDraft.id;
@@ -39,17 +43,19 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
       where: {id},
       include: {
         comments: true,
+        likes: true,
       }
     });
     return this.createEntityFromDocument(existPost);
   }
 
   public async updateById(postEntity: PostContentEntity): Promise<PostContentEntity> {
-    const {comments, ...postPojo} = postEntity.toPOJO();
+    const {comments, likes, ...postPojo} = postEntity.toPOJO();
     const updatedPost = await this.client.post.update({
       where: {id: postEntity.id},
       include: {
-        comments: true
+        comments: true,
+        likes: true
       },
       data: {
         ...postPojo,
@@ -59,9 +65,9 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
   }
 
   public async deleteById(id: string): Promise<void> {
-    this.client.post.delete({
+    await this.client.post.delete({
       where: {id}
-    })
+    });
   }
 
   public async findMany({authorId, type, tag, page, sortBy}: FilterQuery): Promise<PaginationResult<PostContentEntity>> {
@@ -80,7 +86,8 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
         take: POST_LIST_REUQEST_COUNT,
         skip,
         include: {
-          comments: true
+          comments: true,
+          likes: true
         },
         orderBy
       }),
@@ -105,7 +112,8 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
         }
       },
       include: {
-        comments: true
+        comments: true,
+        likes: true
       },
       take: POST_SEARCH_BY_TITLE_LIMIT
     })
@@ -120,7 +128,8 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
         authorId
       },
       include: {
-        comments: true
+        comments: true,
+        likes: true
       }
     })
     return postList.map((post) => this.createEntityFromDocument(post));

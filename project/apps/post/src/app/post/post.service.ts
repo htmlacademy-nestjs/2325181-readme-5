@@ -30,6 +30,7 @@ export class PostService {
       originPostId: '',
       originAuthorId: '',
       comments: [],
+      likes: [],
     });
     return await this.postRepository.save(newPostDraft);
 
@@ -51,7 +52,6 @@ export class PostService {
     const updateEntity = new PostEntityAdapter[existPost.type]({
       ...existPost,
       ...dto,
-       id: postId
       });
     return await this.postRepository.updateById(updateEntity);
   }

@@ -32,3 +32,7 @@ export function getMongoConnectionString({username, password, host, port, databa
 export function transformTags(tags: string[]): string[] {
   return Array.from(new Set(tags.map((tag) => tag.toLowerCase())));
 }
+
+export function getRabbitMQConnectionString({user, password, host, port}): string {
+  return `amqp://${user}:${password}@${host}:${port}`;
+}

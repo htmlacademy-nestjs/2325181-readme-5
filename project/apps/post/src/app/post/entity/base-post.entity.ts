@@ -1,4 +1,4 @@
-import { BasePost, Comment, PostTypeValues } from '@project/libs/shared/app/types';
+import { BasePost, Comment, Like, PostTypeValues } from '@project/libs/shared/app/types';
 import { UpdatePostDto } from '../dto/update-post.dto';
 import { Entity } from '@project/libs/shared/core';
 
@@ -14,10 +14,12 @@ export class BasePostEntity implements BasePost, Entity<string, BasePost> {
   public publishedAt?: Date;
   public createdAt?: Date;
   public comments: Comment[];
+  public likes: Like[];
 
 
 
   constructor (data: BasePost) {
+    this.id = data.id;
     this.type = data.type;
     this.isPublished = data.isPublished;
     this.isRepost = data.isRepost;
@@ -28,6 +30,7 @@ export class BasePostEntity implements BasePost, Entity<string, BasePost> {
     this.publishedAt = new Date();
     this.createdAt = new Date();
     this.comments = data.comments ?? [];
+    this.likes = data.likes ?? [];
   }
 
   public toPOJO (): BasePost {
@@ -43,6 +46,7 @@ export class BasePostEntity implements BasePost, Entity<string, BasePost> {
       createdAt: this.createdAt,
       publishedAt: this.publishedAt,
       comments: this.comments,
+      likes: this.likes,
     };
   }
 
@@ -60,6 +64,7 @@ export class BasePostEntity implements BasePost, Entity<string, BasePost> {
     this.publishedAt = data.publishedAt;
     this.createdAt = data.createdAt;
     this.comments = data.comments;
+    this.likes = data.likes;
   }
 
   public update(data: UpdatePostDto): void {

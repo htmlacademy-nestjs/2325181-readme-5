@@ -30,6 +30,7 @@ export class PostService {
       originPostId: '',
       originAuthorId: '',
       comments: [],
+      likes: [],
     });
     return await this.postRepository.save(newPostDraft);
 

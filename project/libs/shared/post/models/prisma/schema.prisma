@@ -39,7 +39,8 @@ model Post {
   title           String?   @default("")
   announce        String?   @default("")
   videoURL        String?   @default("") @map("video_URL")
-  comments         Comment[]
+  comments        Comment[]
+  likes           Like[]
 
   @@map("posts")
 }
@@ -54,4 +55,16 @@ model Comment {
 
   @@index([postId])
   @@map("comments")
+}
+
+model Like {
+  id        String    @id @default(uuid())
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId    String    @map("post_id")
+  userId    String    @map("user_id")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@index([postId])
+  @@map("likes")
 }

@@ -1,4 +1,5 @@
 import { Comment } from '../comment.interface';
+import { Like } from '../like.interface';
 import { PostTypeValues } from './post-type.type';
 
 export interface BasePost {
@@ -13,4 +14,5 @@ export interface BasePost {
   createdAt?: Date;
   publishedAt?: Date;
   comments: Comment[];
+  likes: Like[];
 }

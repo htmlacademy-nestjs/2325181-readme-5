@@ -70,30 +70,30 @@ up -d
 **db:lint** - проверка схемы (`schema.prisma`) базы данных на ошибки
 #### Запуск команды в CLI:
 ```
-npx nx run blog:db:lint
+npx nx run post:db:lint
 ```
 **db:migrate** - создание миграции данных в БД
 #### Запуск команды в CLI:
 ```
-npx nx run blog:db:migrate
+npx nx run post:db:migrate
 ```
 
 **db:reset** - принудительный сброс и повторение всех миграций, удаляет все данные из БД
 #### Запуск команды в CLI:
 ```
-npx nx run blog:db:reset
+npx nx run post:db:reset
 ```
 
 **db:generate** - генерация актуальной версии клиент Prisma
 #### Запуск команды в CLI:
 ```
-npx nx run blog:db:generate
+npx nx run post:db:generate
 ```
 
 **db:seed** - наполнение базы данных тестовыми данными
 #### Запуск команды в CLI:
 ```
-npx nx run blog:db:seed
+npx nx run post:db:seed
 ```
 
 ## Старт проекта в dev режиме

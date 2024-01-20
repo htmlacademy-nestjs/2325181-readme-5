@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { rabbitConfig } from '@project/libs/shared/config/user';
 import { ConfigType } from '@nestjs/config';
 import { RabbitRouting } from '@project/libs/shared/app/types';
-import { CreateSubscriberDto } from './create-subscriber.dto';
+import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 
 @Injectable()
 export class NotifyUserService {

@@ -6,8 +6,7 @@ import { CreateContentPostDtoType } from './dto';
 import { PostRdo } from './rdo/post.rdo';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { SearchQuery } from './query/search.query';
-import { PostContent } from '@project/libs/shared/app/types';
-import { RequestWithToken, PaginationResult } from '@project/libs/shared/app/types';
+import { PostContent, TokenPayload, PaginationResult } from '@project/libs/shared/app/types';
 import { FilterQuery } from './query/filter.query';
 import { PostWithPaginationRdo } from './rdo/post-with-pagination.rdo';
 
@@ -97,8 +96,8 @@ export class PostController {
     description: 'The following draft posts have been found'
   })
   @Get('drafts')
-  public async indexDrafts(@Req() { user }: RequestWithToken): Promise<PostRdo> {
-    const draftsList = await this.postService.indexUserDrafts(user.sub);
+  public async indexDrafts(@Req() { sub }: TokenPayload): Promise<PostRdo> {
+    const draftsList = await this.postService.indexUserDrafts(sub);
     return fillDTO<PostRdo, PostContent[]>(PostRdo, draftsList.map((post) => post.toPOJO()));
   }
 }

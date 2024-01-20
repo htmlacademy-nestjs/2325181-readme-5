@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { SubscriberValidationMessage } from './subscriber.constant';
+import { SubscriberValidationMessage } from '../subscriber.constant';
 
 export class CreateSubscriberDto {
   @IsNotEmpty({message: SubscriberValidationMessage.EmailRequired})

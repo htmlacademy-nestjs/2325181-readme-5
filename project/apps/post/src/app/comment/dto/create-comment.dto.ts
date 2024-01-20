@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsUUID, Length } from 'class-validator';
 import { CommentValidationMessage, CommentValidationParams } from '../comment.constant';
 
-{ ApiProperty}
 
 export class CreateCommentDto {
   @ApiProperty({

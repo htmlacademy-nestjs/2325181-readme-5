@@ -107,5 +107,5 @@ npm i
 #### Запустить все сервисы
 
 ```
-nx run-many -t serve -p users post notify upload 
+nx run-many -t serve -p user post notify upload 
 ```

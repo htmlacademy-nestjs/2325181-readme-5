@@ -12,7 +12,7 @@ export class PostVideoEntity extends BasePostEntity implements VideoPost, Entity
     this.populate(post);
   }
 
-  public toPOJO () {
+  public toPOJO (): VideoPost {
     return {
       ...super.toPOJO(),
       videoURL: this.videoURL

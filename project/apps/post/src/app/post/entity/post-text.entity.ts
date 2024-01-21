@@ -15,7 +15,7 @@ export class PostTextEntity extends BasePostEntity implements TextPost, Entity<s
     this.populate(post);
   }
 
-  public toPOJO () {
+  public toPOJO (): TextPost {
     return {
       ...super.toPOJO(),
       announce: this.announce,

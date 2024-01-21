@@ -13,7 +13,8 @@ Content-Type: application/json
 
 # Get user by Id
 GET http://localhost:5000/api/auth/65a7924e332cda36b5dc87bd HTTP/1.1
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldzEwQHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNTQ4MDgwNCwiZXhwIjoxNzA1NDgxMTY0fQ.Vf9duKyTbWzjbSPi8cAbtpPn-xM11mr-OxdYeDjrCNU
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldzEwQHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNTgxMTIyNywiZXhwIjoxNzA1ODExNTg3fQ.m6Iyhg6tObZbJzModtRznBexkxVAMD2IKvpeOosT9nM
+
 ###
 
 # Login user
@@ -24,5 +25,11 @@ Content-Type: application/json
   "email": "new10@user.com",
   "password": "123456"
 }
+
+###
+
+# Get new JWT pair
+POST http://localhost:5000/api/auth/refresh HTTP/1.1
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldzEwQHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNTgxMzcyMSwiZXhwIjoxNzA1ODE0MDgxfQ.1BfgiY9xxPT4VbKPLLmr376V4A9n85KwyRQ0WaLEfaM
 
 ###

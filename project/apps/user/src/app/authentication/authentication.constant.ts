@@ -4,6 +4,9 @@ export const AUTH_USER_PASSWORD_WRONG = 'User password is wrong';
 export const USERNAME_FIELD = 'email';
 
 export const UserValidationParams = {
+  Avatar: {
+    RegexURL: RegExp(/(.png$|.jpg$|.jpeg$)/i)
+  },
   Firstname: {
     Length: {
       Minimal: 3,
@@ -25,6 +28,9 @@ export const UserValidationParams = {
 } as const;
 
 export const UserValidationMessage = {
+  Avatar: {
+    InvalidFormat: 'User avatar should be a jpg or png file of not more than 500 kbyte size'
+  },
   Email: {
     InvalidFormat: 'User e-mail should have format user@domain.com'
   },

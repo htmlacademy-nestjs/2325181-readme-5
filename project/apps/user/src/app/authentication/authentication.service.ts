@@ -19,14 +19,13 @@ export class AuthenticationService {
   ) {}
 
   public async registerNewUser(dto: CreateUserDto):Promise<UserEntity> {
-    const {email, firstname, lastname, password} = dto;
+    const {email, firstname, lastname, password, avatar} = dto;
     const user = {
       email,
       firstname,
       lastname,
       passwordHash: '',
-      avatar: '',
-      likesList: []
+      avatar: avatar ?? '',
     }
     const existUser = await this.userRepository.findByEmail(email);
     if(existUser) {

@@ -13,9 +13,9 @@ export class UserModel extends Document implements AuthUser {
   public passwordHash: string;
 
   @Prop({
-    required: true
+    default: ''
   })
-  public likesList: string[];
+  public avatar: string;
 
   @Prop({
     required: true

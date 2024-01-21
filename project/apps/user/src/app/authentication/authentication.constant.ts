@@ -2,6 +2,7 @@ export const AUTH_USER_EXISTS = 'User with email exists';
 export const AUTH_USER_NOT_FOUND = 'User not found';
 export const AUTH_USER_PASSWORD_WRONG = 'User password is wrong';
 export const USERNAME_FIELD = 'email';
+export const REFRESH_TOKEN_NOT_EXISTS = 'Refresh token does not exist';
 
 export const UserValidationParams = {
   Avatar: {

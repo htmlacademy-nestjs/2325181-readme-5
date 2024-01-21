@@ -5,6 +5,6 @@ export function createJWTPayload(user: AuthUser): TokenPayload {
     sub: user.id,
     email: user.email,
     firstName: user.firstname,
-    lastName: user.lastname
+    lastName: user.lastname,
   }
 }

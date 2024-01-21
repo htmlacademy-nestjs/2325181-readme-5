@@ -8,6 +8,8 @@ import { TokenPayload, Token, AuthUser } from '@project/libs/shared/app/types';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConfig } from '@project/libs/shared/config/user';
 import { ConfigType } from '@nestjs/config';
+import { RefreshTokenService } from '../refresh-token/refresh-token.service';
+import { createJWTPayload } from '@project/libs/shared/core';
 
 @Injectable()
 export class AuthenticationService {
@@ -15,7 +17,8 @@ export class AuthenticationService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
-    @Inject(jwtConfig.KEY) private readonly jwtOptions: ConfigType<typeof jwtConfig>
+    @Inject(jwtConfig.KEY) private readonly jwtOptions: ConfigType<typeof jwtConfig>,
+    private readonly refreshTokenService: RefreshTokenService
   ) {}
 
   public async registerNewUser(dto: CreateUserDto):Promise<UserEntity> {
@@ -67,15 +70,12 @@ export class AuthenticationService {
   }
 
   public async createUserToken(user: AuthUser): Promise<Token> {
-    const payload: TokenPayload = {
-      sub: user.id,
-      email: user.email,
-      firstName: user.firstname,
-      lastName: user.lastname,
-    };
+    const accessTokenPayload = createJWTPayload(user);
+    const refreshTokenPayload = {...accessTokenPayload, tokenId: crypto.randomUUID()};
+    await this.refreshTokenService.createRefreshSession(refreshTokenPayload);
     try {
-      const accessToken = await this.jwtService.signAsync(payload);
-      const refreshToken = await this.jwtService.signAsync(payload, {
+      const accessToken = await this.jwtService.signAsync(accessTokenPayload);
+      const refreshToken = await this.jwtService.signAsync(refreshTokenPayload, {
         secret: this.jwtOptions.refreshTokenSecret,
         expiresIn: this.jwtOptions.refreshTokenExpiresIn
       });

@@ -73,5 +73,6 @@ export class AuthenticationController {
     return this.authService.createUserToken(user)
   }
 
+  
 
 }

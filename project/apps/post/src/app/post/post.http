@@ -1,27 +1,27 @@
 # Create new post
 
-POST http://localhost:6000/api/posts HTTP/1.1
+POST http://localhost:7000/api/posts HTTP/1.1
 Content-Type: application/json
 
 {
-  "type": "photo",
-  "tags": ["ShakesPeare", "cite", "author"],
-  "videoURL": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis egestas tortor sit amet iaculis.",
-  "text": "fdljfdlfkjdfld",
-  "photo": "photo"
+  "type": "text",
+  "tags": ["Mark Twain", "writer", "novel"],
+  "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis egestas tortor sit amet iaculis.",
+  "announce": "this is post announce",
+  "title": "Lorem ipsum dolor sit amet"
 }
 
 ###
 
 #Show post details
 
-GET http://localhost:6000/api/posts/044cec4f-bc7c-4f76-b45b-010f76270401 HTTP/1.1
+GET http://localhost:7000/api/posts/044cec4f-bc7c-4f76-b45b-010f76270401 HTTP/1.1
 
 ###
 
 #Update post data
 
-PATCH http://localhost:6000/api/posts/044cec4f-bc7c-4f76-b45b-010f76270401 HTTP/1.1
+PATCH http://localhost:7000/api/posts/044cec4f-bc7c-4f76-b45b-010f76270401 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -32,12 +32,30 @@ Content-Type: application/json
 
 #Delete post
 
-DELETE http://localhost:6000/api/posts/044cec4f-bc7c-4f76-b45b-010f76270401 HTTP/1.1
+DELETE http://localhost:7000/api/posts/044cec4f-bc7c-4f76-b45b-010f76270401 HTTP/1.1
 
 ###
 
 #Repost post
 
-POST http://localhost:6000/api/posts/repost/1f8eb4c9-e011-4a45-ae67-30d17c87898f HTTP/1.1
+POST http://localhost:7000/api/posts/repost/1f8eb4c9-e011-4a45-ae67-30d17c87898f HTTP/1.1
+
+###
+
+# Get list of posts
+
+GET http://localhost:7000/api/posts?type=photo HTTP/1.1
+
+###
+
+# Search posts by title
+
+GET http://localhost:7000/api/posts/search?title=Lorem HTTP/1.1
+
+###
+
+# List user drafts
+
+GET http://localhost:7000/api/posts/drafts HTTP/1.1
 
 ###

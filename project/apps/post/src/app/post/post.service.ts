@@ -24,7 +24,7 @@ export class PostService {
       type,
       tags: tagsLowerUnique,
       ...content,
-      isPublished: false,
+      isPublished: true,
       isRepost: false,
       authorId: '',
       originPostId: '',

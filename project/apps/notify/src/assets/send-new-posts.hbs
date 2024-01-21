@@ -1,0 +1,55 @@
+<h1>Новые публикации по подписке</h1>
+
+<ul>
+  {{#each posts}}
+    <li>
+      <h2>Тип публикации: {{type}}</h2>
+      <cite>Автор публикации: {{authorId}}</cite>
+      <p>Дата публикации: <b>{{updatedAt}}</b></p>
+
+      {{#if title}}
+        <p>Название публикации: {{title}}</p>
+      {{/if}}
+
+      {{#if announce}}
+        <p>Анонс публикации: {{announce}}</p>
+      {{/if}}
+
+      {{#if text}}
+        <p>Текст публикации: {{text}}</p>
+      {{/if}}
+
+      {{#if creator}}
+        <p>Автор цитаты: {{creator}}</p>
+      {{/if}}
+
+      {{#if citeText}}
+        <p>Текст цитаты: {{citeText}}</p>
+      {{/if}}
+
+      {{#if linkURL}}
+        <p>Адрес ссылки: {{linkURL}}</p>
+      {{/if}}
+
+      {{#if linkDescription}}
+        <p>Описание ссылки: {{linkDescription}}</p>
+      {{/if}}
+
+      {{#if photo}}
+        <p>Фотография: {{photo}}</p>
+      {{/if}}
+
+      {{#if videoURL}}
+        <p>Видео: {{videoURL}}</p>
+      {{/if}}
+
+      {{#if tags}}
+        <p>Теги:
+          {{#each tags}}
+          <span>#{{this}}</span>
+          {{/each}}
+        </p>
+      {{/if}}
+
+      {{/each}}
+</ul>

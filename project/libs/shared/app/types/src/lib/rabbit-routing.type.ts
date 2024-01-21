@@ -1,3 +1,4 @@
 export const RabbitRouting  = {
-  AddSubscriber: 'notify.addSubscriber'
+  AddSubscriber: 'notify.addSubscriber',
+  SendNewPosts: 'notify.sendNewPosts'
 }

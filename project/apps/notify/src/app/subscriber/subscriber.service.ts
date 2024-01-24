@@ -1,8 +1,9 @@
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import { SubscriberEntity } from './subscriber.entity';
 import { SubscriberRepository } from './subscriber.repository';
 
+@Injectable()
 export class SubscriberService {
   constructor (
     private readonly subscriberRepository: SubscriberRepository
@@ -17,7 +18,7 @@ export class SubscriberService {
     return this.subscriberRepository.save(new SubscriberEntity().populate(subscriber));
   }
 
-  public async sendNewPosts(email: string): Promise<SubscriberEntity> {
+  public async updateSubscriber(email: string): Promise<SubscriberEntity> {
     const existSubscriber = await this.subscriberRepository.findByEmail(email);
     if (!existSubscriber) {
       throw new NotFoundException('The subscriber has not been found');
@@ -29,5 +30,13 @@ export class SubscriberService {
 
   public async countFollowers(email: string): Promise<number> {
     return await this.subscriberRepository.findFollowers(email);
+  }
+
+  public async addSubscription(email: string, emailSubscribe: string): Promise<SubscriberEntity> {
+    return await this.subscriberRepository.addSubscription(email, emailSubscribe);
+  }
+
+  public async removeSubscription(email: string, emailUnsubscribe: string): Promise<SubscriberEntity> {
+    return await this.subscriberRepository.removeSubscription(email, emailUnsubscribe);
   }
 }

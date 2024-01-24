@@ -25,7 +25,7 @@ export class SubscriberEntity implements Subscriber, Entity<string, Subscriber> 
     this.email = data.email;
     this.firstname = data.firstname;
     this.lastname = data.lastname;
-    this.newPostsUpdate = data.newPostsUpdate ?? undefined;
+    this.newPostsUpdate = data.newPostsUpdate || new Date();
     this.followUp = data.followUp ?? []
     return this;
   }

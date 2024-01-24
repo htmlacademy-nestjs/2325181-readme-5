@@ -19,7 +19,7 @@ export class MailService {
       from: this.notifyConfig.mail.from,
       to: subscriber.email,
       subject: EMAIL_ADD_SUBSCRIBER_SUBJECT,
-      template: '../../assets/add-subscriber',
+      template: '../assets/add-subscriber',
       context: {
         user: `${subscriber.firstname} ${subscriber.lastname}`,
         email: `${subscriber.email}`,
@@ -33,7 +33,7 @@ export class MailService {
       from: this.notifyConfig.mail.from,
       to: newPostsUpdate.email,
       subject: SEND_NEW_POSTS_SUBJECT,
-      template: '../../assets/send-new-posts',
+      template: '../assets/send-new-posts',
       context: {
         posts,
       }

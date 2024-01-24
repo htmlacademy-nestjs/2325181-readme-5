@@ -3,7 +3,7 @@ POST http://localhost:5000/api/auth/signin HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "new16@user.com",
+  "email": "new20@user.com",
   "firstname": "Alex",
   "lastname": "Bochkin",
   "password": "123456",
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 # Get user by Id
 GET http://localhost:5000/api/auth/65a7924e332cda36b5dc87bd HTTP/1.1
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldzEwQHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNTgxODU4OCwiZXhwIjoxNzA4NDEwNTg4fQ.Mn-xVMoIVE5A4qKY3s6jee1zbdQfdW8nm_lBXjV5TYg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIwYjY1ODE5ZmJkOTYxZjBkNGY4NDQiLCJlbWFpbCI6Im5ldzE4QHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNjA3OTg0NSwiZXhwIjoxNzA4NjcxODQ1fQ.Y_N7-DWv1ohra-UN8L0R95wct88kScOFph9ewkZ-3WE
 
 ###
 
@@ -23,14 +23,27 @@ POST http://localhost:5000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "new10@user.com",
-  "password": "123456"
+  "email": "new17@user.com",
+  "password": "qazxsw"
 }
 
 ###
 
 # Get new JWT pair
 POST http://localhost:5000/api/auth/refresh HTTP/1.1
-Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldzEwQHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNTgxMzcyMSwiZXhwIjoxNzA1ODE0MDgxfQ.1BfgiY9xxPT4VbKPLLmr376V4A9n85KwyRQ0WaLEfaM
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIwYjY1ODE5ZmJkOTYxZjBkNGY4NDQiLCJlbWFpbCI6Im5ldzE4QHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsInRva2VuSWQiOiIzODMwOTYyNS05YmM4LTRjY2UtYmRlMy1hMWIzYzA5NTQxYzQiLCJpYXQiOjE3MDYwNzk4NDUsImV4cCI6MTcwNjA4MDIwNX0.DZKHl50oNo_jtNHHaoShe5GON3_Y0p4-y_B9sWGA5Eo
+
+###
+
+
+# Change user password
+PATCH http://localhost:5000/api/auth/password HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWFmYzNkYmU0ZGQwZDllNGVlYjI0ZTYiLCJlbWFpbCI6Im5ldzE3QHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNjA4Njc4MSwiZXhwIjoxNzA4Njc4NzgxfQ.B4hNcE_lBCmt3TcgZGjFdJDcRvALbZyTykjPIeKM7oo
+
+{
+  "oldPassword": "qwerty",
+  "newPassword": "qazxsw"
+}
 
 ###

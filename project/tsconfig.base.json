@@ -19,6 +19,9 @@
       "@project/libs/shared/config/notify": [
         "libs/shared/config/notify/src/index.ts"
       ],
+      "@project/libs/shared/config/post": [
+        "libs/shared/config/post/src/index.ts"
+      ],
       "@project/libs/shared/config/upload": [
         "libs/shared/config/upload/src/index.ts"
       ],

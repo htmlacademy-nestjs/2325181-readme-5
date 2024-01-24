@@ -59,6 +59,7 @@ export class CreateUserDto {
     UserValidationParams.Password.Length.Maximal,
     {message: UserValidationMessage.Password.InvalidLength}
   )
+  @IsString({message: UserValidationMessage.Password.InvalidPassword})
   public password: string;
 }
 

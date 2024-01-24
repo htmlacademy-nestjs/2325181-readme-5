@@ -44,7 +44,7 @@ export const UserValidationMessage = {
     InvalidLength: 'User lastname should have a minimal length of 3 letters, maximal length of 50 letters'
   },
   Password: {
-    InvalidLength: 'User e-mail should have a string format',
-    InvalidPassword: 'User password should have a minimal length of 6 letters, maximal length of 12 letters'
+    InvalidLength: 'User password should have a minimal length of 6 letters, maximal length of 12 letters',
+    InvalidPassword: 'User password should be a string value'
   }
 } as const;

@@ -4,4 +4,5 @@ export interface Subscriber {
   firstname: string;
   lastname: string;
   newPostsUpdate?: Date;
+  followUp?: string[];
 }

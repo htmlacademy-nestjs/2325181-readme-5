@@ -28,6 +28,7 @@ export class UserEntity implements AuthUser, Entity<string, AuthUser> {
   }
 
   public populate(data: AuthUser): void {
+    this.id = data.id;
     this.email = data.email;
     this.firstname = data.firstname;
     this.lastname = data.lastname;

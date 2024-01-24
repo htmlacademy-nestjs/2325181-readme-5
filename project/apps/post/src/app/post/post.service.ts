@@ -65,7 +65,7 @@ export class PostService {
   }
 
   public async indexPosts(filter?: FilterQuery): Promise<PaginationResult<PostContentEntity>> {
-     return this.postRepository.findMany(filter);
+     return await this.postRepository.findMany(filter);
   }
 
   public async repostPost(postId: string): Promise<PostContentEntity> {

@@ -4,12 +4,14 @@ import { AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG } from 
 import { UserEntity } from '../user/user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UserRepository } from '../user/user.repository';
-import { TokenPayload, Token, AuthUser } from '@project/libs/shared/app/types';
+import { Token, AuthUser, TokenPayload } from '@project/libs/shared/app/types';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConfig } from '@project/libs/shared/config/user';
 import { ConfigType } from '@nestjs/config';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 import { createJWTPayload } from '@project/libs/shared/core';
+import * as crypto from 'node:crypto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class AuthenticationService {
@@ -36,6 +38,15 @@ export class AuthenticationService {
     }
     const userEntity = await new UserEntity(user).setPassword(password);
     return this.userRepository.save(userEntity);
+  }
+
+  public async changePassword (payload: TokenPayload, dto: ChangePasswordDto): Promise<UserEntity> {
+    const existUser = await this.getUserEntity(payload.sub);
+    if (!(await existUser.comparePassword(dto.oldPassword))) {
+      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
+    }
+    const updateUser = await existUser.setPassword(dto.newPassword);
+    return await this.userRepository.update(updateUser.id, updateUser);
   }
 
   public async verifyUser(dto: LoginUserDto): Promise<UserEntity> {
@@ -70,6 +81,7 @@ export class AuthenticationService {
   }
 
   public async createUserToken(user: AuthUser): Promise<Token> {
+
     const accessTokenPayload = createJWTPayload(user);
     const refreshTokenPayload = {...accessTokenPayload, tokenId: crypto.randomUUID()};
     await this.refreshTokenService.createRefreshSession(refreshTokenPayload);

@@ -1,5 +1,5 @@
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
-import { getRabbitMQOptions } from '@project/libs/shared/config/user';
+import { getRabbitMQOptions } from '@project/libs/shared/core';
 import { NotifyUserService } from './notify-user.service';
 import { Module } from '@nestjs/common';
 

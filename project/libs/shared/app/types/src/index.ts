@@ -21,7 +21,10 @@ export * from './lib/stored-file.interface';
 export * from './lib/rabbit-routing.type';
 export * from './lib/subscriber.interface';
 export * from './lib/like.interface';
-export * from './lib/request-with-user.interface';
+export * from './lib/token/request-with-token-payload.interface';
 export * from './lib/token/refresh-token-payload.interface';
 export * from './lib/date-and-time.type';
 export * from './lib/token/token.interface'
+export * from './lib/request-with-user.interface'
+export * from './lib/comment-filter.interface'
+export * from './lib/entities-with-pagination.rdo'

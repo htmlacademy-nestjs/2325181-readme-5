@@ -52,3 +52,5 @@ export function parseTime(time: string): TimeAndUnit {
   }
   return { value, unit }
 }
+
+export const ENVIRONMENTS = ['development', 'production', 'stage'] as const;

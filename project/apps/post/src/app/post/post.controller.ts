@@ -1,5 +1,5 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Post, Body, Get, Param, HttpStatus, Delete, Patch, Controller, Query, Req, UseGuards } from '@nestjs/common';
+import { Post, Body, Get, Param, HttpStatus, Delete, Patch, Controller, Query, Req, } from '@nestjs/common';
 import { fillDTO} from '@project/libs/shared/helpers';
 import { PostService } from './post.service';
 import { CreateContentPostDtoType } from './dto';
@@ -8,8 +8,8 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { SearchQuery } from './query/search.query';
 import { PostContent, PaginationResult, RequestWithUser } from '@project/libs/shared/app/types';
 import { FilterQuery } from './query/filter.query';
-import { PostWithPaginationRdo } from './rdo/post-with-pagination.rdo';
 import { NotifyPostService } from '../notify/notify-post.service';
+import { EntitiesWithPaginationRdo } from '@project/libs/shared/app/types';
 
 
 @ApiTags('posts')
@@ -45,13 +45,13 @@ export class PostController {
     description: 'The following posts have been found.'
   })
   @Get('/')
-  public async index(@Query() filter: FilterQuery): Promise<PostWithPaginationRdo> {
+  public async index(@Query() filter: FilterQuery): Promise<EntitiesWithPaginationRdo<PostRdo>> {
     const postsWithPagination = await this.postService.indexPosts(filter);
     const result = {
       ...postsWithPagination,
       entities: postsWithPagination.entities.map((post) => post.toPOJO())
     }
-    return fillDTO<PostWithPaginationRdo, PaginationResult<PostContent>>(PostWithPaginationRdo, result);
+    return fillDTO<EntitiesWithPaginationRdo<PostRdo>, PaginationResult<PostContent>>(EntitiesWithPaginationRdo<PostRdo>, result);
   }
 
   @ApiResponse({

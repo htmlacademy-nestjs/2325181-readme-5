@@ -5,7 +5,7 @@ import mongoConfig from './mongodb/mongo.config';
 import jwtConfig from './jwt/jwt.config';
 import rabbitConfig from './rabbit/rabbit.config';
 
-const ENV_USERS_FILE_PATH = 'apps/user/.user.env';
+const ENV_USER_FILE_PATH = 'apps/user/.user.env';
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ const ENV_USERS_FILE_PATH = 'apps/user/.user.env';
       isGlobal: true,
       cache: true,
       load: [applicationConfig, mongoConfig, jwtConfig, rabbitConfig],
-      envFilePath: ENV_USERS_FILE_PATH
+      envFilePath: ENV_USER_FILE_PATH
     }),
   ]
 })

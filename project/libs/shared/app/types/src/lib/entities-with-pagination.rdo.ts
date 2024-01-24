@@ -1,9 +1,8 @@
-import { PostRdo } from './post.rdo';
 import { Expose } from 'class-transformer';
 
-export class PostWithPaginationRdo {
+export class EntitiesWithPaginationRdo<T> {
   @Expose()
-  public entities: PostRdo[];
+  public entities: T[];
 
   @Expose()
   public totalPages: number;

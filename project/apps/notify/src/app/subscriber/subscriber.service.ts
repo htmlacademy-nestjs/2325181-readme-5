@@ -26,4 +26,8 @@ export class SubscriberService {
       .populate({...existSubscriber, newPostsUpdate: new Date()});
     return await this.subscriberRepository.update(subscriberEntity.id, subscriberEntity)
   }
+
+  public async countFollowers(email: string): Promise<number> {
+    return await this.subscriberRepository.findFollowers(email);
+  }
 }

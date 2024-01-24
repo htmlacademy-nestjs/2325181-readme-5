@@ -1,9 +1,12 @@
 import { BasePostgresRepository } from '@project/libs/shared/core';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CommentEntity } from './comment.entity';
-import { Comment} from '@project/libs/shared/app/types'
+import { Comment, PaginationResult} from '@project/libs/shared/app/types'
 import { PrismaClientService } from '@project/libs/shared/post/models';
 import { COMMENT_LIST_REUQEST_COUNT, COMMENT_NOT_FOUND } from './comment.constant';
+import { FilterQuery } from './query/filter.query';
+import { Prisma } from '@prisma/client';
+
 
 @Injectable()
 export class CommentRepository extends BasePostgresRepository<CommentEntity, Comment> {
@@ -41,14 +44,29 @@ export class CommentRepository extends BasePostgresRepository<CommentEntity, Com
     });
   }
 
-  public async findManyByPostId(postId: string): Promise<CommentEntity[]> {
-    const foundComments = await this.client.comment.findMany({
-      where: {
-        postId,
-      },
-      take: COMMENT_LIST_REUQEST_COUNT
-    });
-    return foundComments.map((comment) => this.createEntityFromDocument(comment));
+  public async findMany(postId: string, {page}: FilterQuery): Promise<PaginationResult<CommentEntity>> {
+    const skip = (page - 1) * COMMENT_LIST_REUQEST_COUNT;
+    const where = {
+      postId,
+    };
+    const [foundComments, totalComments] = await Promise.all([
+      this.client.comment.findMany({
+        where,
+        skip,
+        take: COMMENT_LIST_REUQEST_COUNT
+      }),
+      this.getTotalComments(where)
+    ])
+    return {
+      entities: foundComments.map((comment) => this.createEntityFromDocument(comment)),
+      currentPage: page,
+      totalPages: Math.ceil(totalComments /  COMMENT_LIST_REUQEST_COUNT),
+      itemsPerPage: COMMENT_LIST_REUQEST_COUNT,
+      totalItems: totalComments
+    }
   }
 
+  private async getTotalComments (where: Prisma.CommentWhereInput): Promise<number> {
+    return this.client.comment.count({where});
+  }
 }

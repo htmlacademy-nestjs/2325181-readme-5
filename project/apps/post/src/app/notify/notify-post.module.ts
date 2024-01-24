@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
-import { getRabbitMQOptions } from '@project/libs/shared/config/user';
+import { getRabbitMQOptions } from '@project/libs/shared/core';
 import { NotifyPostService } from './notify-post.service';
 
 @Module({

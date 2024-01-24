@@ -17,4 +17,8 @@ export class SubscriberRepository extends BaseMongoRepository<SubscriberEntity, 
     const document = await this.model.findOne({email}).exec();
     return this.createEntityFromDocument(document);
   }
+
+  public async findFollowers(email: string): Promise<number> {
+    return await this.model.countDocuments({followUp: email});
+  }
 }

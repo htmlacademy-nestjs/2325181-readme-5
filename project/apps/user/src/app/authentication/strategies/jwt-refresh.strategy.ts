@@ -7,6 +7,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { RefreshTokenPayload} from '@project/libs/shared/app/types';
 import { RefreshTokenService } from '../../refresh-token/refresh-token.service';
 import { REFRESH_TOKEN_NOT_EXISTS } from '../authentication.constant';
+import { UserEntity } from '../../user/user.entity';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
@@ -21,12 +22,12 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
     });
   }
 
-  public async validate(payload: RefreshTokenPayload) {
+  public async validate(payload: RefreshTokenPayload): Promise<UserEntity> {
     if(! await this.refreshTokenService.isExists(payload.tokenId)) {
       throw new UnauthorizedException(REFRESH_TOKEN_NOT_EXISTS);
     }
     await this.refreshTokenService.deleteRefreshSession(payload.tokenId);
     await this.refreshTokenService.deleteExpiredRefreshTokens();
-    return this.authService.getUserByEmail(payload.email);
+    return await this.authService.getUserByEmail(payload.email);
   }
 }

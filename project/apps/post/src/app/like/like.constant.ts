@@ -1,6 +1,8 @@
 export const LIKE_NOT_FOUND = 'The like has not been found';
 
-export const POST_FOR_LIKE_NOT_FOUND = 'The post for like has not been found';
+export const USER_UNAUTHORIZED = 'User may not add/remove another like for single post';
+
+export const USER_FORBIDDEN = 'User may not add/remove like for not published posts';
 
 export const LikekValidationMessage = {
   PostId: {
@@ -9,6 +11,6 @@ export const LikekValidationMessage = {
   },
   UserId: {
     Required: 'User id is required field',
-    InvalidFormat: 'Post id should be a valid MongoId value'
+    InvalidFormat: 'User id should be a valid MongoId value'
   },
 }

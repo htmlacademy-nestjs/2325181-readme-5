@@ -32,6 +32,9 @@ export const UserValidationMessage = {
   Avatar: {
     InvalidFormat: 'User avatar should be a jpg or png file of not more than 500 kbyte size'
   },
+  AuthorId: {
+    InvalidFormat: 'Author id should be valid mongo id'
+  },
   Email: {
     InvalidFormat: 'User e-mail should have format user@domain.com'
   },

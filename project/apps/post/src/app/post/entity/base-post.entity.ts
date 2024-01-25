@@ -67,12 +67,6 @@ export class BasePostEntity implements BasePost, Entity<string, BasePost> {
     this.likes = data.likes;
   }
 
-  public update(data: UpdatePostDto): void {
-    for (let key in data) {
-      this[key] = data[key];
-    }
-  }
-
   static fromObject(data: BasePost): BasePostEntity {
     return new BasePostEntity(data);
   }

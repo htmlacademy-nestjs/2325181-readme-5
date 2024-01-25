@@ -2,8 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import { SubscriberEntity } from './subscriber.entity';
 import { SubscriberRepository } from './subscriber.repository';
-import { SendNewPostsDto } from './dto/send-new-posts.dto';
-import { PostContent } from '@project/libs/shared/app/types';
 
 @Injectable()
 export class SubscriberService {

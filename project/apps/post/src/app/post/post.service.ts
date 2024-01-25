@@ -8,6 +8,7 @@ import { PostContentEntity } from './entity/post-content.entity';
 import { FilterQuery } from './query/filter.query';
 import { transformTags } from '@project/libs/shared/helpers';
 import { PaginationResult } from '@project/libs/shared/app/types';
+import { SubscriptionFilterQuery } from './query/subscription-filter.query';
 
 
 
@@ -72,6 +73,10 @@ export class PostService {
 
   public async indexPosts(filter?: FilterQuery): Promise<PaginationResult<PostContentEntity>> {
      return await this.postRepository.findMany(filter);
+  }
+
+  public async indexUserSubscription (filter: SubscriptionFilterQuery): Promise<PaginationResult<PostContentEntity>> {
+    return await this.postRepository.findManySubscribed(filter);
   }
 
   public async repostPost(postId: string, userId: string): Promise<PostContentEntity> {

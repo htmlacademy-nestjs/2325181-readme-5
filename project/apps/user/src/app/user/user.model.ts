@@ -31,6 +31,17 @@ export class UserModel extends Document implements AuthUser {
     required: true
   })
   public lastname: string;
+
+  @Prop({
+    required: true,
+  })
+  public createdAt: Date;
+
+  @Prop({
+    required: true,
+    default: []
+  })
+  public subscribedFor: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

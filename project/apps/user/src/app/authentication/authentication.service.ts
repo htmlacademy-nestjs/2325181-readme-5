@@ -25,6 +25,10 @@ export class AuthenticationService {
 
   public async registerNewUser(dto: CreateUserDto):Promise<UserEntity> {
     const {email, firstname, lastname, password, avatar} = dto;
+    const existUser = await this.userRepository.findByEmail(email);
+    if(existUser) {
+      throw new ConflictException(AUTH_USER_EXISTS);
+    }
     const user = {
       email,
       firstname,
@@ -32,43 +36,26 @@ export class AuthenticationService {
       passwordHash: '',
       avatar: avatar ?? '',
     }
-    const existUser = await this.userRepository.findByEmail(email);
-    if(existUser) {
-      throw new ConflictException(AUTH_USER_EXISTS);
-    }
     const userEntity = await new UserEntity(user).setPassword(password);
-    return this.userRepository.save(userEntity);
+    const savedUser = await this.userRepository.save(userEntity);
+    savedUser.subscribedFor.push(savedUser.id);
+    return savedUser;
   }
 
   public async changePassword (payload: TokenPayload, dto: ChangePasswordDto): Promise<UserEntity> {
-    const existUser = await this.getUserEntity(payload.sub);
-    if (!(await existUser.comparePassword(dto.oldPassword))) {
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
-    }
+    const loginUserDto: LoginUserDto = {email: payload.email, password: dto.oldPassword}
+    const existUser = await this.verifyUser(loginUserDto);
     const updateUser = await existUser.setPassword(dto.newPassword);
     return await this.userRepository.update(updateUser.id, updateUser);
   }
 
   public async verifyUser(dto: LoginUserDto): Promise<UserEntity> {
     const {email, password} = dto;
-    const existUser = await this.userRepository.findByEmail(email);
-    if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
-    }
-    const userEntity = new UserEntity(existUser);
-    if (!(await userEntity.comparePassword(password))) {
+    const existUser = await this.getUserByEmail(email);
+    if (!(await existUser.comparePassword(password))) {
       throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
     }
-    return userEntity;
-  }
-
-  public async getUserEntity(id: string): Promise<UserEntity> {
-    const existUser = await this.userRepository.findById(id);
-    if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
-    }
-    const userEntity = new UserEntity(existUser);
-    return userEntity;
+    return existUser;
   }
 
   public async getUserByEmail(email: string): Promise<UserEntity> {
@@ -76,8 +63,7 @@ export class AuthenticationService {
     if (!existUser) {
       throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
-    const userEntity = new UserEntity(existUser);
-    return userEntity;
+    return existUser;
   }
 
   public async createUserToken(user: AuthUser): Promise<Token> {

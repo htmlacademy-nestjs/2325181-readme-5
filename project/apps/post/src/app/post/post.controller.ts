@@ -11,6 +11,7 @@ import { FilterQuery } from './query/filter.query';
 import { NotifyPostService } from '../notify/notify-post.service';
 import { EntitiesWithPaginationRdo } from '@project/libs/shared/app/types';
 import { CheckAuthGuard } from '../guards/check-auth.guard';
+import { SubscriptionFilterQuery } from './query/subscription-filter.query';
 
 
 @ApiTags('posts')
@@ -40,6 +41,21 @@ export class PostController {
   })
   @Get('/')
   public async index(@Query() filter: FilterQuery): Promise<EntitiesWithPaginationRdo<PostRdo>> {
+    const postsWithPagination = await this.postService.indexPosts(filter);
+    const result = {
+      ...postsWithPagination,
+      entities: postsWithPagination.entities.map((post) => post.toPOJO())
+    }
+    return fillDTO<EntitiesWithPaginationRdo<PostRdo>, PaginationResult<PostContent>>(EntitiesWithPaginationRdo<PostRdo>, result);
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The following posts have been found.'
+  })
+  @UseGuards(CheckAuthGuard)
+  @Get('subscription')
+  public async indexSubscribed(@Query() filter: SubscriptionFilterQuery): Promise<EntitiesWithPaginationRdo<PostRdo>> {
     const postsWithPagination = await this.postService.indexPosts(filter);
     const result = {
       ...postsWithPagination,

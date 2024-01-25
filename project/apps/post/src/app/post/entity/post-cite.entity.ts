@@ -26,11 +26,6 @@ export class PostCiteEntity extends BasePostEntity implements CitePost, Entity<s
     this.citeText = data.citeText;
   }
 
-  public update(data: UpdatePostDto): void {
-    for (let key in data) {
-      this[key] = data[key];
-    }
-  }
 
   static fromObject(data: CitePost): PostCiteEntity {
     return new PostCiteEntity(data);

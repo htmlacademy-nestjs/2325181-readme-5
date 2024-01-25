@@ -84,15 +84,4 @@ export class AuthenticationController {
     return payload;
   }
 
-  @ApiResponse({
-    type: UserRdo,
-    status: HttpStatus.OK,
-    description: 'User found'
-  })
-  @UseGuards(JwtAuthGuard)
-  @Get(':id')
-  public async show(@Param('id', MongoIdValidationPipe) userId: string): Promise<UserRdo> {
-    const existUser = await this.authService.getUserEntity(userId);
-    return fillDTO(UserRdo, existUser.toPOJO());
-  }
 }

@@ -30,12 +30,6 @@ export class PostTextEntity extends BasePostEntity implements TextPost, Entity<s
     this.text = data.text;
   }
 
-  public update(data: UpdatePostDto): void {
-    for (let key in data) {
-      this[key] = data[key];
-    }
-  }
-
   static fromObject(data: TextPost): PostTextEntity {
     return new PostTextEntity(data);
   }

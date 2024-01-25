@@ -23,12 +23,6 @@ export class PostVideoEntity extends BasePostEntity implements VideoPost, Entity
     this.videoURL = data.videoURL;
   }
 
-  public update(data: UpdatePostDto): void {
-    for (let key in data) {
-      this[key] = data[key];
-    }
-  }
-
   static fromObject(data: VideoPost): PostVideoEntity {
     return new PostVideoEntity(data);
   }

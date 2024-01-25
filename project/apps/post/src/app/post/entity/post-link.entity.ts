@@ -26,12 +26,6 @@ export class PostLinkEntity extends BasePostEntity implements LinkPost, Entity<s
     this.linkDescription = data.linkDescription;
   }
 
-  public update(data: UpdatePostDto): void {
-    for (let key in data) {
-      this[key] = data[key];
-    }
-  }
-
   static fromObject(data: LinkPost): PostLinkEntity {
     return new PostLinkEntity(data);
   }

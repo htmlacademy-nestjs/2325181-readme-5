@@ -47,7 +47,7 @@ export const PostValidationParams = {
 
 export const PostValidationMessage = {
   AuthorId: {
-    InvalidFormat: 'Author id should have a string format',
+    InvalidFormat: 'Author id should be valid mongo id'
   },
   Creator: {
     InvalidFormat: 'Cite creator should have a string format',

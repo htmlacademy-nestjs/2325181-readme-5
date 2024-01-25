@@ -23,12 +23,6 @@ export class PostPhotoEntity extends BasePostEntity implements PhotoPost, Entity
     this.photo = data.photo;
   }
 
-  public update(data: UpdatePostDto): void {
-    for (let key in data) {
-      this[key] = data[key];
-    }
-  }
-
   static fromObject(data: PhotoPost): PostPhotoEntity {
     return new PostPhotoEntity(data);
   }

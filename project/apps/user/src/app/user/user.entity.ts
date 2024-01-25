@@ -1,6 +1,7 @@
 import { AuthUser } from '@project/libs/shared/app/types';
 import { Entity } from '@project/libs/shared/core';
 import { genSalt, hash, compare } from 'bcrypt';
+import { ObjectId } from 'mongoose';
 import { SALT_ROUNDS } from './user.constant';
 
 export class UserEntity implements AuthUser, Entity<string, AuthUser> {
@@ -10,6 +11,8 @@ export class UserEntity implements AuthUser, Entity<string, AuthUser> {
   public lastname: string;
   public passwordHash: string;
   public avatar: string;
+  public createdAt?: Date;
+  public subscribedFor?: string[];
 
 
   constructor(user: AuthUser) {
@@ -24,6 +27,8 @@ export class UserEntity implements AuthUser, Entity<string, AuthUser> {
       lastname: this.lastname,
       passwordHash: this.passwordHash,
       avatar: this.avatar,
+      createdAt: this.createdAt,
+      subscribedFor: this.subscribedFor
     };
   }
 
@@ -34,6 +39,8 @@ export class UserEntity implements AuthUser, Entity<string, AuthUser> {
     this.lastname = data.lastname;
     this.passwordHash = data.passwordHash;
     this.avatar = data.avatar;
+    this.createdAt = data.createdAt ?? new Date();
+    this.subscribedFor = data.subscribedFor ?? [];
   }
 
   public async setPassword(password: string): Promise<UserEntity> {

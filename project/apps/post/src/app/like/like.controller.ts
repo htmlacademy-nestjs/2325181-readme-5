@@ -1,9 +1,11 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LikeService } from './like.service';
-import { HttpStatus, Param, Controller, Post, Req, Delete } from '@nestjs/common';
+import { HttpStatus, Param, Controller, Post, Req, Delete, Get, UseGuards } from '@nestjs/common';
 import { TokenPayload } from '@project/libs/shared/app/types';
 import { fillDTO } from '@project/libs/shared/helpers';
 import { LikeRdo } from './rdo/like.rdo';
+import { CheckAuthGuard } from '../guards/check-auth.guard';
+import { AddDeleteLikeDto } from './dto/add-delete-like.dto';
 
 @ApiTags('likes')
 @Controller('likes')
@@ -16,6 +18,7 @@ export class LikeController {
     status: HttpStatus.CREATED,
     description: 'The like has been added.'
   })
+  @UseGuards(CheckAuthGuard)
   @Post('/:postId')
   public async create(@Param('postId') postId: string, @Req() { sub }: TokenPayload): Promise<LikeRdo> {
     const newLike = await this.likeService.addLike({postId, userId: sub});
@@ -26,8 +29,19 @@ export class LikeController {
     status: HttpStatus.NO_CONTENT,
     description: 'The like has been deleted.'
   })
+  @UseGuards(CheckAuthGuard)
   @Delete('/:postId')
   public async delete(@Param('postId') postId: string, @Req() { sub }: TokenPayload): Promise<void> {
-    await this.likeService.deleteLike(sub, postId);
+    await this.likeService.deleteLike({postId, userId: sub});
   }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The likes count number provided.'
+  })
+  @Get('/:postId')
+  public async count(@Param('postId') postId: string): Promise<number> {
+    return await this.likeService.countLikes(postId);
+  }
+
 }

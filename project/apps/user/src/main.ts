@@ -16,7 +16,6 @@ async function bootstrap() {
     .setDescription('User service API')
     .setVersion('1.0')
     .build();
-
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   const document = SwaggerModule.createDocument(app, config);

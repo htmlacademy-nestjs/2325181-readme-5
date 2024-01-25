@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import { SubscriberEntity } from './subscriber.entity';
 import { SubscriberRepository } from './subscriber.repository';
+import { SendNewPostsDto } from './dto/send-new-posts.dto';
+import { PostContent } from '@project/libs/shared/app/types';
 
 @Injectable()
 export class SubscriberService {
@@ -18,25 +20,18 @@ export class SubscriberService {
     return this.subscriberRepository.save(new SubscriberEntity().populate(subscriber));
   }
 
-  public async updateSubscriber(email: string): Promise<SubscriberEntity> {
+  public async findSubscriberByEmail(email: string): Promise<SubscriberEntity> {
     const existSubscriber = await this.subscriberRepository.findByEmail(email);
     if (!existSubscriber) {
       throw new NotFoundException('The subscriber has not been found');
     }
+    return existSubscriber;
+  }
+
+  public async updateSubscriber(email: string): Promise<SubscriberEntity> {
+    const existSubscriber = await this.findSubscriberByEmail(email);
     const subscriberEntity = new SubscriberEntity()
       .populate({...existSubscriber, newPostsUpdate: new Date()});
     return await this.subscriberRepository.update(subscriberEntity.id, subscriberEntity)
-  }
-
-  public async countFollowers(email: string): Promise<number> {
-    return await this.subscriberRepository.findFollowers(email);
-  }
-
-  public async addSubscription(email: string, emailSubscribe: string): Promise<SubscriberEntity> {
-    return await this.subscriberRepository.addSubscription(email, emailSubscribe);
-  }
-
-  public async removeSubscription(email: string, emailUnsubscribe: string): Promise<SubscriberEntity> {
-    return await this.subscriberRepository.removeSubscription(email, emailUnsubscribe);
   }
 }

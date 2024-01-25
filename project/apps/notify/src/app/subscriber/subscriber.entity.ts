@@ -7,7 +7,6 @@ export class SubscriberEntity implements Subscriber, Entity<string, Subscriber> 
   public firstname: string;
   public lastname: string;
   public newPostsUpdate?: Date;
-  public followUp: string[];
 
   toPOJO() {
     return {
@@ -16,7 +15,6 @@ export class SubscriberEntity implements Subscriber, Entity<string, Subscriber> 
       lastname: this.lastname,
       firstname: this.firstname,
       newPostsUpdate: this.newPostsUpdate,
-      followUp: this.followUp,
     }
   }
 
@@ -26,7 +24,6 @@ export class SubscriberEntity implements Subscriber, Entity<string, Subscriber> 
     this.firstname = data.firstname;
     this.lastname = data.lastname;
     this.newPostsUpdate = data.newPostsUpdate || new Date();
-    this.followUp = data.followUp ?? []
     return this;
   }
 

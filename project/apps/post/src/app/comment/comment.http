@@ -2,23 +2,23 @@
 
 POST http://localhost:7000/api/comments/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWFmYzNkYmU0ZGQwZDllNGVlYjI0ZTYiLCJlbWFpbCI6Im5ldzE3QHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNjA3OTIxOSwiZXhwIjoxNzA4NjcxMjE5fQ.Sn7j9atkU1Vp5X18ny4I_m29Go2-fASzTby1jIp0Rgo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWFmYzNkYmU0ZGQwZDllNGVlYjI0ZTYiLCJlbWFpbCI6Im5ldzE3QHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNjEwMzgwMSwiZXhwIjoxNzA4Njk1ODAxfQ.A91XbSUjLhFoh-gg90vjibzIwent6AVANU20Q0OoNzE
 
 {
   "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis egestas tortor sit amet iaculis.",
-  "postId": "3"
+  "postId": "9f7f49e9-aef4-46b7-8268-69b396a3af3f"
 }
 
 ###
 
 # Delete comment
 
-DELETE http://localhost:3000/api/comments/d5d039ab-aefb-4543-9445-347982821f6c HTTP/1.1
-
+DELETE http://localhost:7000/api/comments/e84dd6c8-a408-42bf-a952-c8880f2b5838 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWFmYzNkYmU0ZGQwZDllNGVlYjI0ZTYiLCJlbWFpbCI6Im5ldzE3QHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNjEwMzgwMSwiZXhwIjoxNzA4Njk1ODAxfQ.A91XbSUjLhFoh-gg90vjibzIwent6AVANU20Q0OoNzE
 ###
 
 # List comments for a post
 
-GET http://localhost:3000/api/comments/ HTTP/1.1
+GET http://localhost:7000/api/comments/9f7f49e9-aef4-46b7-8268-69b396a3af3f HTTP/1.1
 
 ###

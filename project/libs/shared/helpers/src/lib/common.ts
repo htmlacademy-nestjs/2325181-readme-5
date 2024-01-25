@@ -1,5 +1,5 @@
 import { ClassTransformOptions, plainToInstance } from 'class-transformer';
-import { DateTimeUnit, TimeAndUnit } from '@project/libs/shared/app/types';
+import { DateTimeUnit, TimeAndUnit, PostContent } from '@project/libs/shared/app/types';
 
 export function fillDTO<T, V>(
   DtoClass: new() => T,
@@ -54,3 +54,7 @@ export function parseTime(time: string): TimeAndUnit {
 }
 
 export const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
+
+
+export const filterNewPosts = (posts: PostContent[], newPostsUpdate: Date) => posts.filter((post) => post.publishedAt >= newPostsUpdate);
+

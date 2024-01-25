@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { PostType, PostTypeValues} from '@project/libs/shared/app/types';
-import { ArrayMaxSize, IsArray, IsOptional, IsString, IsUrl, Length, Matches, MaxLength, IsIn } from 'class-validator';
+import { ArrayMaxSize, IsArray, IsOptional, IsString, IsUrl, Length, Matches, MaxLength, IsIn, IsBoolean } from 'class-validator';
 import { PostValidationMessage, PostValidationParams } from '../post.constant';
 
 export class UpdatePostDto {
@@ -123,4 +123,9 @@ export class UpdatePostDto {
     {message: PostValidationMessage.Title.InvalidLength}
   )
   public title?: string;
+
+  @IsOptional()
+  @IsBoolean({message: PostValidationMessage.Title.InvalidFormat})
+  public isPublished?: boolean;
+
 }

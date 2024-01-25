@@ -27,11 +27,10 @@ export class MailService {
     })
   }
 
-  public async sendNotifyNewPosts (newPostsUpdate: SendNewPostsDto) {
-    const { posts } = newPostsUpdate;
+  public async sendNotifyNewPosts ({posts, email}: SendNewPostsDto) {
     await this.mailerService.sendMail({
       from: this.notifyConfig.mail.from,
-      to: newPostsUpdate.email,
+      to: email,
       subject: SEND_NEW_POSTS_SUBJECT,
       template: '../assets/send-new-posts',
       context: {

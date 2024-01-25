@@ -1,6 +1,6 @@
 import { IsArray, IsEmail, IsNotEmpty } from 'class-validator';
 import { SendNewPostsValidationMessage } from '../subscriber.constant';
-import { Post } from '@prisma/client';
+import { PostContent } from '@project/libs/shared/app/types';
 
 export class SendNewPostsDto {
   @IsNotEmpty({message: SendNewPostsValidationMessage.EmailRequired})
@@ -9,5 +9,5 @@ export class SendNewPostsDto {
 
   @IsNotEmpty({message: SendNewPostsValidationMessage.PostsRequired})
   @IsArray({message: SendNewPostsValidationMessage.PostsInvalidFormat})
-  public posts: Post[];
+  public posts: PostContent[];
 }

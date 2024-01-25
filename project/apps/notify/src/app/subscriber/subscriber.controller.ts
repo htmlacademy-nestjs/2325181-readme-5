@@ -6,6 +6,7 @@ import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import { MailService } from '../mail/mail.service';
 import { SendNewPostsDto } from './dto/send-new-posts.dto';
 import { UpdateSubscriptionDto } from './dto/update-subscription.dto';
+import { filterNewPosts } from '@project/libs/shared/helpers';
 
 @Controller('subscribe')
 export class SubscriberController {
@@ -19,7 +20,7 @@ export class SubscriberController {
     routingKey: RabbitRouting.AddSubscriber,
     queue: 'readme.notify.income',
   })
-  public async create(subscriber: CreateSubscriberDto) {
+  public async create(subscriber: CreateSubscriberDto): Promise<void> {
     this.subscriberService.addSubscriber(subscriber);
     this.mailService.sendNotifyNewSubscriber(subscriber);
   }
@@ -29,19 +30,10 @@ export class SubscriberController {
     routingKey: RabbitRouting.SendNewPosts,
     queue: 'readme.notify.posts',
   })
-  public async sendNewPosts(newPostsUpdate: SendNewPostsDto) {
-    this.subscriberService.updateSubscriber(newPostsUpdate.email);
-    this.mailService.sendNotifyNewPosts(newPostsUpdate);
-  }
-
-  @Get(':email')
-  public async countUserSubscribers(@Param('email') email: string): Promise<number> {
-    return this.subscriberService.countFollowers(email);
-  }
-
-  @Post('add')
-  public async addSubscription(@Body() dto: UpdateSubscriptionDto): Promise<void> {
-    const {email, emailSubscribe} = dto;
-    await this.subscriberService.addSubscription(email, emailSubscribe);
+  public async sendNewPosts({email, posts}: SendNewPostsDto): Promise<void> {
+    const {newPostsUpdate} = await this.subscriberService.findSubscriberByEmail(email);
+    const dto: SendNewPostsDto = {email, posts: filterNewPosts(posts, newPostsUpdate)};
+    this.mailService.sendNotifyNewPosts(dto);
+    this.subscriberService.updateSubscriber(email);
   }
 }

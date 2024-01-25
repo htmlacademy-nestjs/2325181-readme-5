@@ -1,5 +1,5 @@
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
-import { Controller, Post, Body, Get, Param, HttpStatus, Delete, Query, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, HttpStatus, Delete, Query, Req, UseGuards, HttpCode } from '@nestjs/common';
 import { fillDTO } from '@project/libs/shared/helpers';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -32,6 +32,7 @@ export class CommentController {
     description: 'The comment has been deleted.'
   })
   @UseGuards(CheckAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':commentId')
   public async delete(@Param('commentId') commentId: string, @Req() { user }: RequestWithTokenPayload): Promise<void> {
     await this.commentService.deleteComment(commentId, user.sub);

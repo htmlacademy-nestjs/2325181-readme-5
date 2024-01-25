@@ -70,7 +70,7 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
     });
   }
 
-  public async findMany({authorId, type, tag, page, sortBy}: FilterQuery): Promise<PaginationResult<PostContentEntity>> {
+  public async findMany({authorId, type, tag, page, sortByField, sortByOrder}: FilterQuery): Promise<PaginationResult<PostContentEntity>> {
     const hasTag = tag ? {has: tag} : undefined;
     const where = {
       isPublished: true,
@@ -79,7 +79,7 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
       tags: hasTag
     };
     const skip = (page - 1) * POST_LIST_REUQEST_COUNT;
-    const orderBy: Prisma.PostOrderByWithRelationInput = {[sortBy]: 'desc'};
+    const orderBy: Prisma.PostOrderByWithRelationInput = {[sortByField]: sortByOrder};
     const [postList, totalPosts] = await Promise.all([
       this.client.post.findMany({
         where,

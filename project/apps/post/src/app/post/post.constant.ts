@@ -90,12 +90,14 @@ export const PostValidationMessage = {
   VideoURL: {
     InvalidFormat: 'The video URL should be a valid URL link'
   },
-  isRepost: {
-    InvalidFormat: 'The isRepost status should be a boolean value'
+  isPublished: {
+    InvalidFormat: 'The publishing status should be a boolean value'
   }
 } as const;
 
 export const POST_NOT_FOUND = 'The post has not been found';
+
+export const USER_NOT_AUTHORIZED = 'The post has not been found';
 
 export const POST_SEARCH_BY_TITLE_LIMIT = 20;
 
@@ -103,4 +105,10 @@ export const POST_LIST_REUQEST_COUNT = 25;
 
 export const DEFAULT_PAGE_NUMBER = 1;
 
-export const DEFAULT_SORT_BY_FIELD = 'createdAt';
+export const DEFAULT_SORT_BY_FIELD = 'publishedAt';
+
+export const DEFAULT_SORT_BY_ORDER = 'desc';
+
+export const HTTP_CLIENT_MAX_REDIRECTS = 5;
+
+export const HTTP_CLIENT_TIMEOUT = 5000;

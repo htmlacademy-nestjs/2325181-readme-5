@@ -1,15 +1,16 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Post, Body, Get, Param, HttpStatus, Delete, Patch, Controller, Query, Req, } from '@nestjs/common';
+import { Post, Body, Get, Param, HttpStatus, Delete, Patch, Controller, Query, Req, UseGuards, HttpCode, } from '@nestjs/common';
 import { fillDTO} from '@project/libs/shared/helpers';
 import { PostService } from './post.service';
 import { CreateContentPostDtoType } from './dto';
 import { PostRdo } from './rdo/post.rdo';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { SearchQuery } from './query/search.query';
-import { PostContent, PaginationResult, RequestWithUser } from '@project/libs/shared/app/types';
+import { PostContent, PaginationResult, RequestWithUser, RequestWithTokenPayload } from '@project/libs/shared/app/types';
 import { FilterQuery } from './query/filter.query';
 import { NotifyPostService } from '../notify/notify-post.service';
 import { EntitiesWithPaginationRdo } from '@project/libs/shared/app/types';
+import { CheckAuthGuard } from '../guards/check-auth.guard';
 
 
 @ApiTags('posts')
@@ -25,19 +26,12 @@ export class PostController {
     description: 'The new post has been created.'
   })
   @Post('/')
-  public async create(@Body() dto: CreateContentPostDtoType): Promise<PostRdo> {
-    const newPost = await this.postService.createNewPost(dto);
+  public async create(
+    @Body() dto: CreateContentPostDtoType,
+    @Req() {user}: RequestWithTokenPayload
+  ): Promise<PostRdo> {
+    const newPost = await this.postService.createNewPost(dto, user.sub);
     return fillDTO(PostRdo, newPost.toPOJO());
-  }
-
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'The reposted post has been created.'
-  })
-  @Post('repost/:postId')
-  public async repost(@Param('postId') postId: string): Promise<PostRdo> {
-    const repostedPost = await this.postService.repostPost(postId);
-    return fillDTO(PostRdo, repostedPost.toPOJO());
   }
 
   @ApiResponse({
@@ -68,21 +62,71 @@ export class PostController {
     status: HttpStatus.OK,
     description: 'The following draft posts have been found'
   })
+  @UseGuards(CheckAuthGuard)
   @Get('drafts')
-  public async indexDrafts(@Req() { user }: RequestWithUser): Promise<PostRdo> {
+  public async indexDrafts(@Req() { user }: RequestWithTokenPayload): Promise<PostRdo> {
     const draftsList = await this.postService.indexUserDrafts(user.email);
     return fillDTO<PostRdo, PostContent[]>(PostRdo, draftsList.map((post) => post.toPOJO()));
   }
 
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'New posts by request'
+    description: 'The new posts have been sent'
   })
-  @Get('follow')
-  public async getNewPosts(@Req() { user }: RequestWithUser, @Query() filter: FilterQuery) {
-    const { email, id } = user;
-    const posts = await this.postService.indexPosts(filter);
-    this
+  @UseGuards(CheckAuthGuard)
+  @Get('news')
+  public async getNewPosts(
+    @Req() { user: { email } }: RequestWithTokenPayload,
+    @Query() filter: FilterQuery
+  ):Promise<void> {
+    const newPosts = await this.postService.indexPosts(filter);
+    const sendNewPostsDto = {
+      email,
+      posts: newPosts.entities.map((post) => post.toPOJO())
+    };
+    this.notifyPostService.sendNewPosts(sendNewPostsDto)
+  }
+
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'The reposted post has been created.'
+  })
+  @UseGuards(CheckAuthGuard)
+  @Post('repost/:postId')
+  public async repost(
+    @Req() {user}: RequestWithTokenPayload,
+    @Param('postId') postId: string
+  ): Promise<PostRdo> {
+    const repostedPost = await this.postService.repostPost(postId, user.sub);
+    return fillDTO(PostRdo, repostedPost.toPOJO());
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The post status has been changed to drafts'
+  })
+  @Patch('draft/:postId')
+  async returnToDrafts(
+    @Req() { user }: RequestWithTokenPayload,
+    @Param('postId') postId: string,
+  ): Promise<PostRdo> {
+    const dto = {isPublished: false};
+    const draftedPost = await this.postService.updatePostEntity(postId, user.sub, dto);
+    return fillDTO(PostRdo, draftedPost.toPOJO());
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The post status has been changed to published'
+  })
+  @Patch('publish/:postId')
+  async publish(
+    @Req() { user }: RequestWithTokenPayload,
+    @Param('postId') postId: string,
+  ): Promise<PostRdo> {
+    const dto = {isPublished: true};
+    const publishedPost = await this.postService.updatePostEntity(postId, user.sub, dto);
+    return fillDTO(PostRdo, publishedPost.toPOJO());
   }
 
   @ApiResponse({
@@ -99,9 +143,14 @@ export class PostController {
     status: HttpStatus.OK,
     description: 'The post has been updated.'
   })
+  @UseGuards(CheckAuthGuard)
   @Patch(':postId')
-  public async update(@Param('postId') postId: string, @Body() dto: UpdatePostDto): Promise<PostRdo> {
-    const updatedPost = await this.postService.updatePostEntity(postId, dto);
+  public async update(
+    @Req() { user }: RequestWithTokenPayload,
+    @Param('postId') postId: string,
+    @Body() dto: UpdatePostDto
+  ): Promise<PostRdo> {
+    const updatedPost = await this.postService.updatePostEntity(postId, user.sub, dto);
     return fillDTO(PostRdo, updatedPost.toPOJO());
   }
 
@@ -109,8 +158,13 @@ export class PostController {
     status: HttpStatus.NO_CONTENT,
     description: 'The post has been deleted.'
   })
+  @UseGuards(CheckAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':postId')
-  public async delete(@Param('postId') postId: string): Promise<void> {
-    await this.postService.deletePostEntity(postId);
+  public async delete(
+    @Param('postId') postId: string,
+    @Req() { user }: RequestWithTokenPayload,
+  ): Promise<void> {
+    await this.postService.deletePostEntity(postId, user.sub);
   }
 }

@@ -30,11 +30,6 @@ export class SubscriberModel extends Document implements Subscriber {
     required: true
   })
   public newPostsUpdate: Date;
-
-  @Prop({
-    required: true
-  })
-  public followUp: string[];
 }
 
 export const SubscriberSchema = SchemaFactory.createForClass(SubscriberModel);

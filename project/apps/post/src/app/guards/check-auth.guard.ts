@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 
-const AUTHORIZATION_URL = 'http://localhost:3333/api/auth';
+const AUTHORIZATION_URL = 'http://localhost:5000/api/auth';
 
 @Injectable()
 export class CheckAuthGuard implements CanActivate {

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PostRepository } from './post.repository';
 import { PostService } from './post.service';
 import { HttpModule } from '@nestjs/axios';
-import { HTTP_CLIENT_MAX_REDIRECTS, HTTP_CLIENT_TIMEOUT } from './post.constant';
+import { HTTP_CLIENT_MAX_REDIRECTS, HTTP_CLIENT_TIMEOUT } from '../app.config';
 import { NotifyPostModule } from '../notify/notify-post.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';

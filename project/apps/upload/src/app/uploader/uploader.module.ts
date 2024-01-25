@@ -15,6 +15,7 @@ const SERVE_ROOT = './static'
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const rootPath = configService.get<string>('application.uploadDirectory');
+        const serveRoot = configService.get<string>('application.serveRoot')
         return [{
           rootPath,
           serveRoot: SERVE_ROOT,

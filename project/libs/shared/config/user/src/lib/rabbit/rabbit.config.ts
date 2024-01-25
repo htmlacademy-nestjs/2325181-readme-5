@@ -35,7 +35,7 @@ export default registerAs('rabbit', (): RabbitConfig => {
 
   if (error) {
     throw new Error(
-      `[Notify Config]: Environments validation failed. Please check .env file.
+      `[Rabbit Config]: Environments validation failed. Please check .env file.
        Error message: ${error.message}`,
     );
   }

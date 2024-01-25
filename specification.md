@@ -34,6 +34,8 @@
 
 #### Сервис notify: `./apps/notify/.notify.env`
 
+#### Сервис upload: `./apps/upload/.upload.env`
+
 Образцы файлов с переменными окружения находятся в соответствующих директориях с окончанием .env.example
 
 ## Установка образов и запуск контейнеров docker производится следующими командами
@@ -61,7 +63,15 @@ docker compose \
 --project-name "readme-notify" \
 up -d
 ```
-Для подключения к базе данных сервиса post необходимо в корневой папке приложения создать файл с переменными окружения. Пример файла приведен в директории `project\libs\shared\post\models\prisma\.env-example`
+#### Сервис upload
+```
+docker compose \
+--file ./apps/upload/docker-compose.dev.yml \
+--env-file ./apps/upload/.upload.env \
+--project-name "readme-upload" \
+up -d
+```
+Для подключения к базе данных сервиса post необходимо в корневой папке приложения создать файл с переменными окружения для Prisma. Пример файла приведен в директории `project\libs\shared\post\models\prisma\.env-example`
 
 ## Команды базы данных сервиса post.
 

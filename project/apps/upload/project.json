@@ -1,5 +1,5 @@
 {
-  "name": "apps/upload",
+  "name": "upload",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/upload/src",
   "projectType": "application",
@@ -27,14 +27,14 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "apps/upload:build"
+        "buildTarget": "upload:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "apps/upload:build:development"
+          "buildTarget": "upload:build:development"
         },
         "production": {
-          "buildTarget": "apps/upload:build:production"
+          "buildTarget": "upload:build:production"
         }
       }
     },

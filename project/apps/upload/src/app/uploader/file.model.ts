@@ -1,4 +1,5 @@
-import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Schema, Prop, SchemaFactory,  } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 import { File } from '@project/libs/shared/app/types';
 
 @Schema({

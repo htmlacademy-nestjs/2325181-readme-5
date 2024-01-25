@@ -32,10 +32,9 @@ export default registerAs('rabbit', (): RabbitConfig => {
   });
 
   const { error } = validationSchema.validate(config, { abortEarly: true });
-
   if (error) {
     throw new Error(
-      `[Notify Config]: Environments validation failed. Please check .env file.
+      `[Post Config]: Environments validation failed. Please check .env file.
        Error message: ${error.message}`,
     );
   }

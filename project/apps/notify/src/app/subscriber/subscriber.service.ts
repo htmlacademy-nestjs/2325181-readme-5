@@ -32,4 +32,8 @@ export class SubscriberService {
       .populate({...existSubscriber, newPostsUpdate: new Date()});
     return await this.subscriberRepository.update(subscriberEntity.id, subscriberEntity)
   }
+
+  public async indexSubscribers(): Promise<SubscriberEntity[]> {
+    return await this.subscriberRepository.findMany();
+  }
 }

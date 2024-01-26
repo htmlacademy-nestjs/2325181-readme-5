@@ -92,15 +92,10 @@ export class PostController {
   @UseGuards(CheckAuthGuard)
   @Get('news')
   public async getNewPosts(
-    @Req() { user: { email } }: RequestWithTokenPayload,
     @Query() filter: FilterQuery
   ):Promise<void> {
     const newPosts = await this.postService.indexPosts(filter);
-    const sendNewPostsDto = {
-      email,
-      posts: newPosts.entities.map((post) => post.toPOJO())
-    };
-    this.notifyPostService.sendNewPosts(sendNewPostsDto)
+    this.notifyPostService.sendNewPosts(newPosts.entities.map((post) => post.toPOJO()))
   }
 
   @ApiResponse({

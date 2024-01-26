@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 import { SubscriberService } from './subscriber.service';
-import { RabbitRouting } from '@project/libs/shared/app/types';
+import { PostContent, RabbitRouting } from '@project/libs/shared/app/types';
 import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import { MailService } from '../mail/mail.service';
 import { SendNewPostsDto } from './dto/send-new-posts.dto';
@@ -29,10 +29,16 @@ export class SubscriberController {
     routingKey: RabbitRouting.SendNewPosts,
     queue: 'readme.notify.posts',
   })
-  public async sendNewPosts({email, posts}: SendNewPostsDto): Promise<void> {
-    const {newPostsUpdate} = await this.subscriberService.findSubscriberByEmail(email);
-    const dto: SendNewPostsDto = {email, posts: filterNewPosts(posts, newPostsUpdate)};
-    this.mailService.sendNotifyNewPosts(dto);
-    this.subscriberService.updateSubscriber(email);
+  public async sendNewPosts(posts: PostContent[]): Promise<void> {
+    const subscriberEntitiesList = await this.subscriberService.indexSubscribers();
+    subscriberEntitiesList.forEach((subscriberEntity) => {
+      const {email, newPostsUpdate} = subscriberEntity;
+      const dto: SendNewPostsDto = {
+        email,
+        posts: filterNewPosts(posts, newPostsUpdate)};
+      this.mailService.sendNotifyNewPosts(dto);
+      this.subscriberService.updateSubscriber(email);
+    })
+
   }
 }

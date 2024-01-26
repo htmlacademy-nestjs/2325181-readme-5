@@ -43,8 +43,8 @@ export class UploadController {
     return fillDTO(UploadedFileRdo, fileEntity.toPOJO());
   }
 
-  @Get(':fileId')
-  public async show(@Param(':fileId', MongoIdValidationPipe) fileId: string): Promise<UploadedFileRdo> {
+  @Get('/:fileId')
+  public async show(@Param('fileId', MongoIdValidationPipe) fileId: string): Promise<UploadedFileRdo> {
     const existFile = await this.uploaderService.getFile(fileId);
     return fillDTO(UploadedFileRdo, existFile);
   }

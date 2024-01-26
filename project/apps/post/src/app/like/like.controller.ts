@@ -1,11 +1,10 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LikeService } from './like.service';
 import { HttpStatus, Param, Controller, Post, Req, Delete, Get, UseGuards } from '@nestjs/common';
-import { TokenPayload } from '@project/libs/shared/app/types';
+import { RequestWithTokenPayload, TokenPayload } from '@project/libs/shared/app/types';
 import { fillDTO } from '@project/libs/shared/helpers';
-import { LikeRdo } from './rdo/like.rdo';
+import { LikeRdo } from '../../../../bff/src/app/rdo/like.rdo';
 import { CheckAuthGuard } from '../guards/check-auth.guard';
-import { AddDeleteLikeDto } from './dto/add-delete-like.dto';
 
 @ApiTags('likes')
 @Controller('likes')
@@ -19,8 +18,11 @@ export class LikeController {
     description: 'The like has been added.'
   })
   @UseGuards(CheckAuthGuard)
-  @Post('/:postId')
-  public async create(@Param('postId') postId: string, @Req() { sub }: TokenPayload): Promise<LikeRdo> {
+  @Get('/:postId')
+  public async create(
+    @Param('postId') postId: string,
+    @Req() {user: { sub }}: RequestWithTokenPayload
+  ): Promise<LikeRdo> {
     const newLike = await this.likeService.addLike({postId, userId: sub});
     return fillDTO(LikeRdo, newLike.toPOJO())
   }
@@ -39,7 +41,7 @@ export class LikeController {
     status: HttpStatus.OK,
     description: 'The likes count number provided.'
   })
-  @Get('/:postId')
+  @Get('count/:postId')
   public async count(@Param('postId') postId: string): Promise<number> {
     return await this.likeService.countLikes(postId);
   }

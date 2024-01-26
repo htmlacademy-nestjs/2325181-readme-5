@@ -21,11 +21,12 @@ GET http://localhost:7000/api/posts/044cec4f-bc7c-4f76-b45b-010f76270401 HTTP/1.
 
 #Update post data
 
-PATCH http://localhost:7000/api/posts/044cec4f-bc7c-4f76-b45b-010f76270401 HTTP/1.1
+PATCH http://localhost:7000/api/posts/e77dfe34-e3b0-4465-890c-1328b0d91d43 HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
 
 {
-  "photo": "Jane_Osti.png"
+  "announce": "Новый анонс"
 }
 
 ###

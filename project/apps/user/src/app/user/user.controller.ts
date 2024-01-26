@@ -20,7 +20,6 @@ export class UserController {
     status: HttpStatus.OK,
     description: 'User found'
   })
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   public async show(@Param('id', MongoIdValidationPipe) userId: string): Promise<UserRdo> {
     const existUser = await this.userService.getUserEntity(userId);
@@ -57,7 +56,7 @@ export class UserController {
 
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'The list of user\'s subscribers provided'
+    description: 'The count number of user\'s subscribers provided'
   })
   @Get('subscribers/:userId')
   public async countSubscribers(

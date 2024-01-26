@@ -39,7 +39,8 @@ export class AuthenticationService {
     const userEntity = await new UserEntity(user).setPassword(password);
     const savedUser = await this.userRepository.save(userEntity);
     savedUser.subscribedFor.push(savedUser.id);
-    return savedUser;
+    const subscribedUser = this.userRepository.update(savedUser.id, savedUser);
+    return subscribedUser;
   }
 
   public async changePassword (payload: TokenPayload, dto: ChangePasswordDto): Promise<UserEntity> {

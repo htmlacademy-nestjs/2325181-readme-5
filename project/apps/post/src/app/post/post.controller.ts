@@ -26,6 +26,7 @@ export class PostController {
     status: HttpStatus.CREATED,
     description: 'The new post has been created.'
   })
+  @UseGuards(CheckAuthGuard)
   @Post('/')
   public async create(
     @Body() dto: CreateContentPostDtoType,
@@ -51,7 +52,7 @@ export class PostController {
 
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'The following posts have been found.'
+    description: 'The subscription posts have been found.'
   })
   @UseGuards(CheckAuthGuard)
   @Get('subscription')

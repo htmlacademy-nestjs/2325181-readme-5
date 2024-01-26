@@ -1,9 +1,9 @@
 # Login user by email and password
-POST http://localhost:5000/api/auth/login HTTP/1.1
+POST http://localhost:3000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user@notfound.local",
+  "email": "new3@user.com",
   "password": "123456"
 }
 
@@ -35,3 +35,159 @@ Content-Type: application/json
 
 }
 ###
+
+# Выполнение сценариев по техническому заданию:
+### Сервис user:
+
+# Регистрация новых пользователей.
+POST http://localhost:3000/api/user/signin HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "new3@user.com",
+  "firstname": "Alex",
+  "lastname": "Bochkin",
+  "password": "123456",
+  "avatar": "picture.jpg"
+}
+
+###
+
+# Авторизация пользователей на основе JWT.
+
+POST http://localhost:3000/api/user/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "new2@user.com",
+  "password": "123456"
+}
+
+###
+# Получение детальной информации о пользователе.
+
+GET http://localhost:3000/api/user/65b3917f0785c0d257f48a58 HTTP/1.1
+
+###
+
+# Смена пароля пользователя.
+
+PATCH http://localhost:3000/api/user/password HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWFmYzNkYmU0ZGQwZDllNGVlYjI0ZTYiLCJlbWFpbCI6Im5ldzE3QHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNjA4Njc4MSwiZXhwIjoxNzA4Njc4NzgxfQ.B4hNcE_lBCmt3TcgZGjFdJDcRvALbZyTykjPIeKM7o
+
+{
+  "oldPassword": "123456",
+  "newPassword": "qwerty"
+}
+
+###
+
+
+### Сервиc post:
+
+# Создание новых публикаций в блоге разных видов: видео, текст, цитата, фото, ссылка.
+
+POST http://localhost:3000/api/post HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+Content-Type: application/json
+
+{
+  "type": "text",
+  "title": "Проверка!!",
+  "announce": "Текст анонса",
+  "description": "Расширенный текст публикации",
+  "tags": ["Лето", "БаБочки", "Детство"]
+}
+
+###
+
+# Просмотр детальной информации о публикации.
+
+GET http://localhost:3000/api/post/8aff5c3b-ddea-45c4-bca1-19700cbf56ec HTTP/1.1
+
+###
+
+# Редактирование публикаций в блоге.
+
+PATCH http://localhost:3000/api/post/e77dfe34-e3b0-4465-890c-1328b0d91d43 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+{
+  "announce": "Новый анонс, в котором не менее 50 символов, как это требуется согласно правилам валидации."
+}
+
+###
+
+# Удаление публикаций в блоге.
+
+DELETE http://localhost:3000/api/post/1749757c-5a5e-499a-839d-5f1ad40c8f22 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+# Комментирование публикаций в блоге.
+
+POST http://localhost:3000/api/comment/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+{
+  "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis egestas tortor sit amet iaculis.",
+  "postId": "8aff5c3b-ddea-45c4-bca1-19700cbf56ec"
+}
+
+###
+
+# Удаление своего комментария
+
+DELETE http://localhost:3000/api/comment/6aa05ead-da5c-42a1-812d-80ffe0a43521 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+# Получение списка комментариев к публикации
+
+GET http://localhost:3000/api/comment/8aff5c3b-ddea-45c4-bca1-19700cbf56ec HTTP/1.1
+
+###
+
+# Оставить лайк к публикации
+
+GET http://localhost:3000/api/like/8aff5c3b-ddea-45c4-bca1-19700cbf56ec HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+###
+
+# Забрать лайк с публикации
+
+DELETE  http://localhost:3000/api/like/8aff5c3b-ddea-45c4-bca1-19700cbf56ec HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+# Подсчёт количества лайков к публикациям.
+
+GET http://localhost:3000/api/like/count/8aff5c3b-ddea-45c4-bca1-19700cbf56ec HTTP/1.1
+
+###
+
+# Пагинация для публикаций.
+# Получение списка публикаций с применением сортировки: по популярности, дате создания, по количеству лайков, по количеству комментариев.
+# Репост публикаций.
+###
+
+# Лента пользователя.
+
+GET http://localhost:3000/api/post/subscription HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+
+###
+- Поиск публикаций по названию.
+- Поиск публикаций по тегам.
+### Сервис upload:
+- Загрузка изображений для публикации в блоге.
+### Сервис notify:
+- Рассылка почтовых уведомлений на email о появлении новых публикаций.
+- Подписка на обновления других пользователей.

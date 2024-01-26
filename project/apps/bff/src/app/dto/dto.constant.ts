@@ -1,5 +1,19 @@
-
 export const UserValidationParams = {
+  Avatar: {
+    RegexURL: RegExp(/(.png$|.jpg$|.jpeg$)/i)
+  },
+  Firstname: {
+    Length: {
+      Minimal: 3,
+      Maximal: 50
+    }
+  },
+  Lastname: {
+    Length: {
+      Minimal: 3,
+      Maximal: 50
+    }
+  },
   Password: {
     Length: {
       Minimal: 6,
@@ -9,16 +23,28 @@ export const UserValidationParams = {
 } as const;
 
 export const UserValidationMessage = {
+  Avatar: {
+    InvalidFormat: 'User avatar should be a jpg or png file of not more than 500 kbyte size'
+  },
+  AuthorId: {
+    InvalidFormat: 'Author id should be valid mongo id'
+  },
   Email: {
     InvalidFormat: 'User e-mail should have format user@domain.com'
   },
+  Firstname: {
+    InvalidFormat: 'User firstname should have a string format',
+    InvalidLength: 'User firstname should have a minimal length of 3 letters, maximal length of 50 letters'
+  },
+  Lastname: {
+    InvalidFormat: 'User lastname should have a string format',
+    InvalidLength: 'User lastname should have a minimal length of 3 letters, maximal length of 50 letters'
+  },
   Password: {
-    InvalidLength: 'User e-mail should have a string format',
-    InvalidPassword: 'User password should have a minimal length of 6 letters, maximal length of 12 letters'
+    InvalidLength: 'User password should have a minimal length of 6 letters, maximal length of 12 letters',
+    InvalidPassword: 'User password should be a string value'
   }
 } as const;
-
-export const INTERNAL_SERVER_ERROR_MESSAGE = 'Internal server error';
 
 export const PostValidationParams = {
   Photo: {
@@ -69,7 +95,7 @@ export const PostValidationParams = {
 
 export const PostValidationMessage = {
   AuthorId: {
-    InvalidFormat: 'Author id should have a string format',
+    InvalidFormat: 'Author id should be valid mongo id'
   },
   Creator: {
     InvalidFormat: 'Cite creator should have a string format',
@@ -112,10 +138,26 @@ export const PostValidationMessage = {
   VideoURL: {
     InvalidFormat: 'The video URL should be a valid URL link'
   },
+  isPublished: {
+    InvalidFormat: 'The publishing status should be a boolean value'
+  }
 } as const;
 
-export const DEFAULT_PAGE_NUMBER = 1;
+export const CommentValidationParams = {
+  Text: {
+    Length: {
+      Minimal: 10,
+      Maximal: 300
+    }
+  },
+} as const;
 
-export const DEFAULT_SORT_BY_FIELD = 'publishedAt';
-
-export const DEFAULT_SORT_BY_ORDER = 'desc';
+export const CommentValidationMessage = {
+  Text: {
+    InvalidFormat: 'Comment text should have a string format',
+    InvalidLength: 'Comment text should have a minimal length of 10 letters, maximal length of 300 letters'
+  },
+  PostId: {
+    InvalidFormat: 'Post Id should have a string format (UUID)',
+  }
+} as const;

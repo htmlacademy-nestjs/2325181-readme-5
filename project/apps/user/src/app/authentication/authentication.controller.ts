@@ -1,11 +1,10 @@
-import { Controller, Post, Patch, Body, Get, Param, HttpStatus, UseGuards, Req, HttpCode } from '@nestjs/common';
+import { Controller, Post, Patch, Body, HttpStatus, UseGuards, Req, HttpCode } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { AuthenticationService } from './authentication.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { fillDTO } from '@project/libs/shared/helpers';
 import { UserRdo } from './rdo/user.rdo';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
-import { MongoIdValidationPipe } from '@project/libs/shared/core';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { NotifyUserService } from '../notify/notify-user.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';

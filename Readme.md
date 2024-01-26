@@ -4,6 +4,103 @@
 * Наставник: [Андрей Осипук](https://htmlacademy.ru/profile/id616431).
 
 ---
+# Информация по запуску проекта
+
+Перед первым запуском проекта необходимо выполнить запустить контейнеры в docker и создать файлы с переменными окружения. Файлы с переменными окружения должны находиться по адресам:
+
+#### Сервис user: `./apps/user/.user.env`
+
+#### Сервис post: `./apps/post/.post.env`
+
+#### Сервис notify: `./apps/notify/.notify.env`
+
+#### Сервис upload: `./apps/upload/.upload.env`
+
+Образцы файлов с переменными окружения находятся в соответствующих директориях с окончанием .env.example
+
+## Установка образов и запуск контейнеров docker производится следующими командами
+
+#### Сервис user:
+```
+docker compose --file ./apps/user/docker-compose.dev.yml \
+--env-file ./apps/user/.user.env \
+--project-name "readme-user" \
+up -d
+```
+#### Сервис post
+```
+docker compose \
+--file ./apps/post/docker-compose.dev.yml \
+--env-file ./apps/post/.post.env \
+--project-name "readme-post" \
+up -d
+```
+#### Сервис notify
+```
+docker compose \
+--file ./apps/notify/docker-compose.dev.yml \
+--env-file ./apps/notify/.notify.env \
+--project-name "readme-notify" \
+up -d
+```
+#### Сервис upload
+```
+docker compose \
+--file ./apps/upload/docker-compose.dev.yml \
+--env-file ./apps/upload/.upload.env \
+--project-name "readme-upload" \
+up -d
+```
+Для подключения к базе данных сервиса post необходимо в корневой папке приложения создать файл с переменными окружения для Prisma. Пример файла приведен в директории `project\libs\shared\post\models\prisma\.env-example`
+
+## Команды базы данных сервиса post.
+
+Для работы с базой данных сервиса post предусмотрены следующие команды:
+
+**db:lint** - проверка схемы (`schema.prisma`) базы данных на ошибки
+#### Запуск команды в CLI:
+```
+npx nx run post:db:lint
+```
+**db:migrate** - создание миграции данных в БД
+#### Запуск команды в CLI:
+```
+npx nx run post:db:migrate
+```
+
+**db:reset** - принудительный сброс и повторение всех миграций, удаляет все данные из БД
+#### Запуск команды в CLI:
+```
+npx nx run post:db:reset
+```
+
+**db:generate** - генерация актуальной версии клиент Prisma
+#### Запуск команды в CLI:
+```
+npx nx run post:db:generate
+```
+
+**db:seed** - наполнение базы данных тестовыми данными
+#### Запуск команды в CLI:
+```
+npx nx run post:db:seed
+```
+
+## Старт проекта в dev режиме
+
+В директории project выполнить команды:
+
+#### Установить зависимости
+```
+npm i
+```
+#### Запустить все сервисы
+
+```
+nx run-many -t serve -p user post notify upload 
+```
+
+---
 
 _Не удаляйте и не изменяйте папки и файлы:_
 _`.editorconfig`, `.gitattributes`, `.gitignore`._

@@ -20,7 +20,7 @@ export class PostService {
 
   public async createNewPost(dto: CreateContentPostDtoType, userId: string): Promise<PostContentEntity> {
     const {type, tags, ...content} = dto;
-    const tagsLowerUnique = transformTags(tags);
+    const tagsLowerUnique = tags ? transformTags(tags) : [];
     const newPostDraft = new PostEntityAdapter[type]({
       type,
       tags: tagsLowerUnique,

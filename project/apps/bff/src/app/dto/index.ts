@@ -8,3 +8,6 @@ export * from './create-content-post.dto';
 export * from './update-post.dto';
 export * from './login-user.dto';
 export * from './update-post.dto';
+export * from './create-user.dto';
+export * from './change-password.dto';
+export * from './create-comment.dto';

@@ -1,9 +1,8 @@
 import { DEFAULT_PORT } from './application-config.constant';
-import { ENVIRONMENTS } from '@project/libs/shared/helpers';
+import { ENVIRONMENTS, Environment } from '@project/libs/shared/helpers';
 import { registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
 
-type Environment = typeof ENVIRONMENTS[number];
 
 export interface ApplicationConfig {
   environment: string;

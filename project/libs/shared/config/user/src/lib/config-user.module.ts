@@ -4,8 +4,8 @@ import applicationConfig from './application/application.config';
 import mongoConfig from './mongodb/mongo.config';
 import jwtConfig from './jwt/jwt.config';
 import rabbitConfig from './rabbit/rabbit.config';
+import { ENV_USER_FILE_PATH } from './application/application-config.constant';
 
-const ENV_USER_FILE_PATH = 'apps/user/.user.env';
 
 @Module({
   imports: [

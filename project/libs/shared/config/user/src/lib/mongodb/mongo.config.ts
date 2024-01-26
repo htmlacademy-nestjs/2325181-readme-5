@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
+import { DEFAULT_MONGO_PORT } from './mongo.constant';
 
-export const DEFAULT_MONGO_PORT = 27017;
 
 export interface MongoConfig {
   host: string;

@@ -1,6 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
-import { ENVIRONMENTS, Environment, UPLOAD_DIRECTORY_PATH_LOCAL, DEFAULT_UPLOAD_PORT, DEFAULT_MONGO_PORT } from './upload-config.constant';
+import { UPLOAD_DIRECTORY_PATH_LOCAL, DEFAULT_UPLOAD_PORT, DEFAULT_MONGO_PORT } from './upload-config.constant';
+import { Environment, ENVIRONMENTS } from '@project/libs/shared/helpers';
 
 export interface UploadConfig {
   serveRoot: string;

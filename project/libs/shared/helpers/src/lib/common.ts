@@ -55,6 +55,7 @@ export function parseTime(time: string): TimeAndUnit {
 
 export const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
 
+export type Environment = typeof ENVIRONMENTS[number];
 
 export const filterNewPosts = (posts: PostContent[], newPostsUpdate: Date) => posts.filter((post) => post.publishedAt >= newPostsUpdate);
 

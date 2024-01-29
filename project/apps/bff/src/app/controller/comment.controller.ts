@@ -22,7 +22,7 @@ export class CommentController {
   })
   @UseGuards(CheckAuthGuard)
   @Post('/')
-  public async createComment(
+  public async create(
     @Body() dto: CreateCommentDto,
     @Req() req: Request
   ): Promise<CommentRdo> {

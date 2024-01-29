@@ -46,11 +46,11 @@ export class UserRdo {
 
   @Expose()
   @ApiProperty({
-    description: 'The subscribers count',
-    example: 12,
-    default: ''
+    description: 'The list of authors user subscribed for',
+    example: ['mail1@domain.com', 'mail2@domain.com', 'mail3@domain.com'],
+    default: []
   })
-  public subscribersCount: number;
+  public subscribedFor: number;
 
   @Expose()
   @ApiProperty({
@@ -59,4 +59,12 @@ export class UserRdo {
     default: '',
   })
   public publicationsCount: number;
+
+  @Expose()
+  @ApiProperty({
+    description: 'The user subscribers count',
+    example: 14,
+    default: '',
+  })
+  public subscribersCount: number;
 }

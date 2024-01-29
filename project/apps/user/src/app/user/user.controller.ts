@@ -1,4 +1,4 @@
-import { Controller, HttpStatus, UseGuards, Get, Param, Body, Req } from '@nestjs/common';
+import { Controller, HttpStatus, UseGuards, Get, Param, Post, Body, Req, Query } from '@nestjs/common';
 import { RequestWithTokenPayload, AuthUser } from '@project/libs/shared/app/types';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { UserRdo } from '../authentication/rdo/user.rdo';
@@ -16,14 +16,16 @@ export class UserController {
   ) {}
 
   @ApiResponse({
-    type: UserRdo,
     status: HttpStatus.OK,
-    description: 'User found'
+    description: 'The users list has been provided'
   })
-  @Get(':id')
-  public async show(@Param('id', MongoIdValidationPipe) userId: string): Promise<UserRdo> {
-    const existUser = await this.userService.getUserEntity(userId);
-    return fillDTO(UserRdo, existUser.toPOJO());
+  @Post('/')
+  public async index(
+    @Body() {authorList}: RequestUsersDto
+  ): Promise<UserRdo> {
+    console.log(authorList);
+    const usersList = await this.userService.indexUsers(authorList);
+    return fillDTO<UserRdo, AuthUser[]>(UserRdo, usersList.map((user) => user.toPOJO()));
   }
 
   @ApiResponse({
@@ -42,7 +44,7 @@ export class UserController {
 
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'The publisher has been removed to user\' subscription'
+    description: 'The publisher has been removed from user\' subscription'
   })
   @UseGuards(JwtAuthGuard)
   @Get('unsubscribe/:publisherId')
@@ -65,17 +67,16 @@ export class UserController {
     return await this.userService.countSubscribers(userId);
   }
 
+
   @ApiResponse({
+    type: UserRdo,
     status: HttpStatus.OK,
-    description: 'The users list has been provided'
+    description: 'User found'
   })
-  @UseGuards(JwtAuthGuard)
-  @Get('/')
-  public async index(
-    @Body() {authorList}: RequestUsersDto
-  ): Promise<UserRdo> {
-    const usersList = await this.userService.indexUsers(authorList);
-    return fillDTO<UserRdo, AuthUser[]>(UserRdo, usersList.map((user) => user.toPOJO()));
+  @Get(':id')
+  public async show(@Param('id', MongoIdValidationPipe) userId: string): Promise<UserRdo> {
+    const existUser = await this.userService.getUserEntity(userId);
+    return fillDTO(UserRdo, existUser.toPOJO());
   }
 
 }

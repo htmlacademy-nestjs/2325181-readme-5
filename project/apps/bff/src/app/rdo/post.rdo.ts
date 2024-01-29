@@ -130,16 +130,14 @@ export class PostRdo {
     description: 'Comments number',
     example: 3
   })
-  @Transform(({value}) => value.length)
-  public comments: Comment[];
+  public comments: number;
 
   @Expose()
   @ApiProperty({
     description: 'Likes number',
     example: 5
   })
-  @Transform(({value}) => value.length)
-  public likes: Like[];
+  public likes: number;
 
   @Expose()
   @ApiProperty({

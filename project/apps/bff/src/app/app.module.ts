@@ -6,6 +6,7 @@ import { HTTP_CLIENT_MAX_REDIRECTS, HTTP_CLIENT_TIMEOUT } from './app.config';
 import { CheckAuthGuard } from './guards/check-auth.guard';
 import { CommentController } from './controller/comment.controller';
 import { LikeController } from './controller/like.controller';
+import { UploadController } from './controller/upload.controller';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { LikeController } from './controller/like.controller';
   controllers: [
     PostController,
     UserController,
+    UploadController,
     CommentController,
     LikeController
   ],

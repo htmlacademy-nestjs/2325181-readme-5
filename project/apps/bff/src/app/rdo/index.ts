@@ -3,3 +3,4 @@ export * from './user.rdo';
 export * from './post.rdo';
 export * from './comment.rdo';
 export * from './like.rdo';
+export * from './uploaded-file.rdo';

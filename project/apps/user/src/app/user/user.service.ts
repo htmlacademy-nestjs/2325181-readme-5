@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Types } from 'mongoose';
 import { UserRepository } from './user.repository';
 import { UserEntity } from './user.entity';
 import { AUTH_USER_NOT_FOUND } from '../authentication/authentication.constant';
@@ -38,7 +39,8 @@ export class UserService {
   }
 
   public async indexUsers(authorList: string[]): Promise<UserEntity[]> {
-    const usersFilter = {subscribedFor: { $in: authorList}};
+    const authorIdList = authorList.map((authorId) => new Types.ObjectId(authorId));
+    const usersFilter = {_id: { $in: authorIdList}};
     return await this.userRepository.index(usersFilter);
   }
 }

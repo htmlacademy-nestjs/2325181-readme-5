@@ -45,9 +45,9 @@ export class PostController {
     const postsWithPagination = await this.postService.indexPosts(filter);
     const result = {
       ...postsWithPagination,
-      entities: postsWithPagination.entities.map((post) => post.toPOJO())
+      entities: postsWithPagination.entities.map((post) => fillDTO(PostRdo, post.toPOJO()))
     }
-    return fillDTO<EntitiesWithPaginationRdo<PostRdo>, PaginationResult<PostContent>>(EntitiesWithPaginationRdo<PostRdo>, result);
+    return result;
   }
 
   @ApiResponse({
@@ -82,7 +82,7 @@ export class PostController {
   @UseGuards(CheckAuthGuard)
   @Get('drafts')
   public async indexDrafts(@Req() { user }: RequestWithTokenPayload): Promise<PostRdo> {
-    const draftsList = await this.postService.indexUserDrafts(user.email);
+    const draftsList = await this.postService.indexUserDrafts(user.sub);
     return fillDTO<PostRdo, PostContent[]>(PostRdo, draftsList.map((post) => post.toPOJO()));
   }
 
@@ -134,7 +134,7 @@ export class PostController {
   })
   @UseGuards(CheckAuthGuard)
   @Get('publish/:postId')
-  async publish(
+  public async publish(
     @Req() { user }: RequestWithTokenPayload,
     @Param('postId') postId: string,
   ): Promise<PostRdo> {

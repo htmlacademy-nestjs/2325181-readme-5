@@ -1,4 +1,4 @@
-import { Controller, Post, Patch, Body, HttpStatus, UseGuards, Req, HttpCode } from '@nestjs/common';
+import { Controller, Post, Patch, Get, Body, HttpStatus, UseGuards, Req, HttpCode } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { AuthenticationService } from './authentication.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -8,7 +8,7 @@ import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { NotifyUserService } from '../notify/notify-user.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { RequestWithUser, RequestWithTokenPayload, Token } from '@project/libs/shared/app/types';
+import { RequestWithUser, RequestWithTokenPayload, Token, TokenPayload } from '@project/libs/shared/app/types';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { ChangePasswordDto } from './dto/change-password.dto';
 
@@ -79,7 +79,8 @@ export class AuthenticationController {
   })
   @UseGuards(JwtAuthGuard)
   @Post('check')
-  public async checkToken(@Req() { user: payload }: RequestWithTokenPayload) {
+  public async checkToken(@Req() { user: payload }: RequestWithTokenPayload): Promise<TokenPayload> {
+    console.log(payload);
     return payload;
   }
 

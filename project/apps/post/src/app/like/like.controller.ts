@@ -3,7 +3,7 @@ import { LikeService } from './like.service';
 import { HttpStatus, Param, Controller, Post, Req, Delete, Get, UseGuards } from '@nestjs/common';
 import { RequestWithTokenPayload, TokenPayload } from '@project/libs/shared/app/types';
 import { fillDTO } from '@project/libs/shared/helpers';
-import { LikeRdo } from '../../../../bff/src/app/rdo/like.rdo';
+import { LikeRdo } from './rdo/like.rdo';
 import { CheckAuthGuard } from '../guards/check-auth.guard';
 
 @ApiTags('likes')

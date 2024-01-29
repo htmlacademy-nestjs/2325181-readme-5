@@ -7,6 +7,7 @@ export const ApplicationServiceURL  = {
   Post: 'http://localhost:7000/api/posts',
   Comment: 'http://localhost:7000/api/comments',
   Like: 'http://localhost:7000/api/likes',
+  Upload: 'http://localhost:8000/api/upload'
 } as const;
 
 export const getAuthHeader = (req: Request) => ({

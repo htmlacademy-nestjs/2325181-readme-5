@@ -8,6 +8,7 @@ import { CreateContentPostDtoType, UpdatePostDto} from '../dto';
 import { SubscriptionFilterQuery, FilterQuery, SearchQuery} from '../query';
 import { EntitiesWithPaginationRdo, RequestWithTokenPayload } from '@project/libs/shared/app/types';
 import { PostRdo, UserRdo} from '../rdo';
+import { generateUsersReference } from '../helpers';
 
 @UseFilters(AxiosExceptionFilter)
 @Controller('post')
@@ -50,7 +51,16 @@ export class PostController {
     try {
       const { data } = await this.httpService.axiosRef
         .get<EntitiesWithPaginationRdo<PostRdo>>(`${ApplicationServiceURL.Post}`,{ params: filter});
-      return data
+      const authorList = Array.from(new Set(data.entities.map((entity) => entity.authorId)));
+      const { data: users } = await this.httpService.axiosRef.post<UserRdo[]>(`${ApplicationServiceURL.User}`, {authorList});
+      const usersReference: Map<string, UserRdo> = generateUsersReference(users);
+      const newEntities = data.entities.map((entity) => ({
+        ...entity,
+        authorFirstname: usersReference.get(entity.authorId).firstname,
+        authorLastname: usersReference.get(entity.authorId).lastname,
+        authorEmail: usersReference.get(entity.authorId).email
+      }));
+      return {...data, entities: newEntities}
     } catch (err) {
       if (err.response.status === 404) {
         throw new NotFoundException('Posts not found');
@@ -182,7 +192,7 @@ export class PostController {
   })
   @UseGuards(CheckAuthGuard)
   @Get('draft/:postId')
-  async returnToDrafts(
+  public async returnToDrafts(
     @Req() req: Request,
     @Param('postId') postId: string,
   ): Promise<PostRdo> {
@@ -203,7 +213,7 @@ export class PostController {
   })
   @UseGuards(CheckAuthGuard)
   @Get('publish/:postId')
-  async publish(
+  public async publish(
     @Req() req: Request,
     @Param('postId') postId: string,
   ): Promise<PostRdo> {

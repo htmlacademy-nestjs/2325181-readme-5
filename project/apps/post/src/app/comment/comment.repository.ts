@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CommentEntity } from './comment.entity';
 import { Comment, PaginationResult} from '@project/libs/shared/app/types'
 import { PrismaClientService } from '@project/libs/shared/post/models';
-import { COMMENT_LIST_REUQEST_COUNT, COMMENT_NOT_FOUND } from './comment.constant';
+import { COMMENT_LIST_REUQEST_COUNT, COMMENT_NOT_FOUND, DEFAULT_PAGE_NUMBER } from './comment.constant';
 import { FilterQuery } from './query/filter.query';
 import { Prisma } from '@prisma/client';
 
@@ -45,7 +45,7 @@ export class CommentRepository extends BasePostgresRepository<CommentEntity, Com
   }
 
   public async findMany(postId: string, {page}: FilterQuery): Promise<PaginationResult<CommentEntity>> {
-    const skip = (page - 1) * COMMENT_LIST_REUQEST_COUNT;
+    const skip = (page - DEFAULT_PAGE_NUMBER) * COMMENT_LIST_REUQEST_COUNT;
     const where = {
       postId,
     };

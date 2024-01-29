@@ -1,7 +1,7 @@
 import { PostContentEntity } from './entity/post-content.entity';
 import { PostContent} from '@project/libs/shared/app/types';
 import { Prisma } from '@prisma/client';
-import { POST_LIST_REUQEST_COUNT, POST_SEARCH_BY_TITLE_LIMIT } from './post.constant';
+import { DEFAULT_PAGE_NUMBER, POST_LIST_REUQEST_COUNT, POST_SEARCH_BY_TITLE_LIMIT } from './post.constant';
 import { BasePostgresRepository } from '@project/libs/shared/core';
 import { PrismaClientService } from '@project/libs/shared/post/models';
 import { PostEntityFactory } from './post-entity.factory';
@@ -79,7 +79,7 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
       type,
       tags: hasTag
     };
-    const skip = (page - 1) * POST_LIST_REUQEST_COUNT;
+    const skip = (page - DEFAULT_PAGE_NUMBER) * POST_LIST_REUQEST_COUNT;
     const orderBy: Prisma.PostOrderByWithRelationInput = {[sortByField]: sortByOrder};
     const [postList, totalPosts] = await Promise.all([
       this.client.post.findMany({
@@ -110,7 +110,7 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
         in: authorList
       },
     };
-    const skip = (page - 1) * POST_LIST_REUQEST_COUNT;
+    const skip = (page - DEFAULT_PAGE_NUMBER) * POST_LIST_REUQEST_COUNT;
     const orderBy: Prisma.PostOrderByWithRelationInput = {[sortByField]: sortByOrder};
     const [postList, totalPosts] = await Promise.all([
       this.client.post.findMany({

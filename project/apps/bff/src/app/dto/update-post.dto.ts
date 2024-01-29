@@ -27,7 +27,7 @@ export class UpdatePostDto {
     example: ''
   })
   @IsOptional()
-  @Matches(PostValidationParams.Photo.RegexURL, {message: PostValidationMessage.Photo.Invalidformat})
+  @Matches(PostValidationParams.Photo.RegexURL, {message: PostValidationMessage.Photo.InvalidFormat})
   public photo?: string;
 
   @ApiProperty({

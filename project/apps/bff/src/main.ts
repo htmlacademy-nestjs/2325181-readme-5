@@ -9,6 +9,8 @@ import { RequestIdInterceptor } from './app/interceptors/request-id.interceptor'
 import { AppModule } from './app/app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
+const DEFAULT_BFF_PORT = 3000;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
@@ -21,7 +23,7 @@ async function bootstrap() {
   .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('spec', app, document);
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || DEFAULT_BFF_PORT;
   await app.listen(port);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`

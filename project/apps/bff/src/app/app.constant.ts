@@ -131,4 +131,5 @@ export const ExceptionMessage = {
   UserMayNotRepostOwnposts: 'User may not repost own posts',
   UserNotFound: 'User not found',
   UserAlreadyExists: 'User already exists',
+  FileNotFound: 'File not found'
 }

@@ -8,6 +8,7 @@ import { LoggedUserRdo, UserRdo, PostRdo } from '../rdo';
 import { CheckAuthGuard } from '../guards/check-auth.guard';
 import { MongoIdValidationPipe } from '@project/libs/shared/core';
 import { EntitiesWithPaginationRdo } from '@project/libs/shared/app/types';
+import { ExceptionMessage } from '../app.constant';
 
 @Controller('user')
 @UseFilters(AxiosExceptionFilter)
@@ -31,8 +32,8 @@ export class UserController {
       const { data } = await this.httpService.axiosRef.post<UserRdo>(`${ApplicationServiceURL.Auth}/signin`, dto);
       return data;
     } catch (err) {
-        if (err.response.status === 409) {
-          throw new ConflictException('User already exists');
+        if (err.response.status === HttpStatus.CONFLICT) {
+          throw new ConflictException(ExceptionMessage.UserAlreadyExists);
         }
     }
   }
@@ -53,8 +54,8 @@ export class UserController {
       const { data } = await this.httpService.axiosRef.post<LoggedUserRdo>(`${ApplicationServiceURL.Auth}/login`, loginUserDto);
     return data;
     } catch (err) {
-      if (err.response.status === 401) {
-        throw new UnauthorizedException('User not authorized');
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
+        throw new UnauthorizedException(ExceptionMessage.UserNotAuthorized);
       }
     }
   }
@@ -71,11 +72,11 @@ export class UserController {
       const { data } = await this.httpService.axiosRef.patch<LoggedUserRdo>(`${ApplicationServiceURL.Auth}/password`, dto, getAuthHeader(req));
       return data;
     } catch (err) {
-      if (err.response.status === 401) {
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
         throw new UnauthorizedException('User not authorized');
       }
-      if (err.response.status === 404) {
-        throw new NotFoundException('User not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.UserNotFound);
       }
     }
   }
@@ -91,8 +92,8 @@ export class UserController {
       const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Auth}/refresh`, null, getAuthHeader(req));
       return data;
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new NotFoundException('User not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.UserNotFound);
       }
     }
   }
@@ -111,8 +112,8 @@ export class UserController {
       const { data } = await this.httpService.axiosRef.get<UserRdo>(`${ApplicationServiceURL.User}/subscribe/${publisherId}`, getAuthHeader(req));
       return data;
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new NotFoundException('User not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.UserNotFound);
       }
     }
   }
@@ -131,8 +132,8 @@ export class UserController {
       const { data } = await this.httpService.axiosRef.get<UserRdo>(`${ApplicationServiceURL.User}/unsubscribe/${publisherId}`, getAuthHeader(req));
       return data;
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new NotFoundException('User not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.UserNotFound);
       }
     }
   }
@@ -152,8 +153,8 @@ export class UserController {
         .get<EntitiesWithPaginationRdo<PostRdo>>(`${ApplicationServiceURL.Post}`,{ params: filter});
       return {...userData, subscribersCount, publicationsCount: entities.length}
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new NotFoundException('User not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.UserNotFound);
       }
     }
   }

@@ -1,4 +1,4 @@
-import { Controller, Post, Patch, Get, Body, HttpStatus, UseGuards, Req, HttpCode } from '@nestjs/common';
+import { Controller, Post, Patch, Body, HttpStatus, UseGuards, Req, HttpCode } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { AuthenticationService } from './authentication.service';
 import { CreateUserDto } from './dto/create-user.dto';

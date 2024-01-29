@@ -1,5 +1,4 @@
 import { CitePost } from '@project/libs/shared/app/types';
-import { UpdatePostDto } from '../dto/update-post.dto';
 import { BasePostEntity } from './base-post.entity';
 import { Entity} from '@project/libs/shared/core';
 

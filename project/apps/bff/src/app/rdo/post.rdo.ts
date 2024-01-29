@@ -1,6 +1,6 @@
-import { Expose, Transform, Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { Comment, Like, PostTypeValues } from '@project/libs/shared/app/types';
+import { PostTypeValues } from '@project/libs/shared/app/types';
 
 export class PostRdo {
   @Expose()

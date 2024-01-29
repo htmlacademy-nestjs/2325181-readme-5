@@ -29,7 +29,7 @@ export class UserService {
   public async removeSubscription(userId: string, publisherId: string): Promise<UserEntity> {
     const existUser = await this.getUserEntity(userId);
     if (existUser.subscribedFor.includes(publisherId)) {
-      existUser.subscribedFor = existUser.subscribedFor.filter((suscribedId) => suscribedId !== publisherId);
+      existUser.subscribedFor = existUser.subscribedFor.filter((subscribedId) => subscribedId !== publisherId);
     }
     return await this.userRepository.update(userId, existUser)
   }

@@ -13,32 +13,32 @@ export class FileModel extends Document implements File {
   public id?: string;
 
   @Prop({
-    requred: true
+    required: true
   })
   public originalName: string;
 
   @Prop({
-    requred: true
+    required: true
   })
   public subdirectory: string;
 
   @Prop({
-    requred: true
+    required: true
   })
   public size: number;
 
   @Prop({
-    requred: true
+    required: true
   })
   public mimetype: string;
 
   @Prop({
-    requred: true
+    required: true
   })
   public hashName: string;
 
   @Prop({
-    requred: true
+    required: true
   })
   public path: string;
 }

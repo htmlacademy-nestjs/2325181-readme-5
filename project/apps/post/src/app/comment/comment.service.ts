@@ -37,7 +37,7 @@ export class CommentService {
     if (existComment.userId !== userId) {
       throw new UnauthorizedException(USER_UNAUTHORIZED);
     }
-    this.commentRepository.deleteById(commentId);
+    await this.commentRepository.deleteById(commentId);
   }
 
   public async listComments(postId: string, commentFilter?: FilterQuery): Promise<PaginationResult<CommentEntity>> {

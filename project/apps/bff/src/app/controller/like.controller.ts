@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Req, Patch, Delete, Param, Query, Post, UseFilters, UseGuards, HttpCode, HttpStatus, NotFoundException, UnauthorizedException, ForbiddenException } from '@nestjs/common';
+import { Controller, Get, Req, Delete, Param, UseFilters, UseGuards, HttpCode, HttpStatus, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { AxiosExceptionFilter } from '../filters/axios-exception.filter';
 import { HttpService } from '@nestjs/axios';
 import { CheckAuthGuard } from '../guards/check-auth.guard';
 import { ApplicationServiceURL, getAuthHeader } from '../app.config';
 import { LikeRdo } from '../rdo';
+import { ExceptionMessage } from '../app.constant';
 
 @UseFilters(AxiosExceptionFilter)
 @Controller('like')
@@ -27,11 +28,11 @@ export class LikeController {
       const { data } = await this.httpService.axiosRef.get<LikeRdo>(`${ApplicationServiceURL.Like}/${postId}`, getAuthHeader(req));
       return data;
     } catch (err) {
-      if (err.response.status === 403) {
-        throw new ForbiddenException('Forbidden to add another like');
+      if (err.response.status === HttpStatus.FORBIDDEN) {
+        throw new ForbiddenException(ExceptionMessage.ForbiddenToAddAnotherLike);
       }
-      if (err.response.status === 401) {
-        throw new UnauthorizedException('User not authorized');
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
+        throw new UnauthorizedException(ExceptionMessage.UserNotAuthorized);
       }
     }
   }
@@ -50,8 +51,8 @@ export class LikeController {
     try {
       await this.httpService.axiosRef.delete<LikeRdo>(`${ApplicationServiceURL.Like}/${postId}`, getAuthHeader(req));
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new ForbiddenException('Not found likes to delete');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new ForbiddenException(ExceptionMessage.NotFoundLikesToDelete);
       }
     }
   }
@@ -69,8 +70,8 @@ export class LikeController {
       const {data} = await this.httpService.axiosRef.get<number>(`${ApplicationServiceURL.Like}/count/${postId}`, getAuthHeader(req));
       return data;
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new ForbiddenException('Not possible to count likes');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new ForbiddenException(ExceptionMessage.NotPossibleToCountLikes);
       }
     }
   }

@@ -39,8 +39,7 @@ export class AuthenticationService {
     const userEntity = await new UserEntity(user).setPassword(password);
     const savedUser = await this.userRepository.save(userEntity);
     savedUser.subscribedFor.push(savedUser.id);
-    const subscribedUser = this.userRepository.update(savedUser.id, savedUser);
-    return subscribedUser;
+    return await this.userRepository.update(savedUser.id, savedUser);
   }
 
   public async changePassword (payload: TokenPayload, dto: ChangePasswordDto): Promise<UserEntity> {
@@ -82,6 +81,6 @@ export class AuthenticationService {
     } catch (error) {
       this.logger.error('[Token generation error]: ' + error.message);
       throw new HttpException('Ошибка при создании токена.', HttpStatus.INTERNAL_SERVER_ERROR);
-    };
+    }
   }
 }

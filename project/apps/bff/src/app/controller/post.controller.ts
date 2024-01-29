@@ -9,6 +9,7 @@ import { SubscriptionFilterQuery, FilterQuery, SearchQuery} from '../query';
 import { EntitiesWithPaginationRdo, RequestWithTokenPayload } from '@project/libs/shared/app/types';
 import { PostRdo, UserRdo} from '../rdo';
 import { generateUsersReference } from '../helpers';
+import { ExceptionMessage } from '../app.constant';
 
 @UseFilters(AxiosExceptionFilter)
 @Controller('post')
@@ -31,11 +32,11 @@ export class PostController {
       const { data } = await this.httpService.axiosRef.post<PostRdo>(`${ApplicationServiceURL.Post}`, dto, getAuthHeader(req));
       return data;
     } catch (err) {
-      if (err.response.status === 400) {
-        throw new BadRequestException('Validation error.');
+      if (err.response.status === HttpStatus.BAD_REQUEST) {
+        throw new BadRequestException(ExceptionMessage.ValidationError);
       }
-      if (err.response.status === 401) {
-        throw new UnauthorizedException('User not authorized');
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
+        throw new UnauthorizedException(ExceptionMessage.UserNotAuthorized);
       }
     }
   }
@@ -62,8 +63,8 @@ export class PostController {
       }));
       return {...data, entities: newEntities}
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new NotFoundException('Posts not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.PostsNotFound);
       }
     }
   }
@@ -89,8 +90,8 @@ export class PostController {
           });
       return data
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new NotFoundException('Posts not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.PostsNotFound);
       }
     }
   }
@@ -106,8 +107,8 @@ export class PostController {
         .get<PostRdo>(`${ApplicationServiceURL.Post}/search`, {params: query});
         return data;
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new NotFoundException('Posts not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.PostsNotFound);
       }
     }
   }
@@ -124,11 +125,11 @@ export class PostController {
         .get<PostRdo>(`${ApplicationServiceURL.Post}/drafts`, getAuthHeader(req));
         return data;
     } catch (err) {
-      if (err.response.status === 401) {
-        throw new UnauthorizedException('User not authorized');
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
+        throw new UnauthorizedException(ExceptionMessage.UserNotAuthorized);
       }
-      if (err.response.status === 404) {
-        throw new NotFoundException('Posts not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.PostsNotFound);
       }
     }
   }
@@ -150,11 +151,11 @@ export class PostController {
           ...getAuthHeader(req)
          });
     } catch (err) {
-      if (err.response.status === 401) {
-        throw new UnauthorizedException('User not authorized');
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
+        throw new UnauthorizedException(ExceptionMessage.UserNotAuthorized);
       }
-      if (err.response.status === 404) {
-        throw new NotFoundException('Posts not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.PostsNotFound);
       }
     }
   }
@@ -174,14 +175,14 @@ export class PostController {
         .get<PostRdo>(`${ApplicationServiceURL.Post}/repost/${postId}`, getAuthHeader(req));
         return data;
     } catch (err) {
-      if (err.response.status === 400) {
-        throw new BadRequestException('Validation error.');
+      if (err.response.status === HttpStatus.BAD_REQUEST) {
+        throw new BadRequestException(ExceptionMessage.ValidationError);
       }
-      if (err.response.status === 401) {
-        throw new UnauthorizedException('User not authorized');
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
+        throw new UnauthorizedException(ExceptionMessage.UserNotAuthorized);
       }
-      if (err.response.status === 403) {
-        throw new ForbiddenException('User may not repost own posts');
+      if (err.response.status === HttpStatus.FORBIDDEN) {
+        throw new ForbiddenException(ExceptionMessage.UserMayNotRepostOwnposts);
       }
     }
   }
@@ -201,8 +202,8 @@ export class PostController {
         .get<PostRdo>(`${ApplicationServiceURL.Post}/draft/${postId}`, getAuthHeader(req));
         return data;
     } catch (err) {
-      if (err.response.status === 401) {
-        throw new UnauthorizedException('User not authorized');
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
+        throw new UnauthorizedException(ExceptionMessage.UserNotAuthorized);
       }
     }
   }
@@ -222,8 +223,8 @@ export class PostController {
         .get<PostRdo>(`${ApplicationServiceURL.Post}/publish/${postId}`, getAuthHeader(req));
         return data;
     } catch (err) {
-      if (err.response.status === 401) {
-        throw new UnauthorizedException('User not authorized');
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
+        throw new UnauthorizedException(ExceptionMessage.UserNotAuthorized);
       }
     }
   }
@@ -245,8 +246,8 @@ export class PostController {
         authorLastname: existUser.lastname
        };
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new NotFoundException('Post not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.PostsNotFound);
       }
     }
   }
@@ -266,14 +267,14 @@ export class PostController {
       const { data } = await this.httpService.axiosRef.patch<PostRdo>(`${ApplicationServiceURL.Post}/${postId}`, dto, getAuthHeader(req));
       return data;
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new NotFoundException('Post not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.PostsNotFound);
       }
-      if (err.response.status === 400) {
-        throw new BadRequestException('Validation error.');
+      if (err.response.status === HttpStatus.BAD_REQUEST) {
+        throw new BadRequestException(ExceptionMessage.ValidationError);
       }
-      if (err.response.status === 401) {
-        throw new UnauthorizedException('User not authorized');
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
+        throw new UnauthorizedException(ExceptionMessage.UserNotAuthorized);
       }
     }
   }
@@ -292,11 +293,11 @@ export class PostController {
     try {
       await this.httpService.axiosRef.delete<void>(`${ApplicationServiceURL.Post}/${postId}`, getAuthHeader(req));
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new NotFoundException('Post not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.PostsNotFound);
       }
-      if (err.response.status === 401) {
-        throw new UnauthorizedException('User not authorized');
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
+        throw new UnauthorizedException(ExceptionMessage.UserNotAuthorized);
       }
     }
   }

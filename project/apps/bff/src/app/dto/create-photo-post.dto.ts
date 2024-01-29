@@ -9,6 +9,6 @@ export class CreatePhotoPostDto extends CreateBasePostDto {
     example: ''
   })
   @IsNotEmpty()
-  @Matches(PostValidationParams.Photo.RegexURL, {message: PostValidationMessage.Photo.Invalidformat})
+  @Matches(PostValidationParams.Photo.RegexURL, {message: PostValidationMessage.Photo.InvalidFormat})
   public photo: string;
 }

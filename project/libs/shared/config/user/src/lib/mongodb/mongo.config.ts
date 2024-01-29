@@ -40,6 +40,6 @@ function getDbConfig(): MongoConfig {
 
   validateMongoConfig(config);
   return config;
-};
+}
 
 export default registerAs('db', getDbConfig);

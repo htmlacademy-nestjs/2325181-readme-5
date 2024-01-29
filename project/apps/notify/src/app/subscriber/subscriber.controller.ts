@@ -20,8 +20,8 @@ export class SubscriberController {
     queue: 'readme.notify.income',
   })
   public async create(subscriber: CreateSubscriberDto): Promise<void> {
-    this.subscriberService.addSubscriber(subscriber);
-    this.mailService.sendNotifyNewSubscriber(subscriber);
+    await this.subscriberService.addSubscriber(subscriber);
+    await this.mailService.sendNotifyNewSubscriber(subscriber);
   }
 
   @RabbitSubscribe({

@@ -8,6 +8,7 @@ import { CreateCommentDto} from '../dto';
 import { CommentRdo} from '../rdo';
 import { EntitiesWithPaginationRdo } from '@project/libs/shared/app/types';
 import { CommentFilterQuery } from "../query";
+import { ExceptionMessage } from '../app.constant';
 
 @UseFilters(AxiosExceptionFilter)
 @Controller('comment')
@@ -30,11 +31,11 @@ export class CommentController {
       const { data } = await this.httpService.axiosRef.post<CommentRdo>(`${ApplicationServiceURL.Comment}`, dto, getAuthHeader(req));
       return data;
     } catch (err) {
-      if (err.response.status === 400) {
-        throw new BadRequestException('Validation error.');
+      if (err.response.status === HttpStatus.BAD_REQUEST) {
+        throw new BadRequestException(ExceptionMessage.ValidationError);
       }
-      if (err.response.status === 401) {
-        throw new UnauthorizedException('User not authorized');
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
+        throw new UnauthorizedException(ExceptionMessage.UserNotAuthorized);
       }
     }
   }
@@ -53,11 +54,11 @@ export class CommentController {
     try {
       await this.httpService.axiosRef.delete<void>(`${ApplicationServiceURL.Comment}/${commentId}`, getAuthHeader(req));
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new NotFoundException('Comment not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.CommentNotFound);
       }
-      if (err.response.status === 401) {
-        throw new UnauthorizedException('User not authorized');
+      if (err.response.status === HttpStatus.UNAUTHORIZED) {
+        throw new UnauthorizedException(ExceptionMessage.UserNotAuthorized);
       }
     }
   }
@@ -78,8 +79,8 @@ export class CommentController {
       });
       return data
     } catch (err) {
-      if (err.response.status === 404) {
-        throw new NotFoundException('Posts not found');
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        throw new NotFoundException(ExceptionMessage.PostsNotFound);
       }
     }
   }

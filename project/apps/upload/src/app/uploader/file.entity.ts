@@ -9,7 +9,7 @@ export class FileEntity implements File, Entity<string, File> {
   public hashName: string;
   public path: string;
   public createdAt?: Date;
-  public upadtedAt?: Date;
+  public updatedAt?: Date;
   public subdirectory: string;
 
   public toPOJO() {
@@ -21,7 +21,7 @@ export class FileEntity implements File, Entity<string, File> {
       hashName: this.hashName,
       path: this.path,
       createdAt: this.createdAt,
-      upadtedAt: this.upadtedAt,
+      updatedAt: this.updatedAt,
       subdirectory: this.subdirectory
     }
   }
@@ -35,7 +35,7 @@ export class FileEntity implements File, Entity<string, File> {
     this.subdirectory = data.subdirectory;
     this.path = data.path;
     this.createdAt = data.createdAt ?? undefined;
-    this.upadtedAt = data.upadtedAt ?? undefined;
+    this.updatedAt = data.updatedAt ?? undefined;
     return this;
   }
 

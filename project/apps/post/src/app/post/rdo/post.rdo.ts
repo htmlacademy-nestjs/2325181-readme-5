@@ -1,4 +1,4 @@
-import { Expose, Transform, Type, Exclude } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { Comment, Like, PostTypeValues } from '@project/libs/shared/app/types';
 

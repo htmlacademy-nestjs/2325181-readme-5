@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsOptional, IsMongoId } from 'class-validator';
-import { UserValidationMessage, UserValidationParams } from '../../authentication/authentication.constant';
+import { IsOptional, IsMongoId } from 'class-validator';
+import { UserValidationMessage } from '../../authentication/authentication.constant';
 
 export class RequestUsersDto {
   @ApiProperty({

@@ -1,9 +1,8 @@
 import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PostRepository } from './post.repository';
-import { UpdatePostDto } from './dto/update-post.dto';
 import { POST_NOT_FOUND, USER_FORBIDDEN_REPOST, USER_NOT_AUTHORIZED } from './post.constant';
 import { PostEntityAdapter} from './post-entity.factory';
-import { CreateContentPostDtoType } from './dto';
+import { CreateContentPostDtoType, UpdatePostDto } from './dto';
 import { PostContentEntity } from './entity/post-content.entity';
 import { FilterQuery } from './query/filter.query';
 import { transformTags } from '@project/libs/shared/helpers';
@@ -62,7 +61,7 @@ export class PostService {
     if ( existPost.authorId !== userId) {
       throw new UnauthorizedException(USER_NOT_AUTHORIZED);
     }
-    this.postRepository.deleteById(postId);
+    await this.postRepository.deleteById(postId);
   }
 
   public async indexPosts(filter?: FilterQuery): Promise<PaginationResult<PostContentEntity>> {

@@ -4,6 +4,7 @@ import { UploaderService } from './uploader.service';
 import { fillDTO } from '@project/libs/shared/helpers';
 import { UploadedFileRdo } from './rdo/uploaded-file.rdo';
 import { MongoIdValidationPipe } from '@project/libs/shared/core';
+import { FileValidationParams } from './uploader.constant';
 
 @Controller('upload')
 export class UploadController {
@@ -12,13 +13,13 @@ export class UploadController {
   ) {}
 
   @Post('avatar')
-  @UseInterceptors(FileInterceptor('file',  {limits: {fileSize: 500000}}))
+  @UseInterceptors(FileInterceptor('file',  {limits: {fileSize: FileValidationParams.AvatarSize}}))
   public async uploadAvatarFile(
     @UploadedFile(
       new ParseFilePipe({
         validators: [
-          new MaxFileSizeValidator({maxSize: 500000}),
-          new FileTypeValidator({ fileType: RegExp(/(.png$|.jpg$|.jpeg$)/i)})
+          new MaxFileSizeValidator({maxSize: FileValidationParams.AvatarSize}),
+          new FileTypeValidator({ fileType: FileValidationParams.MimeTypeRegex})
         ]
       })
     ) file: Express.Multer.File
@@ -28,13 +29,13 @@ export class UploadController {
   }
 
   @Post('photo')
-  @UseInterceptors(FileInterceptor('file', {limits: {fileSize: 1000000}}))
+  @UseInterceptors(FileInterceptor('file', {limits: {fileSize: FileValidationParams.PhotoSize}}))
   public async uploadPhotoFile(
     @UploadedFile(
       new ParseFilePipe({
         validators: [
-          new MaxFileSizeValidator({maxSize: 1000000}),
-          new FileTypeValidator({ fileType: RegExp(/(.png$|.jpg$|.jpeg$)/i)})
+          new MaxFileSizeValidator({maxSize: FileValidationParams.PhotoSize}),
+          new FileTypeValidator({ fileType: FileValidationParams.MimeTypeRegex})
         ]
       })
     ) file: Express.Multer.File

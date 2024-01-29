@@ -2,11 +2,10 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Post, Body, Get, Param, HttpStatus, Delete, Patch, Controller, Query, Req, UseGuards, HttpCode, } from '@nestjs/common';
 import { fillDTO} from '@project/libs/shared/helpers';
 import { PostService } from './post.service';
-import { CreateContentPostDtoType } from './dto';
+import { CreateContentPostDtoType, UpdatePostDto } from './dto';
 import { PostRdo } from './rdo/post.rdo';
-import { UpdatePostDto } from './dto/update-post.dto';
 import { SearchQuery } from './query/search.query';
-import { PostContent, PaginationResult, RequestWithUser, RequestWithTokenPayload } from '@project/libs/shared/app/types';
+import { PostContent, PaginationResult, RequestWithTokenPayload } from '@project/libs/shared/app/types';
 import { FilterQuery } from './query/filter.query';
 import { NotifyPostService } from '../notify/notify-post.service';
 import { EntitiesWithPaginationRdo } from '@project/libs/shared/app/types';
@@ -43,11 +42,10 @@ export class PostController {
   @Get('/')
   public async index(@Query() filter: FilterQuery): Promise<EntitiesWithPaginationRdo<PostRdo>> {
     const postsWithPagination = await this.postService.indexPosts(filter);
-    const result = {
+    return {
       ...postsWithPagination,
       entities: postsWithPagination.entities.map((post) => fillDTO(PostRdo, post.toPOJO()))
     }
-    return result;
   }
 
   @ApiResponse({
@@ -57,7 +55,7 @@ export class PostController {
   @UseGuards(CheckAuthGuard)
   @Get('subscription')
   public async indexSubscribed(@Query() filter: SubscriptionFilterQuery): Promise<EntitiesWithPaginationRdo<PostRdo>> {
-    const postsWithPagination = await this.postService.indexPosts(filter);
+    const postsWithPagination = await this.postService.indexUserSubscription(filter);
     const result = {
       ...postsWithPagination,
       entities: postsWithPagination.entities.map((post) => post.toPOJO())
@@ -96,7 +94,7 @@ export class PostController {
     @Query() filter: FilterQuery,
   ):Promise<void> {
     const newPosts = await this.postService.indexPosts(filter);
-    this.notifyPostService.sendNewPosts(newPosts.entities.map((post) => post.toPOJO()))
+    await this.notifyPostService.sendNewPosts(newPosts.entities.map((post) => post.toPOJO()))
   }
 
   @ApiResponse({

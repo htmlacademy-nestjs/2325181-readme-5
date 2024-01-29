@@ -1,7 +1,6 @@
 import { AuthUser } from '@project/libs/shared/app/types';
 import { Entity } from '@project/libs/shared/core';
 import { genSalt, hash, compare } from 'bcrypt';
-import { ObjectId } from 'mongoose';
 import { SALT_ROUNDS } from './user.constant';
 
 export class UserEntity implements AuthUser, Entity<string, AuthUser> {

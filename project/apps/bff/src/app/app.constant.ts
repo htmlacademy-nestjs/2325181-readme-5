@@ -104,7 +104,7 @@ export const PostValidationMessage = {
     MaxSize: 'There should be not more than 8 tags in the list'
   },
   Photo: {
-    Invalidformat: 'The photo file should have .jpg or .png format'
+    InvalidFormat: 'The photo file should have .jpg or .png format'
   },
   LinkURL: {
     InvalidFormat: 'The link URL should be a valid URL link'
@@ -119,3 +119,16 @@ export const DEFAULT_PAGE_NUMBER = 1;
 export const DEFAULT_SORT_BY_FIELD = 'publishedAt';
 
 export const DEFAULT_SORT_BY_ORDER = 'desc';
+
+export const ExceptionMessage = {
+  ValidationError: 'Validaiton error',
+  UserNotAuthorized: 'User not authorized',
+  CommentNotFound: 'Comment not found',
+  PostsNotFound: 'Posts not found',
+  ForbiddenToAddAnotherLike: 'Forbidden to add another like',
+  NotFoundLikesToDelete:'Not found likes to delete',
+  NotPossibleToCountLikes:'Not possible to count likes',
+  UserMayNotRepostOwnposts: 'User may not repost own posts',
+  UserNotFound: 'User not found',
+  UserAlreadyExists: 'User already exists',
+}

@@ -1,4 +1,4 @@
-import { Controller, HttpStatus, UseGuards, Get, Param, Post, Body, Req, Query } from '@nestjs/common';
+import { Controller, HttpStatus, UseGuards, Get, Param, Post, Body, Req } from '@nestjs/common';
 import { RequestWithTokenPayload, AuthUser } from '@project/libs/shared/app/types';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { UserRdo } from '../authentication/rdo/user.rdo';

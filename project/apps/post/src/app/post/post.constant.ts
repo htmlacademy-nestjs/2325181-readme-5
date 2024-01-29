@@ -82,7 +82,7 @@ export const PostValidationMessage = {
     MaxSize: 'There should be not more than 8 tags in the list'
   },
   Photo: {
-    Invalidformat: 'The photo file should have .jpg or .png format'
+    InvalidFormat: 'The photo file should have .jpg or .png format'
   },
   LinkURL: {
     InvalidFormat: 'The link URL should be a valid URL link'

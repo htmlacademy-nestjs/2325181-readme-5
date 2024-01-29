@@ -31,7 +31,7 @@ function getPosts () {
       photo: 'New photo',
     },
   ]
-};
+}
 
 const getContentPost = (data) => {
   switch (data.type) {
@@ -53,12 +53,14 @@ function getComments () {
     {
       id: '639263582',
       text: 'Best Film I ever seen',
-      postId: '751e27e32'
+      postId: '751e27e32',
+      userId: '1234556435'
     },
     {
       id: '584193722',
       text: 'beatiful photo.',
-      postId: '672e27e32'
+      postId: '672e27e32',
+      userId: '9087453452'
     },
   ]
 }
@@ -88,7 +90,8 @@ async function seedDb(prismaClient:PrismaClient) {
       data: {
         id: comment.id,
         text: comment.text,
-        postId: comment.postId
+        postId: comment.postId,
+        userId: comment.userId
       }
     })
   }

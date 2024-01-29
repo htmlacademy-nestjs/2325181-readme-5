@@ -57,6 +57,6 @@ function getConfig(): UploadConfig {
   };
   validateConfig(config);
   return config;
-};
+}
 
 export default registerAs('application', getConfig);

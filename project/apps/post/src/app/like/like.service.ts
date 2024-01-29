@@ -20,7 +20,7 @@ export class LikeService {
     }
     if(await this.findLike(dto)) {
       throw new UnauthorizedException(USER_UNAUTHORIZED);
-    };
+    }
     const newLike = new LikeEntity(dto);
     return await this.likeRepository.save(newLike);
   }

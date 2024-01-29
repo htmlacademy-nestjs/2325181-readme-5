@@ -1,6 +1,6 @@
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LikeService } from './like.service';
-import { HttpStatus, Param, Controller, Post, Req, Delete, Get, UseGuards } from '@nestjs/common';
+import { HttpStatus, Param, Controller, Req, Delete, Get, UseGuards } from '@nestjs/common';
 import { RequestWithTokenPayload, TokenPayload } from '@project/libs/shared/app/types';
 import { fillDTO } from '@project/libs/shared/helpers';
 import { LikeRdo } from './rdo/like.rdo';

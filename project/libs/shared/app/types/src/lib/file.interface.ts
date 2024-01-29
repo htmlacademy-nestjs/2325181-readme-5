@@ -7,5 +7,5 @@ export interface File {
   hashName: string;
   path: string;
   createdAt?: Date;
-  upadtedAt?: Date;
+  updatedAt?: Date;
 }

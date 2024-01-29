@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Controller, Post, UploadedFile, UseInterceptors, Get, Param, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Controller, Post, UploadedFile, UseInterceptors, Get, Param, BadRequestException, NotFoundException } from '@nestjs/common';
 import 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadedFileRdo } from '../rdo';

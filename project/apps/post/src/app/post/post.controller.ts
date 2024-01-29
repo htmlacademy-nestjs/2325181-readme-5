@@ -93,7 +93,7 @@ export class PostController {
   @UseGuards(CheckAuthGuard)
   @Get('news')
   public async getNewPosts(
-    @Query() filter: FilterQuery
+    @Query() filter: FilterQuery,
   ):Promise<void> {
     const newPosts = await this.postService.indexPosts(filter);
     this.notifyPostService.sendNewPosts(newPosts.entities.map((post) => post.toPOJO()))
@@ -104,7 +104,7 @@ export class PostController {
     description: 'The reposted post has been created.'
   })
   @UseGuards(CheckAuthGuard)
-  @Post('repost/:postId')
+  @Get('repost/:postId')
   public async repost(
     @Req() {user}: RequestWithTokenPayload,
     @Param('postId') postId: string
@@ -117,7 +117,8 @@ export class PostController {
     status: HttpStatus.OK,
     description: 'The post status has been changed to drafts'
   })
-  @Patch('draft/:postId')
+  @UseGuards(CheckAuthGuard)
+  @Get('draft/:postId')
   async returnToDrafts(
     @Req() { user }: RequestWithTokenPayload,
     @Param('postId') postId: string,
@@ -131,7 +132,8 @@ export class PostController {
     status: HttpStatus.OK,
     description: 'The post status has been changed to published'
   })
-  @Patch('publish/:postId')
+  @UseGuards(CheckAuthGuard)
+  @Get('publish/:postId')
   async publish(
     @Req() { user }: RequestWithTokenPayload,
     @Param('postId') postId: string,

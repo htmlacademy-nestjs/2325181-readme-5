@@ -79,21 +79,6 @@ export class UserController {
     }
   }
 
-  // @ApiResponse({
-  //   status: HttpStatus.OK,
-  //   description: 'User subscription posts provided'
-  // })
-  // @HttpCode(HttpStatus.OK)
-  // @UseGuards(CheckAuthGuard)
-  // @Get('subscription')
-  // public async indexSubscribed(
-  //   @Req() { user } : RequestWithTokenPayload
-  // ): Promise<void> {
-  //   const {subscribedFor} = await this.show(user.sub);
-  //   const
-  // }
-
-// в конце
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,

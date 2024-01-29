@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PostRepository } from './post.repository';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { POST_NOT_FOUND, USER_NOT_AUTHORIZED } from './post.constant';
+import { POST_NOT_FOUND, USER_FORBIDDEN_REPOST, USER_NOT_AUTHORIZED } from './post.constant';
 import { PostEntityAdapter} from './post-entity.factory';
 import { CreateContentPostDtoType } from './dto';
 import { PostContentEntity } from './entity/post-content.entity';
@@ -46,10 +46,7 @@ export class PostService {
   }
 
   public async updatePostEntity(postId: string,  userId: string, dto: UpdatePostDto,): Promise<PostContentEntity> {
-    const existPost = await this.postRepository.findById(postId);
-    if (!existPost) {
-      throw new NotFoundException(POST_NOT_FOUND);
-    }
+    const existPost = await this.getPostEntity(postId);
     if ( existPost.authorId !== userId) {
       throw new UnauthorizedException(USER_NOT_AUTHORIZED);
     }
@@ -61,10 +58,7 @@ export class PostService {
   }
 
   public async deletePostEntity(postId: string, userId: string): Promise<void> {
-    const existPost = await this.postRepository.findById(postId);
-    if (!existPost) {
-      throw new NotFoundException(POST_NOT_FOUND);
-    }
+    const existPost = await this.getPostEntity(postId);
     if ( existPost.authorId !== userId) {
       throw new UnauthorizedException(USER_NOT_AUTHORIZED);
     }
@@ -80,12 +74,16 @@ export class PostService {
   }
 
   public async repostPost(postId: string, userId: string): Promise<PostContentEntity> {
+    const existPost = await this.getPostEntity(postId);
     const {
       id: originPostId,
       authorId: originAuthorId,
       publishedAt,
       ...originPost
-    } = await this.postRepository.findById(postId);
+    } = existPost;
+    if(userId === originAuthorId) {
+      throw new ForbiddenException(USER_FORBIDDEN_REPOST);
+    }
     const repostedPost = new PostEntityAdapter[originPost.type]({
       ...originPost,
       authorId: userId,

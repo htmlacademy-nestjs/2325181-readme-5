@@ -35,7 +35,8 @@ export class SubscriberController {
       const {email, newPostsUpdate} = subscriberEntity;
       const dto: SendNewPostsDto = {
         email,
-        posts: filterNewPosts(posts, newPostsUpdate)};
+        posts: filterNewPosts(posts, newPostsUpdate)
+      };
       this.mailService.sendNotifyNewPosts(dto);
       this.subscriberService.updateSubscriber(email);
     })

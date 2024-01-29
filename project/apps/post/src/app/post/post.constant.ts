@@ -99,6 +99,8 @@ export const POST_NOT_FOUND = 'The post has not been found';
 
 export const USER_NOT_AUTHORIZED = 'The post has not been found';
 
+export const USER_FORBIDDEN_REPOST = 'The user may not repost own posts';
+
 export const POST_SEARCH_BY_TITLE_LIMIT = 20;
 
 export const POST_LIST_REUQEST_COUNT = 25;

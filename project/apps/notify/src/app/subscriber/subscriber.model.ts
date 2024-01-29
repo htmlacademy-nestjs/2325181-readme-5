@@ -26,9 +26,7 @@ export class SubscriberModel extends Document implements Subscriber {
   })
   public lastname: string;
 
-  @Prop({
-    required: true
-  })
+  @Prop()
   public newPostsUpdate: Date;
 }
 

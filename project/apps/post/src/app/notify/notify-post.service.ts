@@ -1,6 +1,6 @@
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { Inject, Injectable } from '@nestjs/common';
-import { rabbitConfig } from '@project/libs/shared/config/user';
+import { rabbitConfig } from '@project/libs/shared/config/post';
 import { ConfigType } from '@nestjs/config';
 import { PostContent, RabbitRouting } from '@project/libs/shared/app/types';
 

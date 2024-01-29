@@ -8,6 +8,7 @@ import { PostEntityFactory } from './post-entity.factory';
 import { Injectable} from '@nestjs/common';
 import { FilterQuery } from './query/filter.query';
 import { PaginationResult } from '@project/libs/shared/app/types';
+import { SubscriptionFilterQuery } from './query/subscription-filter.query';
 
 @Injectable()
 export class PostRepository extends BasePostgresRepository<PostContentEntity, PostContent> {
@@ -70,7 +71,7 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
     });
   }
 
-  public async findMany({authorId, type, tag, page, sortBy}: FilterQuery): Promise<PaginationResult<PostContentEntity>> {
+  public async findMany({authorId, type, tag, page, sortByField, sortByOrder}: FilterQuery): Promise<PaginationResult<PostContentEntity>> {
     const hasTag = tag ? {has: tag} : undefined;
     const where = {
       isPublished: true,
@@ -79,7 +80,7 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
       tags: hasTag
     };
     const skip = (page - 1) * POST_LIST_REUQEST_COUNT;
-    const orderBy: Prisma.PostOrderByWithRelationInput = {[sortBy]: 'desc'};
+    const orderBy: Prisma.PostOrderByWithRelationInput = {[sortByField]: sortByOrder};
     const [postList, totalPosts] = await Promise.all([
       this.client.post.findMany({
         where,
@@ -93,7 +94,37 @@ export class PostRepository extends BasePostgresRepository<PostContentEntity, Po
       }),
       this.getPostCount(where),
     ]);
+    return {
+      entities: postList.map((post) => this.createEntityFromDocument(post)),
+      currentPage: page,
+      totalPages: Math.ceil(totalPosts / POST_LIST_REUQEST_COUNT),
+      itemsPerPage: POST_LIST_REUQEST_COUNT,
+      totalItems: totalPosts
+    }
+  }
 
+  public async findManySubscribed({authorList, page, sortByField, sortByOrder}: SubscriptionFilterQuery): Promise<PaginationResult<PostContentEntity>> {
+    const where = {
+      isPublished: true,
+      authorId: {
+        in: authorList
+      },
+    };
+    const skip = (page - 1) * POST_LIST_REUQEST_COUNT;
+    const orderBy: Prisma.PostOrderByWithRelationInput = {[sortByField]: sortByOrder};
+    const [postList, totalPosts] = await Promise.all([
+      this.client.post.findMany({
+        where,
+        take: POST_LIST_REUQEST_COUNT,
+        skip,
+        include: {
+          comments: true,
+          likes: true
+        },
+        orderBy
+      }),
+      this.getPostCount(where),
+    ]);
     return {
       entities: postList.map((post) => this.createEntityFromDocument(post)),
       currentPage: page,

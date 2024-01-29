@@ -6,13 +6,15 @@ export class SubscriberEntity implements Subscriber, Entity<string, Subscriber> 
   public email: string;
   public firstname: string;
   public lastname: string;
+  public newPostsUpdate?: Date;
 
   toPOJO() {
     return {
       id: this.id,
       email: this.email,
       lastname: this.lastname,
-      firstname: this.firstname
+      firstname: this.firstname,
+      newPostsUpdate: this.newPostsUpdate,
     }
   }
 
@@ -21,6 +23,7 @@ export class SubscriberEntity implements Subscriber, Entity<string, Subscriber> 
     this.email = data.email;
     this.firstname = data.firstname;
     this.lastname = data.lastname;
+    this.newPostsUpdate = data.newPostsUpdate || new Date();
     return this;
   }
 

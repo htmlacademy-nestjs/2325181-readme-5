@@ -1,2 +1,3 @@
-export const DEFAULT_PORT = 3000;;
-export const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
+export const DEFAULT_PORT = 5000;
+
+export const ENV_USER_FILE_PATH = 'apps/user/.user.env';

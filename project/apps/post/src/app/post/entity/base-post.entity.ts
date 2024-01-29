@@ -1,5 +1,4 @@
 import { BasePost, Comment, Like, PostTypeValues } from '@project/libs/shared/app/types';
-import { UpdatePostDto } from '../dto/update-post.dto';
 import { Entity } from '@project/libs/shared/core';
 
 export class BasePostEntity implements BasePost, Entity<string, BasePost> {
@@ -18,19 +17,19 @@ export class BasePostEntity implements BasePost, Entity<string, BasePost> {
 
 
 
-  constructor (data: BasePost) {
-    this.id = data.id;
-    this.type = data.type;
-    this.isPublished = data.isPublished;
-    this.isRepost = data.isRepost;
-    this.tags = data.tags;
-    this.authorId = data.authorId;
-    this.originAuthorId = data.originAuthorId;
-    this.originPostId = data.originPostId;
+  constructor (post: BasePost) {
+    this.id = post.id ?? undefined;
+    this.type = post.type;
+    this.isPublished = post.isPublished;
+    this.isRepost = post.isRepost;
+    this.tags = post.tags;
+    this.authorId = post.authorId;
+    this.originAuthorId = post.originAuthorId;
+    this.originPostId = post.originPostId;
+    this.comments = post.comments ?? [];
+    this.likes = post.likes ?? [];
     this.publishedAt = new Date();
     this.createdAt = new Date();
-    this.comments = data.comments ?? [];
-    this.likes = data.likes ?? [];
   }
 
   public toPOJO (): BasePost {
@@ -65,12 +64,6 @@ export class BasePostEntity implements BasePost, Entity<string, BasePost> {
     this.createdAt = data.createdAt;
     this.comments = data.comments;
     this.likes = data.likes;
-  }
-
-  public update(data: UpdatePostDto): void {
-    for (let key in data) {
-      this[key] = data[key];
-    }
   }
 
   static fromObject(data: BasePost): BasePostEntity {

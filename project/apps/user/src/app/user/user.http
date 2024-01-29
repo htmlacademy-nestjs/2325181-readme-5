@@ -1,0 +1,6 @@
+
+# Get user by Id
+GET http://localhost:5000/api/user/65a7924e332cda36b5dc87bd HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIwYjY1ODE5ZmJkOTYxZjBkNGY4NDQiLCJlbWFpbCI6Im5ldzE4QHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNjA3OTg0NSwiZXhwIjoxNzA4NjcxODQ1fQ.Y_N7-DWv1ohra-UN8L0R95wct88kScOFph9ewkZ-3WE
+
+###

@@ -4,4 +4,5 @@ export interface Comment {
   postId?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  userId?: string;
 }

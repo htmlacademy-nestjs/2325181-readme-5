@@ -7,17 +7,16 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { FileModel, FileSchema } from './file.model';
 import { UploaderRepository } from './uploader.repository';
 
-const SERVE_ROOT = './static'
-
 @Module({
   imports: [
     ServeStaticModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const rootPath = configService.get<string>('application.uploadDirectory');
+        const serveRoot = configService.get<string>('application.serveRoot')
         return [{
           rootPath,
-          serveRoot: SERVE_ROOT,
+          serveRoot,
           serveStaticOptions: {
             fallthrough: true,
             etag: true

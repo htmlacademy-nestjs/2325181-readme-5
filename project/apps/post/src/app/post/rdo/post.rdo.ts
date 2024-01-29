@@ -138,8 +138,41 @@ export class PostRdo {
     description: 'Likes number',
     example: 5
   })
-  @Transform(({value}) => value.length)
+  @Transform(({ value }) => value.length)
   public likes: Like[];
+
+  @Expose()
+  @ApiProperty({
+    description: 'Publishing date',
+    example: '2024-01-24 13:59:34.849'
+  })
+  public publishedAt: Date;
+
+  @Expose()
+  @ApiProperty({
+    description: 'Author firstname',
+    example: 'Alex',
+    default: ''
+  })
+  public authorFirstname: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'author lastname',
+    example: 'Bochkov',
+    default: ''
+  })
+  public authorLastname: string;
+
+  @Expose()
+  @ApiProperty({
+    description: 'author email',
+    example: 'mail@domain.com',
+    default: ''
+  })
+  public authorEmail: string;
+
+
 }
 
 

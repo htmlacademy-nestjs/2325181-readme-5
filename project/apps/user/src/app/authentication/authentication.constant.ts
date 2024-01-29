@@ -1,8 +1,13 @@
 export const AUTH_USER_EXISTS = 'User with email exists';
 export const AUTH_USER_NOT_FOUND = 'User not found';
 export const AUTH_USER_PASSWORD_WRONG = 'User password is wrong';
+export const USERNAME_FIELD = 'email';
+export const REFRESH_TOKEN_NOT_EXISTS = 'Refresh token does not exist';
 
 export const UserValidationParams = {
+  Avatar: {
+    RegexURL: RegExp(/(.png$|.jpg$|.jpeg$)/i)
+  },
   Firstname: {
     Length: {
       Minimal: 3,
@@ -24,6 +29,12 @@ export const UserValidationParams = {
 } as const;
 
 export const UserValidationMessage = {
+  Avatar: {
+    InvalidFormat: 'User avatar should be a jpg or png file of not more than 500 kbyte size'
+  },
+  AuthorId: {
+    InvalidFormat: 'Author id should be valid mongo id'
+  },
   Email: {
     InvalidFormat: 'User e-mail should have format user@domain.com'
   },
@@ -36,7 +47,7 @@ export const UserValidationMessage = {
     InvalidLength: 'User lastname should have a minimal length of 3 letters, maximal length of 50 letters'
   },
   Password: {
-    InvalidLength: 'User e-mail should have a string format',
-    InvalidPassword: 'User password should have a minimal length of 6 letters, maximal length of 12 letters'
+    InvalidLength: 'User password should have a minimal length of 6 letters, maximal length of 12 letters',
+    InvalidPassword: 'User password should be a string value'
   }
 } as const;

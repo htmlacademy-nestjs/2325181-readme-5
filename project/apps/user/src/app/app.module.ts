@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigUserModule, getMongooseOptions } from '@project/libs/shared/config/user';
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
-import { NotifyUserModule } from './notify/notify.module';
+import { NotifyUserModule } from './notify/notify-user.module';
 
 @Module({
   imports: [

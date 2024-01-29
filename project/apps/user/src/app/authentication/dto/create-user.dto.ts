@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, Length, Matches } from 'class-validator';
 import { UserValidationMessage, UserValidationParams } from '../authentication.constant';
 
 export class CreateUserDto {
@@ -36,6 +36,20 @@ export class CreateUserDto {
   public lastname: string;
 
   @ApiProperty({
+    description: 'User avatar',
+    example: 'picture.jpg'
+  })
+  @IsOptional()
+  @IsString({message: UserValidationMessage.Lastname.InvalidFormat})
+  @Matches(UserValidationParams.Avatar.RegexURL, {message: UserValidationMessage.Avatar.InvalidFormat})
+  @Length(
+    UserValidationParams.Lastname.Length.Minimal,
+    UserValidationParams.Lastname.Length.Maximal,
+    {message: UserValidationMessage.Lastname.InvalidLength}
+  )
+  public avatar: string;
+
+  @ApiProperty({
     description: 'User password',
     example: '123456'
   })
@@ -45,6 +59,7 @@ export class CreateUserDto {
     UserValidationParams.Password.Length.Maximal,
     {message: UserValidationMessage.Password.InvalidLength}
   )
+  @IsString({message: UserValidationMessage.Password.InvalidPassword})
   public password: string;
 }
 

@@ -47,7 +47,7 @@ export const PostValidationParams = {
 
 export const PostValidationMessage = {
   AuthorId: {
-    InvalidFormat: 'Author id should have a string format',
+    InvalidFormat: 'Author id should be valid mongo id'
   },
   Creator: {
     InvalidFormat: 'Cite creator should have a string format',
@@ -82,7 +82,7 @@ export const PostValidationMessage = {
     MaxSize: 'There should be not more than 8 tags in the list'
   },
   Photo: {
-    Invalidformat: 'The photo file should have .jpg or .png format'
+    InvalidFormat: 'The photo file should have .jpg or .png format'
   },
   LinkURL: {
     InvalidFormat: 'The link URL should be a valid URL link'
@@ -90,12 +90,16 @@ export const PostValidationMessage = {
   VideoURL: {
     InvalidFormat: 'The video URL should be a valid URL link'
   },
-  isRepost: {
-    InvalidFormat: 'The isRepost status should be a boolean value'
+  isPublished: {
+    InvalidFormat: 'The publishing status should be a boolean value'
   }
 } as const;
 
 export const POST_NOT_FOUND = 'The post has not been found';
+
+export const USER_NOT_AUTHORIZED = 'The post has not been found';
+
+export const USER_FORBIDDEN_REPOST = 'The user may not repost own posts';
 
 export const POST_SEARCH_BY_TITLE_LIMIT = 20;
 
@@ -103,4 +107,6 @@ export const POST_LIST_REUQEST_COUNT = 25;
 
 export const DEFAULT_PAGE_NUMBER = 1;
 
-export const DEFAULT_SORT_BY_FIELD = 'createdAt';
+export const DEFAULT_SORT_BY_FIELD = 'publishedAt';
+
+export const DEFAULT_SORT_BY_ORDER = 'desc';

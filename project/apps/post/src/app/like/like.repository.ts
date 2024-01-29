@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Like } from '@project/libs/shared/app/types';
 import { BasePostgresRepository } from '@project/libs/shared/core';
 import { PrismaClientService } from '@project/libs/shared/post/models';
 import { LikeEntity } from './like.entity';
+import { AddDeleteLikeDto } from './dto/add-delete-like.dto';
 
 @Injectable()
 export class LikeRepository extends BasePostgresRepository<LikeEntity, Like> {
@@ -20,7 +21,7 @@ export class LikeRepository extends BasePostgresRepository<LikeEntity, Like> {
     return entity;
   }
 
-  public async findByUserIdPostId(userId: string, postId: string): Promise<LikeEntity> {
+  public async findByUserIdPostId({userId, postId}: AddDeleteLikeDto): Promise<LikeEntity> {
     const foundLike = await this.client.like.findFirst({
       where: {
         postId,
@@ -32,17 +33,13 @@ export class LikeRepository extends BasePostgresRepository<LikeEntity, Like> {
 
   public async deleteById(id: string): Promise<void> {
     await this.client.like.delete({
-      where: {
-        id
-      }
+      where: {id}
     });
   }
 
   public async countManyByPostId(postId: string): Promise<number> {
     return await this.client.like.count({
-      where: {
-        postId,
-      },
+      where: {postId},
     });
   }
 }

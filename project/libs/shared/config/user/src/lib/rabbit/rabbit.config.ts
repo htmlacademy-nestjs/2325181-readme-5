@@ -1,7 +1,6 @@
 import { registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
-
-const DEFAULT_RABBIT_PORT = 5672;
+import { DEFAULT_RABBIT_PORT } from './rabbit.constant';
 
 export interface RabbitConfig {
   host: string;
@@ -35,7 +34,7 @@ export default registerAs('rabbit', (): RabbitConfig => {
 
   if (error) {
     throw new Error(
-      `[Notify Config]: Environments validation failed. Please check .env file.
+      `[Rabbit Config]: Environments validation failed. Please check .env file.
        Error message: ${error.message}`,
     );
   }

@@ -19,7 +19,6 @@
 - Репост публикаций.
 - Лента пользователя.
 - Поиск публикаций по названию.
-- Поиск публикаций по тегам.
 ### Сервис upload:
 - Загрузка изображений для публикации в блоге.
 ### Сервис notify:
@@ -33,6 +32,8 @@
 #### Сервис post: `./apps/post/.post.env`
 
 #### Сервис notify: `./apps/notify/.notify.env`
+
+#### Сервис upload: `./apps/upload/.upload.env`
 
 Образцы файлов с переменными окружения находятся в соответствующих директориях с окончанием .env.example
 
@@ -61,7 +62,15 @@ docker compose \
 --project-name "readme-notify" \
 up -d
 ```
-Для подключения к базе данных сервиса post необходимо в корневой папке приложения создать файл с переменными окружения. Пример файла приведен в директории `project\libs\shared\post\models\prisma\.env-example`
+#### Сервис upload
+```
+docker compose \
+--file ./apps/upload/docker-compose.dev.yml \
+--env-file ./apps/upload/.upload.env \
+--project-name "readme-upload" \
+up -d
+```
+Для подключения к базе данных сервиса post необходимо в корневой папке приложения создать файл с переменными окружения для Prisma. Пример файла приведен в директории `project\libs\shared\post\models\prisma\.env-example`
 
 ## Команды базы данных сервиса post.
 
@@ -107,5 +116,5 @@ npm i
 #### Запустить все сервисы
 
 ```
-nx run-many -t serve -p users post notify upload 
+nx run-many -t serve -p user post notify upload 
 ```

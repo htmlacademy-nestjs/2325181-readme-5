@@ -1,0 +1,14 @@
+# Count subscribers
+GET http://localhost:6000/api/subscribe/new29@user.com HTTP/1.1
+
+###
+
+# Add subscription
+
+POST http://localhost:6000/api/subscribe/add HTTP/1.1
+
+###
+
+# Remove subscription
+POST http://localhost:6000/api/subscribe/remove HTTP/1.1
+###

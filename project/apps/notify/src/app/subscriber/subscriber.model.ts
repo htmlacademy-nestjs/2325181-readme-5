@@ -25,6 +25,9 @@ export class SubscriberModel extends Document implements Subscriber {
     required: true
   })
   public lastname: string;
+
+  @Prop()
+  public newPostsUpdate: Date;
 }
 
 export const SubscriberSchema = SchemaFactory.createForClass(SubscriberModel);

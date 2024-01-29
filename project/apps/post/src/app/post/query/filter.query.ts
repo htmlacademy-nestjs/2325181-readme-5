@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsOptional, Length, Matches, IsMongoId, IsIn } from 'class-validator';
-import { PostValidationMessage, PostValidationParams, DEFAULT_PAGE_NUMBER, DEFAULT_SORT_BY_FIELD } from '../post.constant';
-import { PostTypeValues, PostType, PostFilter, SortByQuery } from '@project/libs/shared/app/types';
+import { PostValidationMessage, PostValidationParams, DEFAULT_PAGE_NUMBER, DEFAULT_SORT_BY_FIELD, DEFAULT_SORT_BY_ORDER } from '../post.constant';
+import { PostTypeValues, PostType, PostFilter, SortByQuery, SortByOrder } from '@project/libs/shared/app/types';
 
 export class FilterQuery implements PostFilter {
   @ApiProperty({
@@ -47,6 +47,13 @@ export class FilterQuery implements PostFilter {
     example: 'comments'
   })
   @IsOptional()
-  public sortBy?: SortByQuery = DEFAULT_SORT_BY_FIELD;
+  public sortByField?: SortByQuery = DEFAULT_SORT_BY_FIELD;
+
+  @ApiProperty({
+    description: 'SortBy order',
+    example: 'desc'
+  })
+  @IsOptional()
+  public sortByOrder?: SortByOrder = DEFAULT_SORT_BY_ORDER;
 }
 

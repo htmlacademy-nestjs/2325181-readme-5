@@ -1,5 +1,4 @@
 import { LinkPost } from '@project/libs/shared/app/types';
-import { UpdatePostDto } from '../dto/update-post.dto';
 import { BasePostEntity } from './base-post.entity';
 import { Entity } from '@project/libs/shared/core';
 
@@ -13,7 +12,7 @@ export class PostLinkEntity extends BasePostEntity implements LinkPost, Entity<s
     this.populate(post);
   }
 
-  public toPOJO () {
+  public toPOJO (): LinkPost {
     return {
       ...super.toPOJO(),
       linkDescription: this.linkDescription,
@@ -24,12 +23,6 @@ export class PostLinkEntity extends BasePostEntity implements LinkPost, Entity<s
   public populate(data: LinkPost): void {
     this.linkURL = data.linkURL;
     this.linkDescription = data.linkDescription;
-  }
-
-  public update(data: UpdatePostDto): void {
-    for (let key in data) {
-      this[key] = data[key];
-    }
   }
 
   static fromObject(data: LinkPost): PostLinkEntity {

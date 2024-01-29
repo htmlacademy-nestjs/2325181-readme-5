@@ -1,10 +1,10 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { LikeRepository } from './like.repository';
 import { PostService } from '../post/post.service';
-import { AddLikeDto } from './dto/add-like.dto';
+import { AddDeleteLikeDto } from './dto/add-delete-like.dto';
 import { LikeEntity } from './like.entity';
 import { NotFoundException } from '@nestjs/common';
-import { LIKE_NOT_FOUND, POST_FOR_LIKE_NOT_FOUND } from './like.constant';
+import { LIKE_NOT_FOUND, USER_UNAUTHORIZED, USER_FORBIDDEN } from './like.constant';
 
 @Injectable()
 export class LikeService {
@@ -13,34 +13,28 @@ export class LikeService {
     private readonly postService: PostService,
   ) {}
 
-  public async addLike (dto: AddLikeDto): Promise<LikeEntity> {
-    const {postId, userId} = dto;
-    const existPost = await this.postService.getPostEntity(postId);
-    if (!existPost) {
-      throw new NotFoundException(POST_FOR_LIKE_NOT_FOUND, LIKE_NOT_FOUND);
+  public async addLike (dto: AddDeleteLikeDto): Promise<LikeEntity> {
+    const {isPublished} = await this.postService.getPostEntity(dto.postId);
+    if (!isPublished) {
+      throw new ForbiddenException(USER_FORBIDDEN);
     }
-    if (!existPost.isPublished) {
-      throw new ForbiddenException
+    if(await this.findLike(dto)) {
+      throw new UnauthorizedException(USER_UNAUTHORIZED);
     }
-    const likeDraft = {
-      userId,
-      postId
-    }
-    const newLike = new LikeEntity(likeDraft);
+    const newLike = new LikeEntity(dto);
     return await this.likeRepository.save(newLike);
   }
 
-  public async findlike(userId: string, postId: string):Promise<LikeEntity> {
-    const existLike = await this.likeRepository.findByUserIdPostId(userId, postId);
+  public async findLike(dto: AddDeleteLikeDto):Promise<LikeEntity> {
+    return await this.likeRepository.findByUserIdPostId(dto);
+  }
+
+  public async deleteLike (dto: AddDeleteLikeDto): Promise<void> {
+    const existLike = await this.findLike(dto)
     if (!existLike) {
       throw new NotFoundException(LIKE_NOT_FOUND);
     }
-    return existLike;
-  }
-
-  public async deleteLike (userId: string, postId: string): Promise<void> {
-    const {id: likeId} = await this.findlike(userId, postId)
-    return this.likeRepository.deleteById(likeId);
+    return this.likeRepository.deleteById(existLike.id);
   }
 
   public async countLikes (postId: string): Promise<number> {

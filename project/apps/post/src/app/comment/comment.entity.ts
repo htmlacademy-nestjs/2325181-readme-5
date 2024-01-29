@@ -8,6 +8,7 @@ export class CommentEntity implements Comment, Entity<string, Comment> {
   public text: string;
   public createdAt: Date;
   public updatedAt: Date;
+  public userId: string;
 
   constructor(comment: Comment) {
     this.populate(comment);
@@ -19,7 +20,8 @@ export class CommentEntity implements Comment, Entity<string, Comment> {
       text: this.text,
       postId: this.postId,
       createdAt:this.createdAt,
-      updatedAt: this.updatedAt
+      updatedAt: this.updatedAt,
+      userId: this.userId
     };
   }
 
@@ -28,6 +30,7 @@ export class CommentEntity implements Comment, Entity<string, Comment> {
     this.postId = data.postId;
     this.createdAt = new Date();
     this.updatedAt = new Date();
+    this.userId = data.userId;
   }
 
   static fromObject(data: Comment): CommentEntity {

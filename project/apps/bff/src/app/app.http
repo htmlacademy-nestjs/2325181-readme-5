@@ -1,0 +1,250 @@
+# Получить новую пару токенов access/refresh. В заголовке передаем refresh токен
+POST http://localhost:3000/api/user/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwidG9rZW5JZCI6IjA5NjA1YmM1LTBhMDYtNGZhZS05OWE2LWJjMzk2OTMzNGIxNSIsImlhdCI6MTcwNjUxNjkwMiwiZXhwIjoxNzA2NTE3MjYyfQ.QQJvkly5AbTX2JwzuJu6DeLVuTXMM3TPnHPIBqHcZI0
+
+###
+
+
+# Выполнение сценариев по техническому заданию:
+### Сервис user:
+
+# Регистрация новых пользователей.
+POST http://localhost:3000/api/user/signin HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "new7@user.com",
+  "firstname": "Alex",
+  "lastname": "Bochkin",
+  "password": "123456",
+  "avatar": "picture.jpg"
+}
+
+###
+
+# Авторизация пользователей на основе JWT.
+
+POST http://localhost:3000/api/user/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "new4@user.com",
+  "password": "123456"
+}
+
+###
+
+# Получение детальной информации о пользователе.
+
+GET http://localhost:3000/api/user/65b5e608b9169e7ddcd699bb HTTP/1.1
+
+###
+
+# Смена пароля пользователя.
+
+PATCH http://localhost:3000/api/user/password HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWFmYzNkYmU0ZGQwZDllNGVlYjI0ZTYiLCJlbWFpbCI6Im5ldzE3QHVzZXIuY29tIiwiZmlyc3ROYW1lIjoiQWxleCIsImxhc3ROYW1lIjoiQm9jaGtpbiIsImlhdCI6MTcwNjA4Njc4MSwiZXhwIjoxNzA4Njc4NzgxfQ.B4hNcE_lBCmt3TcgZGjFdJDcRvALbZyTykjPIeKM7o
+
+{
+  "oldPassword": "123456",
+  "newPassword": "qwerty"
+}
+
+###
+
+# Подписаться на другого пользователя
+
+GET http://localhost:3000/api/user/subscribe/65b3a7319b48b66e235ebd70 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI3NjZkY2YwN2UwZDU4M2U0MmI4YTMiLCJlbWFpbCI6Im5ldzdAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2NTE4MjU4LCJleHAiOjE3MDkxMTAyNTh9.C52kLTG2UB1qECgov70EH0Q8TotMXEHOMJoXiO9ehBw
+
+###
+
+# Отписаться от другого пользователя
+
+GET http://localhost:3000/api/user/unsubscribe/65b3a6a9b08d5545b9dbf23a HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2NTE2OTEyLCJleHAiOjE3MDkxMDg5MTJ9.dWrgmLKqeWbasEPoWBvTs1y_EZ6FFHmSWdSWSFI3Dws
+
+###
+
+### Сервис upload
+
+# Загрузка аватар пользователя.
+
+POST http://localhost:3000/api/upload/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="avatar.png"
+Content-Type: image/png
+
+
+< ./avatar.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# Загрузка изображений для публикации в блоге.
+POST http://localhost:3000/api/upload/photo HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="photo.jpg"
+Content-Type: image/jpeg
+
+
+< ./photo.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# Получить изображение по ID
+GET http://localhost:3000/api/upload/65b7a6825de9fd15b6794eb0 HTTP/1.1
+
+###
+
+### Сервиc post:
+
+# Создание новых публикаций в блоге разных видов: видео, текст, цитата, фото, ссылка.
+
+POST http://localhost:3000/api/post HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWI1ZTYwOGI5MTY5ZTdkZGNkNjk5YmIiLCJlbWFpbCI6Im5ldzRAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2NTMwMDI0LCJleHAiOjE3MDkxMjIwMjR9.2s8WlrEjRoiH0PnqG95xs2IHc7gH-HJAPscN3CSgM5M
+Content-Type: application/json
+
+{
+  "type": "text",
+  "title": "Lorem ipsum, dolor sit amet. Morbi venenatis.",
+  "announce": "Lorem ipsum, dolor sit amet. Morbi venenatis.",
+  "text": "Lorem ipsum, dolor sit amet. Morbi venenatis.",
+  "tags": ["Осень", "Белочки", "Грустно"]
+}
+
+###
+
+# Просмотр детальной информации о публикации.
+
+GET http://localhost:3000/api/post/9cc946bc-13b1-4ac3-97ce-77a56b5c247f HTTP/1.1
+
+###
+
+# Редактирование публикаций в блоге.
+
+PATCH http://localhost:3000/api/post/e77dfe34-e3b0-4465-890c-1328b0d91d43 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+{
+  "announce": "Новый анонс, в котором не менее 50 символов, как это требуется согласно правилам валидации."
+}
+
+###
+
+# Удаление публикаций в блоге.
+
+DELETE http://localhost:3000/api/post/1749757c-5a5e-499a-839d-5f1ad40c8f22 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+# Комментирование публикаций в блоге.
+
+POST http://localhost:3000/api/comment/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+{
+  "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis egestas tortor sit amet iaculis.",
+  "postId": "9cc946bc-13b1-4ac3-97ce-77a56b5c247f"
+}
+
+###
+
+# Удаление своего комментария
+
+DELETE http://localhost:3000/api/comment/6aa05ead-da5c-42a1-812d-80ffe0a43521 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+# Получение списка комментариев к публикации
+
+GET http://localhost:3000/api/comment/8aff5c3b-ddea-45c4-bca1-19700cbf56ec HTTP/1.1
+
+###
+
+# Оставить лайк к публикации
+
+GET http://localhost:3000/api/like/9cc946bc-13b1-4ac3-97ce-77a56b5c247f HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+# Забрать лайк с публикации
+
+DELETE  http://localhost:3000/api/like/9cc946bc-13b1-4ac3-97ce-77a56b5c247f HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+# Подсчёт количества лайков к публикациям.
+
+GET http://localhost:3000/api/like/count/8aff5c3b-ddea-45c4-bca1-19700cbf56ec HTTP/1.1
+
+###
+
+# Пагинация для публикаций. Получение списка публикаций с применением сортировки: по популярности, дате создания, по количеству лайков, по количеству комментариев.
+
+GET http://localhost:3000/api/post?type=text&sortByOrder=desc HTTP/1.1
+
+###
+
+# Репост публикаций.
+
+GET http://localhost:3000/api/post/repost/c62da60f-8d09-4963-8069-df3a87e8b189 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+# Лента пользователя.
+
+GET http://localhost:3000/api/post/subscription HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+# Поиск публикаций по названию.
+
+GET http://localhost:3000/api/post/search?title=amet HTTP/1.1
+
+###
+
+# Перевод поста в статус "Черновики"
+
+GET http://localhost:3000/api/post/draft/51d63956-28a2-4754-9579-ab5803599268 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+# Авторизованный пользователь может получить список своих черновиков (публикации в состоянии «Черновик»).
+
+GET http://localhost:3000/api/post/drafts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+# Публикация поста
+
+GET http://localhost:3000/api/post/publish/51d63956-28a2-4754-9579-ab5803599268 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+# Рассылка почтовых уведомлений на email о появлении новых публикаций.
+
+GET http://localhost:3000/api/post/news HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWIzYTczMTliNDhiNjZlMjM1ZWJkNzAiLCJlbWFpbCI6Im5ldzJAdXNlci5jb20iLCJmaXJzdE5hbWUiOiJBbGV4IiwibGFzdE5hbWUiOiJCb2Noa2luIiwiaWF0IjoxNzA2Mjc1OTYyLCJleHAiOjE3MDg4Njc5NjJ9.NKmxS5VGH4YgSYHDT4a44MfNJmkBUG0MV13IddnDiXs
+
+###
+
+
+

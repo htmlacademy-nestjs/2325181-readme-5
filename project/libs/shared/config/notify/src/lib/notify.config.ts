@@ -1,6 +1,8 @@
-import { DEFAULT_NOTIFY_PORT, UPLOAD_DIRECTORY_PATH_LOCAL, DEFAULT_RABBIT_PORT, DEFAULT_SMTP_PORT, Environment, DEFAULT_MONGO_PORT, ENVIRONMENTS } from './notify-config.constant';
+import { DEFAULT_NOTIFY_PORT, UPLOAD_DIRECTORY_PATH_LOCAL, DEFAULT_RABBIT_PORT, DEFAULT_SMTP_PORT, DEFAULT_MONGO_PORT} from './notify-config.constant';
 import * as Joi from 'joi'
 import { registerAs } from '@nestjs/config';
+import { Environment, ENVIRONMENTS } from '@project/libs/shared/helpers';
+
 
 export interface NotifyConfig {
   environment: string;

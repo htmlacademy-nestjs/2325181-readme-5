@@ -1,7 +1,6 @@
 import { CitePost } from '@project/libs/shared/app/types';
-import { UpdatePostDto } from '../dto/update-post.dto';
 import { BasePostEntity } from './base-post.entity';
-import { Entity, EntityIdType } from '@project/libs/shared/core';
+import { Entity} from '@project/libs/shared/core';
 
 export class PostCiteEntity extends BasePostEntity implements CitePost, Entity<string, CitePost> {
   public id?: string;
@@ -13,7 +12,7 @@ export class PostCiteEntity extends BasePostEntity implements CitePost, Entity<s
     this.populate(post);
   }
 
-  public toPOJO () {
+  public toPOJO (): CitePost {
     return {
       ...super.toPOJO(),
       creator: this.creator,
@@ -26,11 +25,6 @@ export class PostCiteEntity extends BasePostEntity implements CitePost, Entity<s
     this.citeText = data.citeText;
   }
 
-  public update(data: UpdatePostDto): void {
-    for (let key in data) {
-      this[key] = data[key];
-    }
-  }
 
   static fromObject(data: CitePost): PostCiteEntity {
     return new PostCiteEntity(data);

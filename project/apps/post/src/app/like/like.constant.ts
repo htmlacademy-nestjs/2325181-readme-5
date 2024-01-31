@@ -4,7 +4,7 @@ export const USER_UNAUTHORIZED = 'User may not add/remove another like for singl
 
 export const USER_FORBIDDEN = 'User may not add/remove like for not published posts';
 
-export const LikekValidationMessage = {
+export const LikesValidationMessage = {
   PostId: {
     Required: 'Post id is required field',
     InvalidFormat: 'Post id should be a valid UUID value'

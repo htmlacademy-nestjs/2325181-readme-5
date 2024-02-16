@@ -1,8 +1,5 @@
 # Личный проект «Readme»
 
-* Студент: [Ринат Зарипов](https://up.htmlacademy.ru/nodejs-2/5/user/2325181).
-* Наставник: [Андрей Осипук](https://htmlacademy.ru/profile/id616431).
-
 ---
 # Информация по запуску проекта
 
